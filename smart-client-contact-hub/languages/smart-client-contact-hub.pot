@@ -1,0 +1,1188 @@
+# Copyright (C) 2026 Hamza Dezinr
+# This file is distributed under the GPL-2.0-or-later license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Smart Client Contact Hub 1.0.0\n"
+"POT-Creation-Date: 2026-07-02 19:14+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: smart-client-contact-hub\n"
+
+#: admin/views/services.php:51
+msgid "+ Add Service"
+msgstr ""
+
+#: includes/class-settings.php:75
+msgid "+1 555 000 1234"
+msgstr ""
+
+#: includes/class-settings.php:103
+msgid "A new strategy request was submitted on {website_name}.\n\nName: {customer_name}\nPhone: {customer_phone}\nEmail: {customer_email}\nService: {service}\nDate: {submission_date}\n\nMessage:\n{message}"
+msgstr ""
+
+#: admin/views/logs.php:39 admin/views/services.php:30
+msgid "Actions"
+msgstr ""
+
+#: admin/views/help.php:35
+msgid "Adding channels (WhatsApp, Telegram, …)"
+msgstr ""
+
+#: admin/views/captcha.php:38
+msgid "Addition (e.g. 2 + 3 = ?)"
+msgstr ""
+
+#: admin/views/email-templates.php:65 admin/views/notifications.php:30
+msgid "Administrator Notification"
+msgstr ""
+
+#: admin/class-leads-list-table.php:99
+msgid "All"
+msgstr ""
+
+#: admin/views/notifications.php:22
+msgid "All email goes through wp_mail(). Any SMTP provider configured at the WordPress level — Gmail, Brevo, Mailgun, Amazon SES, SendGrid, Outlook, Postmark — is supported automatically without extra configuration here."
+msgstr ""
+
+#: admin/views/export.php:23
+msgid "All leads"
+msgstr ""
+
+#: admin/views/appearance.php:145
+msgid "Always Dark"
+msgstr ""
+
+#: admin/views/appearance.php:144
+msgid "Always Light"
+msgstr ""
+
+#: admin/views/appearance.php:37
+msgid "Animation"
+msgstr ""
+
+#: admin/class-admin.php:87 admin/views/appearance.php:17
+msgid "Appearance"
+msgstr ""
+
+#: admin/views/help.php:25
+msgid "Appearance — match the widget to your brand. The widget then shows automatically on every public page."
+msgstr ""
+
+#: admin/views/appearance.php:143
+msgid "Auto (follow visitor preference)"
+msgstr ""
+
+#: admin/views/notifications.php:76
+msgid "Automatically send a thank-you email to the customer"
+msgstr ""
+
+#: admin/views/email-templates.php:21
+msgid "Available placeholders:"
+msgstr ""
+
+#: admin/views/notifications.php:48
+msgid "BCC"
+msgstr ""
+
+#: templates/widget.php:96
+msgid "Back"
+msgstr ""
+
+#: admin/views/lead-detail.php:17
+msgid "Back to Leads"
+msgstr ""
+
+#: admin/views/appearance.php:106
+msgid "Background Style"
+msgstr ""
+
+#: admin/views/email-templates.php:76 admin/views/email-templates.php:96
+msgid "Body"
+msgstr ""
+
+#: admin/views/appearance.php:79
+msgid "Border Radius (%)"
+msgstr ""
+
+#: admin/views/appearance.php:83
+msgid "Border Width (px)"
+msgstr ""
+
+#: admin/views/appearance.php:32
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/views/appearance.php:31
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/views/email-templates.php:40
+msgid "Brand Color"
+msgstr ""
+
+#: admin/views/email-templates.php:30
+msgid "Branding"
+msgstr ""
+
+#: admin/views/appearance.php:56
+msgid "Built-in icons are inline SVG — no icon font is loaded, keeping the frontend dependency-free and fast."
+msgstr ""
+
+#: admin/views/email-templates.php:56
+msgid "Business contact info"
+msgstr ""
+
+#: admin/views/email-templates.php:52
+msgid "Business name"
+msgstr ""
+
+#: admin/views/appearance.php:71
+msgid "Button Size (px)"
+msgstr ""
+
+#: admin/views/email-templates.php:48
+msgid "Button label (admin email)"
+msgstr ""
+
+#: admin/class-admin.php:93 admin/views/captcha.php:17
+msgid "CAPTCHA"
+msgstr ""
+
+#: admin/views/notifications.php:44
+msgid "CC"
+msgstr ""
+
+#: admin/views/contact.php:49 includes/class-settings.php:63
+msgid "Call Us"
+msgstr ""
+
+#: admin/views/contact.php:27
+msgid "Call Us — phone number"
+msgstr ""
+
+#: includes/class-settings.php:77
+msgid "Choose a service…"
+msgstr ""
+
+#: admin/views/appearance.php:63 admin/views/email-templates.php:36
+msgid "Choose from Media Library"
+msgstr ""
+
+#: admin/class-admin.php:150
+msgid "Choose image"
+msgstr ""
+
+#: includes/class-settings.php:61
+msgid "Choose the fastest way to reach us."
+msgstr ""
+
+#: templates/widget.php:45
+msgid "Close contact panel"
+msgstr ""
+
+#: admin/views/appearance.php:95
+msgid "Colors & Branding"
+msgstr ""
+
+#: admin/views/notifications.php:40
+msgid "Comma-separated list for multiple recipients."
+msgstr ""
+
+#: admin/class-admin.php:76
+msgid "Contact Hub"
+msgstr ""
+
+#: admin/class-admin.php:88 admin/views/contact.php:17
+msgid "Contact Settings"
+msgstr ""
+
+#: admin/views/help.php:22
+msgid "Contact Settings — add the phone number for \"Call Us\" and the mobile number for \"Text Us\"."
+msgstr ""
+
+#: admin/views/appearance.php:60
+msgid "Custom Icon (SVG/PNG)"
+msgstr ""
+
+#: admin/views/appearance.php:54
+msgid "Custom SVG / image upload"
+msgstr ""
+
+#: admin/views/email-templates.php:85 admin/views/notifications.php:72
+msgid "Customer Confirmation"
+msgstr ""
+
+#: admin/class-leads-list-table.php:46
+msgid "Customer Name"
+msgstr ""
+
+#: admin/views/appearance.php:140
+msgid "Dark Mode"
+msgstr ""
+
+#: admin/class-admin.php:85
+msgid "Dashboard"
+msgstr ""
+
+#: admin/class-leads-list-table.php:52 admin/views/dashboard.php:51 admin/views/logs.php:37
+msgid "Date"
+msgstr ""
+
+#: admin/class-leads-list-table.php:78 admin/views/services.php:44
+msgid "Delete"
+msgstr ""
+
+#: admin/views/lead-detail.php:59
+msgid "Delete Lead"
+msgstr ""
+
+#: admin/views/help.php:58
+msgid "Delete leads and email logs (drops the database tables)"
+msgstr ""
+
+#: admin/views/help.php:57
+msgid "Delete plugin settings"
+msgstr ""
+
+#: admin/views/lead-detail.php:54
+msgid "Delete this lead permanently?"
+msgstr ""
+
+#: admin/views/contact.php:51
+msgid "Developers can register additional channels (e.g. WhatsApp, Telegram) with the scch_channels filter — no core changes needed."
+msgstr ""
+
+#: admin/views/help.php:32
+msgid "Developers can return false from the scch_render_widget filter to hide the widget on selected pages:"
+msgstr ""
+
+#: admin/views/appearance.php:137
+msgid "Dim the page behind the popup on mobile"
+msgstr ""
+
+#: admin/views/export.php:24 admin/views/export.php:34
+msgid "Download CSV"
+msgstr ""
+
+#: admin/views/export.php:18
+msgid "Download leads as a CSV file (UTF-8, Excel-compatible). Cells are protected against spreadsheet formula injection."
+msgstr ""
+
+#: admin/views/appearance.php:75
+msgid "Edge Margin (px)"
+msgstr ""
+
+#: admin/class-export.php:54 admin/class-leads-list-table.php:48 admin/views/lead-detail.php:30
+msgid "Email"
+msgstr ""
+
+#: includes/class-settings.php:76
+msgid "Email Address"
+msgstr ""
+
+#: admin/views/logs.php:20
+msgid "Email Logs"
+msgstr ""
+
+#: admin/class-admin.php:91 admin/views/email-templates.php:17
+msgid "Email Templates"
+msgstr ""
+
+#: includes/class-ajax.php:91
+msgid "Email address is required."
+msgstr ""
+
+#: admin/views/help.php:28
+msgid "Email delivery / SMTP"
+msgstr ""
+
+#: admin/views/logs.php:24
+msgid "Email logging is currently disabled, so new emails are not being recorded."
+msgstr ""
+
+#: admin/class-admin.php:148
+msgid "Email re-sent."
+msgstr ""
+
+#: admin/class-admin.php:146
+msgid "Email sent successfully."
+msgstr ""
+
+#: admin/views/captcha.php:31
+msgid "Enable CAPTCHA"
+msgstr ""
+
+#: admin/views/notifications.php:33
+msgid "Enable admin email"
+msgstr ""
+
+#: admin/views/notifications.php:75
+msgid "Enable confirmation email"
+msgstr ""
+
+#: admin/views/form-builder.php:35
+msgid "Enabled"
+msgstr ""
+
+#: admin/views/contact.php:45
+msgid "Enabled channels"
+msgstr ""
+
+#: admin/views/appearance.php:52
+msgid "Envelope"
+msgstr ""
+
+#: admin/views/logs.php:38
+msgid "Error"
+msgstr ""
+
+#: admin/views/form-builder.php:77
+msgid "Error message"
+msgstr ""
+
+#: admin/views/email-templates.php:60
+msgid "Expected response time"
+msgstr ""
+
+#: admin/class-admin.php:94 admin/views/export.php:15
+msgid "Export"
+msgstr ""
+
+#: admin/views/leads.php:16
+msgid "Export CSV"
+msgstr ""
+
+#: admin/views/help.php:36
+msgid "Extra contact channels can be registered with the scch_channels filter without modifying plugin core:"
+msgstr ""
+
+#: admin/views/form-builder.php:34
+msgid "Field"
+msgstr ""
+
+#: admin/views/captcha.php:44
+msgid "Field label"
+msgstr ""
+
+#: admin/views/form-builder.php:27
+msgid "Fields"
+msgstr ""
+
+#: admin/views/appearance.php:25
+msgid "Floating Button"
+msgstr ""
+
+#: admin/views/email-templates.php:100 admin/views/email-templates.php:80
+msgid "Footer"
+msgstr ""
+
+#: admin/class-admin.php:89 admin/views/form-builder.php:19
+msgid "Form Builder"
+msgstr ""
+
+#: admin/views/form-builder.php:62
+msgid "Form Text & Behavior"
+msgstr ""
+
+#: admin/views/form-builder.php:65
+msgid "Form title"
+msgstr ""
+
+#: includes/class-settings.php:74
+msgid "Full Name"
+msgstr ""
+
+#: includes/class-settings.php:68
+msgid "Get Your Free Strategy"
+msgstr ""
+
+#: includes/class-settings.php:62
+msgid "Get Your Strategy"
+msgstr ""
+
+#: admin/views/contact.php:48
+msgid "Get Your Strategy (lead form)"
+msgstr ""
+
+#: templates/widget.php:149
+msgid "Get a new question"
+msgstr ""
+
+#: admin/views/help.php:20
+msgid "Getting started"
+msgstr ""
+
+#: admin/views/email-templates.php:72 admin/views/email-templates.php:92
+msgid "Heading"
+msgstr ""
+
+#: admin/views/appearance.php:53
+msgid "Headset"
+msgstr ""
+
+#: admin/class-admin.php:96 admin/views/help.php:17
+msgid "Help"
+msgstr ""
+
+#: admin/views/help.php:31
+msgid "Hiding the widget on specific pages"
+msgstr ""
+
+#: includes/class-settings.php:60
+msgid "How can we help?"
+msgstr ""
+
+#: admin/class-export.php:51 admin/class-leads-list-table.php:45
+msgid "ID"
+msgstr ""
+
+#: admin/class-export.php:59 admin/views/lead-detail.php:34
+msgid "IP Address"
+msgstr ""
+
+#: admin/views/appearance.php:47
+msgid "Icon"
+msgstr ""
+
+#: admin/views/appearance.php:113
+msgid "Icon Color"
+msgstr ""
+
+#: admin/views/appearance.php:67
+msgid "Icon Size (px)"
+msgstr ""
+
+#: includes/class-ajax.php:128
+msgid "Incorrect answer. Please try the new question."
+msgstr ""
+
+#: admin/class-admin.php:250 admin/class-admin.php:275 admin/class-admin.php:313 admin/class-admin.php:346 admin/class-admin.php:372 admin/class-export.php:32
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/class-settings.php:74
+msgid "Jane Smith"
+msgstr ""
+
+#: admin/views/form-builder.php:37
+msgid "Label"
+msgstr ""
+
+#: admin/views/dashboard.php:26
+msgid "Last 7 Days"
+msgstr ""
+
+#: admin/views/dashboard.php:41
+msgid "Latest Leads"
+msgstr ""
+
+#: admin/views/contact.php:37
+msgid "Launched via sms: when a visitor taps \"Text Us\"."
+msgstr ""
+
+#: admin/views/contact.php:30
+msgid "Launched via tel: when a visitor taps \"Call Us\". Use international format for best results."
+msgstr ""
+
+#: admin/views/lead-detail.php:16
+msgid "Lead Detail"
+msgstr ""
+
+#: admin/views/lead-detail.php:27
+msgid "Lead ID"
+msgstr ""
+
+#: admin/class-admin.php:232
+msgid "Lead deleted."
+msgstr ""
+
+#: admin/views/lead-detail.php:22
+msgid "Lead not found. It may have been deleted."
+msgstr ""
+
+#: admin/class-admin.php:231
+msgid "Lead updated."
+msgstr ""
+
+#: admin/class-admin.php:86 admin/views/leads.php:15
+msgid "Leads"
+msgstr ""
+
+#: admin/class-admin.php:117
+msgid "Leads per page"
+msgstr ""
+
+#: admin/views/export.php:31
+msgid "Leads with status: %s"
+msgstr ""
+
+#: admin/views/help.php:59
+msgid "Leave both unchecked to keep all data after uninstalling."
+msgstr ""
+
+#: admin/views/notifications.php:67
+msgid "Leave empty to let WordPress / your SMTP plugin decide the From address (recommended for deliverability)."
+msgstr ""
+
+#: admin/views/form-builder.php:84
+msgid "Leave empty to show the success message inline instead of redirecting."
+msgstr ""
+
+#: admin/class-admin.php:377
+msgid "Log entry not found."
+msgstr ""
+
+#: admin/views/email-templates.php:33
+msgid "Logo URL"
+msgstr ""
+
+#: admin/class-admin.php:95
+msgid "Logs"
+msgstr ""
+
+#: admin/class-leads-list-table.php:81
+msgid "Mark as %s"
+msgstr ""
+
+#: admin/views/captcha.php:53
+msgid "Max submissions per window"
+msgstr ""
+
+#: admin/class-export.php:56 admin/class-leads-list-table.php:50 admin/views/lead-detail.php:32 includes/class-settings.php:78
+msgid "Message"
+msgstr ""
+
+#: admin/views/appearance.php:50
+msgid "Message Bubble (default)"
+msgstr ""
+
+#: includes/class-ajax.php:117
+msgid "Message is required."
+msgstr ""
+
+#: includes/class-ajax.php:119
+msgid "Message must be 1000 characters or fewer."
+msgstr ""
+
+#: includes/class-settings.php:75
+msgid "Mobile Number"
+msgstr ""
+
+#: admin/views/form-builder.php:46 admin/views/services.php:38
+msgid "Move down"
+msgstr ""
+
+#: admin/views/form-builder.php:45 admin/views/services.php:37
+msgid "Move up"
+msgstr ""
+
+#: admin/class-export.php:52 admin/views/dashboard.php:48 admin/views/lead-detail.php:28
+msgid "Name"
+msgstr ""
+
+#: includes/class-ajax.php:70
+msgid "Name is required."
+msgstr ""
+
+#: includes/class-ajax.php:72
+msgid "Name must be between 3 and 80 characters."
+msgstr ""
+
+#: frontend/class-frontend.php:67
+msgid "Network error. Please try again."
+msgstr ""
+
+#: admin/views/dashboard.php:24
+msgid "New (Unhandled)"
+msgstr ""
+
+#: includes/class-settings.php:101
+msgid "New lead from {customer_name} — {website_name}"
+msgstr ""
+
+#: admin/views/logs.php:28
+msgid "No emails logged yet."
+msgstr ""
+
+#: admin/class-leads-list-table.php:251
+msgid "No leads yet. New submissions from the floating widget will appear here."
+msgstr ""
+
+#: admin/views/dashboard.php:43
+msgid "No leads yet. Once a visitor submits the widget form, the lead will show up here."
+msgstr ""
+
+#: admin/class-admin.php:92 admin/views/notifications.php:18
+msgid "Notifications"
+msgstr ""
+
+#: admin/views/help.php:24
+msgid "Notifications — confirm the recipient address and send yourself a test email."
+msgstr ""
+
+#: admin/views/captcha.php:35
+msgid "Operations"
+msgstr ""
+
+#: admin/views/contact.php:68
+msgid "Option 1 label"
+msgstr ""
+
+#: admin/views/contact.php:72
+msgid "Option 2 label"
+msgstr ""
+
+#: admin/views/contact.php:76
+msgid "Option 3 label"
+msgstr ""
+
+#: admin/views/form-builder.php:33 admin/views/services.php:28
+msgid "Order"
+msgstr ""
+
+#: admin/views/appearance.php:136
+msgid "Overlay"
+msgstr ""
+
+#: includes/class-activator.php:89
+msgid "Paid Advertising (PPC)"
+msgstr ""
+
+#: admin/views/contact.php:57
+msgid "Panel Wording"
+msgstr ""
+
+#: admin/views/contact.php:64
+msgid "Panel intro"
+msgstr ""
+
+#: admin/views/contact.php:60
+msgid "Panel title"
+msgstr ""
+
+#: admin/class-export.php:53 admin/class-leads-list-table.php:47 admin/views/appearance.php:51 admin/views/lead-detail.php:29
+msgid "Phone"
+msgstr ""
+
+#: includes/class-ajax.php:81
+msgid "Phone number is required."
+msgstr ""
+
+#: admin/views/form-builder.php:38
+msgid "Placeholder"
+msgstr ""
+
+#: admin/class-admin.php:351 includes/class-ajax.php:93
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/class-ajax.php:83
+msgid "Please enter a valid phone number."
+msgstr ""
+
+#: includes/class-ajax.php:109
+msgid "Please select a service."
+msgstr ""
+
+#: admin/views/appearance.php:125
+msgid "Popup"
+msgstr ""
+
+#: admin/views/appearance.php:132
+msgid "Popup Corner Radius (px)"
+msgstr ""
+
+#: admin/views/appearance.php:128
+msgid "Popup Width (px)"
+msgstr ""
+
+#: admin/views/appearance.php:28
+msgid "Position"
+msgstr ""
+
+#: admin/views/contact.php:41
+msgid "Pre-filled SMS text (optional)"
+msgstr ""
+
+#: admin/views/appearance.php:98
+msgid "Primary Color"
+msgstr ""
+
+#: includes/class-settings.php:84
+msgid "Quick check: solve this"
+msgstr ""
+
+#: admin/views/logs.php:33
+msgid "Recipient"
+msgstr ""
+
+#: admin/views/notifications.php:37
+msgid "Recipients"
+msgstr ""
+
+#: admin/views/form-builder.php:81
+msgid "Redirect URL after success (optional)"
+msgstr ""
+
+#: admin/class-admin.php:149
+msgid "Remove this service?"
+msgstr ""
+
+#: admin/views/notifications.php:52
+msgid "Reply-To"
+msgstr ""
+
+#: admin/views/captcha.php:32
+msgid "Require the math check on form submission"
+msgstr ""
+
+#: admin/views/form-builder.php:36
+msgid "Required"
+msgstr ""
+
+#: admin/views/logs.php:51
+msgid "Resend"
+msgstr ""
+
+#: admin/class-admin.php:384
+msgid "Resend failed. Check the newest log entry for details."
+msgstr ""
+
+#: includes/class-activator.php:87
+msgid "SEO & Content Strategy"
+msgstr ""
+
+#: admin/views/appearance.php:155
+msgid "Save Appearance"
+msgstr ""
+
+#: admin/views/captcha.php:62
+msgid "Save CAPTCHA Settings"
+msgstr ""
+
+#: admin/views/contact.php:81
+msgid "Save Contact Settings"
+msgstr ""
+
+#: admin/views/form-builder.php:89
+msgid "Save Form"
+msgstr ""
+
+#: admin/views/notifications.php:81
+msgid "Save Notifications"
+msgstr ""
+
+#: admin/views/captcha.php:70
+msgid "Save Rate Limiting"
+msgstr ""
+
+#: admin/views/services.php:54
+msgid "Save Services"
+msgstr ""
+
+#: admin/views/email-templates.php:106
+msgid "Save Templates"
+msgstr ""
+
+#: admin/views/help.php:64
+msgid "Save Uninstall Options"
+msgstr ""
+
+#: admin/views/leads.php:24
+msgid "Search leads"
+msgstr ""
+
+#: admin/views/appearance.php:102
+msgid "Secondary Color"
+msgstr ""
+
+#: includes/class-settings.php:77
+msgid "Select Service"
+msgstr ""
+
+#: includes/class-settings.php:72
+msgid "Send My Request"
+msgstr ""
+
+#: admin/views/notifications.php:88
+msgid "Send Test Email"
+msgstr ""
+
+#: admin/views/notifications.php:34
+msgid "Send a notification for every new lead"
+msgstr ""
+
+#: admin/views/notifications.php:57
+msgid "Sender"
+msgstr ""
+
+#: admin/views/notifications.php:64
+msgid "Sender email"
+msgstr ""
+
+#: admin/views/notifications.php:60
+msgid "Sender name"
+msgstr ""
+
+#: admin/class-admin.php:147
+msgid "Sending failed:"
+msgstr ""
+
+#: admin/class-admin.php:145 frontend/class-frontend.php:66
+msgid "Sending…"
+msgstr ""
+
+#: includes/class-settings.php:104
+msgid "Sent automatically by Smart Client Contact Hub."
+msgstr ""
+
+#: admin/class-export.php:55 admin/class-leads-list-table.php:49 admin/views/dashboard.php:49 admin/views/lead-detail.php:31
+msgid "Service"
+msgstr ""
+
+#: admin/views/services.php:29
+msgid "Service Name"
+msgstr ""
+
+#: admin/class-admin.php:90 admin/views/services.php:17
+msgid "Services"
+msgstr ""
+
+#: admin/views/help.php:23
+msgid "Services — define the options for the \"Select Service\" dropdown."
+msgstr ""
+
+#: admin/views/notifications.php:53
+msgid "Set Reply-To to the customer so you can reply directly"
+msgstr ""
+
+#: admin/class-admin.php:63
+msgid "Settings"
+msgstr ""
+
+#: admin/class-admin.php:230
+msgid "Settings saved."
+msgstr ""
+
+#: admin/views/appearance.php:90
+msgid "Shadow"
+msgstr ""
+
+#: admin/views/appearance.php:91
+msgid "Show drop shadow under the button and popup"
+msgstr ""
+
+#: admin/views/email-templates.php:44
+msgid "Signature"
+msgstr ""
+
+#: admin/class-admin.php:75 admin/views/dashboard.php:19
+msgid "Smart Client Contact Hub"
+msgstr ""
+
+#: includes/class-activator.php:90
+msgid "Something Else"
+msgstr ""
+
+#: includes/class-settings.php:70
+msgid "Something went wrong. Please review the highlighted fields and try again."
+msgstr ""
+
+#: admin/views/captcha.php:49
+msgid "Spam Rate Limiting"
+msgstr ""
+
+#: admin/class-export.php:57 admin/class-leads-list-table.php:51 admin/views/dashboard.php:50 admin/views/lead-detail.php:45 admin/views/logs.php:36
+msgid "Status"
+msgstr ""
+
+#: admin/views/email-templates.php:68 admin/views/email-templates.php:88 admin/views/logs.php:34
+msgid "Subject"
+msgstr ""
+
+#: admin/class-export.php:58
+msgid "Submission Date"
+msgstr ""
+
+#: admin/views/form-builder.php:69
+msgid "Submit button label"
+msgstr ""
+
+#: admin/views/lead-detail.php:33
+msgid "Submitted"
+msgstr ""
+
+#: admin/views/captcha.php:39
+msgid "Subtraction (e.g. 8 − 2 = ?)"
+msgstr ""
+
+#: admin/views/form-builder.php:73
+msgid "Success message"
+msgstr ""
+
+#: includes/class-settings.php:78
+msgid "Tell us about your project…"
+msgstr ""
+
+#: admin/views/notifications.php:85
+msgid "Test Email"
+msgstr ""
+
+#: admin/views/contact.php:50 includes/class-settings.php:64
+msgid "Text Us"
+msgstr ""
+
+#: admin/views/contact.php:34
+msgid "Text Us — mobile number"
+msgstr ""
+
+#: includes/class-settings.php:69
+msgid "Thank you! Your request has been received. We will get back to you shortly."
+msgstr ""
+
+#: includes/class-settings.php:106
+msgid "Thank you, {customer_name}!"
+msgstr ""
+
+#: includes/class-settings.php:105
+msgid "Thanks {customer_name} — we received your request"
+msgstr ""
+
+#: admin/views/dashboard.php:34
+msgid "The Call Us / Text Us buttons need a phone number. Add one under <a href=\"%s\">Contact Settings</a>."
+msgstr ""
+
+#: admin/views/help.php:29
+msgid "The plugin sends everything through the standard wp_mail() function. If your site already routes wp_mail() through Gmail, Brevo, Mailgun, Amazon SES, SendGrid, Outlook or Postmark (for example via an SMTP plugin or hosting configuration), Smart Client Contact Hub uses that path automatically. Nothing extra to configure here."
+msgstr ""
+
+#: admin/class-admin.php:233
+msgid "The request could not be completed."
+msgstr ""
+
+#: admin/views/services.php:19
+msgid "These options populate the \"Select Service\" dropdown on the lead form. Reorder with the arrows; the saved order is the display order."
+msgstr ""
+
+#: admin/views/captcha.php:21
+msgid "This is a built-in math CAPTCHA — no Google reCAPTCHA, Cloudflare, or any external service. Questions use two numbers between 1 and 9, answers are never negative, the answer is verified server-side, and every wrong attempt generates a brand-new question."
+msgstr ""
+
+#: admin/views/dashboard.php:25
+msgid "Today"
+msgstr ""
+
+#: includes/class-ajax.php:45
+msgid "Too many attempts. Please wait a few minutes and try again."
+msgstr ""
+
+#: admin/views/dashboard.php:23
+msgid "Total Leads"
+msgstr ""
+
+#: admin/views/logs.php:35
+msgid "Type"
+msgstr ""
+
+#: admin/views/appearance.php:117
+msgid "Typography (font family)"
+msgstr ""
+
+#: admin/views/help.php:47
+msgid "Uninstall behavior"
+msgstr ""
+
+#: admin/views/lead-detail.php:51
+msgid "Update Status"
+msgstr ""
+
+#: admin/views/appearance.php:120
+msgid "Use \"inherit\" to match your theme, or any CSS font stack."
+msgstr ""
+
+#: admin/views/appearance.php:108
+msgid "Use gradient (primary → secondary). Uncheck for solid background:"
+msgstr ""
+
+#: admin/views/form-builder.php:28
+msgid "Use the arrows to reorder. The email field always stays enabled and required because confirmations and Reply-To depend on it."
+msgstr ""
+
+#: admin/class-admin.php:151
+msgid "Use this image"
+msgstr ""
+
+#: admin/class-export.php:60 admin/views/lead-detail.php:35
+msgid "User Agent"
+msgstr ""
+
+#: admin/class-leads-list-table.php:194 admin/views/dashboard.php:62
+msgid "View"
+msgstr ""
+
+#: includes/class-settings.php:109
+msgid "View Lead"
+msgstr ""
+
+#: admin/views/dashboard.php:67
+msgid "View all leads"
+msgstr ""
+
+#: includes/class-ajax.php:152
+msgid "We could not save your request. Please try again."
+msgstr ""
+
+#: includes/class-settings.php:107
+msgid "We received your request regarding {service} and our team will respond {response_time}.\n\nYour submission summary:\nPhone: {customer_phone}\nEmail: {customer_email}\nMessage: {message}\nSubmitted: {submission_date}\n\nNeed us sooner? {business_contact}"
+msgstr ""
+
+#: includes/class-activator.php:88
+msgid "Web Design & Development"
+msgstr ""
+
+#: admin/views/help.php:54
+msgid "When the plugin is deleted"
+msgstr ""
+
+#: admin/views/captcha.php:57
+msgid "Window (minutes)"
+msgstr ""
+
+#: admin/class-admin.php:176
+msgid "You do not have permission to access this page."
+msgstr ""
+
+#: includes/class-settings.php:102
+msgid "You have a new lead"
+msgstr ""
+
+#: admin/views/appearance.php:150
+msgid "Z-Index"
+msgstr ""
+
+#: admin/views/email-templates.php:57
+msgid "e.g. Call us at +1 555 000 1234"
+msgstr ""
+
+#: includes/class-settings.php:95
+msgid "within 1 business day"
+msgstr ""
+
+#: admin/class-admin.php:361
+msgid "wp_mail() returned false. Check your SMTP configuration."
+msgstr ""
+
+#: includes/class-settings.php:76
+msgid "you@company.com"
+msgstr ""
+
+#: includes/class-settings.php:108
+msgid "{business_name} — {website_name}"
+msgstr ""
+
+#: admin/views/form-builder.php
+msgid "Hide Label"
+msgstr ""
+
+#: admin/views/form-builder.php
+msgid "Hide this label on the frontend form"
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Panel Text Color"
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Body text inside the popup: field labels, messages, success text."
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Heading Background Color"
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Background of the popup header. Clear the color to use the primary → secondary gradient."
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Heading Text Color"
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Submit Button Background Color"
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Clear the color to use the primary → secondary gradient."
+msgstr ""
+
+#: admin/views/appearance.php
+msgid "Submit Button Text Color"
+msgstr ""
+
+msgid "External Trigger Integration"
+msgstr ""
+
+msgid "Enable External Triggers"
+msgstr ""
+
+msgid "Let elements outside the widget open the contact popup (data attribute, custom selectors, shortcode buttons)."
+msgstr ""
+
+msgid "The JavaScript API and custom browser events stay available to developers regardless of this setting."
+msgstr ""
+
+msgid "Custom CSS Selectors"
+msgstr ""
+
+msgid "One CSS selector per line. Clicking any matching element opens the popup — no coding needed. Duplicates are removed automatically; invalid selectors are ignored safely on the frontend."
+msgstr ""
+
+msgid "Save Triggers"
+msgstr ""
+
+msgid "Ways to open the popup"
+msgstr ""
+
+msgid "1. HTML data attribute (works in any page builder)"
+msgstr ""
+
+msgid "Add the attribute below to any button, link, or element. Works with Elementor, Gutenberg, Divi, Bricks, Oxygen, WPBakery, and plain HTML — including elements added dynamically after page load."
+msgstr ""
+
+msgid "2. Shortcode"
+msgstr ""
+
+msgid "3. JavaScript API (for developers)"
+msgstr ""
+
+msgid "4. Custom browser events (for developers)"
+msgstr ""
+
+msgid "5. PHP hooks (for developers)"
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid "Contact Us"
+msgstr ""
+
+msgid "Submit Button Hover Background Color"
+msgstr ""
+
+msgid "Clear the color to keep the default hover effect (slight brightness increase)."
+msgstr ""
+
+msgid "Submit Button Hover Text Color"
+msgstr ""
+
+msgid "Clear the color to keep the normal text color on hover."
+msgstr ""
+
+msgid "Dark Mode Text Color"
+msgstr ""
+
+msgid "Overall popup text color used when the visitor's device is in dark mode. Clear the color to keep the built-in dark palette. Does not affect the heading or submit button, which have their own colors."
+msgstr ""

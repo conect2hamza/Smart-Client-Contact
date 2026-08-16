@@ -1,0 +1,328 @@
+/**
+ * Smart Client Contact Hub — frontend widget.
+ * Vanilla JS. No dependencies.
+ */
+( function () {
+	'use strict';
+
+	var config = window.scchConfig || {};
+	var root, launcher, panel, overlay, form, feedback, submitBtn;
+	var lastFocused = null;
+
+	function qs( sel, ctx ) { return ( ctx || document ).querySelector( sel ); }
+	function qsa( sel, ctx ) { return Array.prototype.slice.call( ( ctx || document ).querySelectorAll( sel ) ); }
+
+	function init() {
+		root = qs( '#scch-root' );
+		if ( ! root ) { return; }
+
+		launcher = qs( '#scch-launcher' );
+		panel    = qs( '#scch-panel' );
+		overlay  = qs( '#scch-overlay' );
+		form     = qs( '#scch-form' );
+		feedback = form ? qs( '.scch-form-feedback', form ) : null;
+		submitBtn = form ? qs( '.scch-submit', form ) : null;
+
+		launcher.addEventListener( 'click', toggle );
+		overlay.addEventListener( 'click', close );
+
+		qsa( '[data-scch-close]', panel ).forEach( function ( el ) {
+			el.addEventListener( 'click', close );
+		} );
+
+		qsa( '[data-scch-goto]', panel ).forEach( function ( el ) {
+			el.addEventListener( 'click', function () {
+				showView( el.getAttribute( 'data-scch-goto' ) );
+			} );
+		} );
+
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' === e.key && ! panel.hidden ) { close(); }
+			if ( 'Tab' === e.key && ! panel.hidden ) { trapFocus( e ); }
+		} );
+
+		if ( form ) {
+			form.addEventListener( 'submit', submit );
+			var refresh = qs( '.scch-captcha-refresh', form );
+			if ( refresh ) { refresh.addEventListener( 'click', refreshCaptcha ); }
+		}
+
+		initExternalTriggers();
+	}
+
+	/* ---------- External Trigger System ---------- */
+
+	function isOpen() {
+		return !! ( panel && ! panel.hidden );
+	}
+
+	function safeOpen()   { if ( panel && panel.hidden ) { open( false ); } }
+	function safeClose()  { if ( panel && ! panel.hidden ) { close(); } }
+	function safeToggle() { if ( panel ) { toggle(); } }
+
+	function initExternalTriggers() {
+		var triggers  = window.scchTriggers || {};
+		var selectors = [];
+
+		// Keep only selectors this browser can parse; invalid ones are dropped.
+		if ( triggers.enabled && Array.isArray( triggers.selectors ) ) {
+			triggers.selectors.forEach( function ( sel ) {
+				try {
+					document.querySelector( sel );
+					if ( selectors.indexOf( sel ) === -1 ) { selectors.push( sel ); }
+				} catch ( e ) { /* invalid selector: ignore */ }
+			} );
+		}
+
+		// Single delegated listener: covers data-scch-open, admin-defined
+		// selectors, and elements injected after page load (AJAX, builders).
+		if ( triggers.enabled ) {
+			document.addEventListener( 'click', function ( e ) {
+				var el = e.target && e.target.closest ? e.target.closest( '[data-scch-open]' ) : null;
+
+				if ( ! el ) {
+					for ( var i = 0; i < selectors.length; i++ ) {
+						try {
+							el = e.target.closest( selectors[ i ] );
+						} catch ( err ) { el = null; }
+						if ( el ) { break; }
+					}
+				}
+
+				if ( ! el || root.contains( el ) ) { return; }
+				e.preventDefault();
+				safeOpen();
+			} );
+		}
+
+		// Custom browser events — always available.
+		window.addEventListener( 'scch:open', safeOpen );
+		window.addEventListener( 'scch:close', safeClose );
+		window.addEventListener( 'scch:toggle', safeToggle );
+
+		if ( triggers.autoOpen ) { safeOpen(); }
+	}
+
+	function toggle() { panel.hidden ? open() : close(); }
+
+	/**
+	 * @param {boolean} focusFirst When false (external triggers), focus moves
+	 * to the dialog container instead of highlighting the first option.
+	 */
+	function open( focusFirst ) {
+		lastFocused = document.activeElement;
+		panel.hidden = false;
+		overlay.hidden = false;
+		launcher.setAttribute( 'aria-expanded', 'true' );
+		qs( '.scch-icon-open', launcher ).hidden = true;
+		qs( '.scch-icon-close', launcher ).hidden = false;
+		showView( 'channels' );
+		if ( false === focusFirst ) {
+			panel.focus();
+			return;
+		}
+		var first = qs( '.scch-channel', panel ) || qs( '.scch-close', panel );
+		if ( first ) { first.focus(); }
+	}
+
+	function close() {
+		panel.hidden = true;
+		overlay.hidden = true;
+		launcher.setAttribute( 'aria-expanded', 'false' );
+		qs( '.scch-icon-open', launcher ).hidden = false;
+		qs( '.scch-icon-close', launcher ).hidden = true;
+		if ( lastFocused && lastFocused.focus ) { lastFocused.focus(); }
+	}
+
+	function showView( name ) {
+		qsa( '.scch-view', panel ).forEach( function ( view ) {
+			view.hidden = view.getAttribute( 'data-scch-view' ) !== name;
+		} );
+		if ( 'form' === name ) {
+			var firstInput = qs( 'input, select, textarea', qs( '[data-scch-view="form"]', panel ) );
+			if ( firstInput ) { firstInput.focus(); }
+		}
+	}
+
+	function trapFocus( e ) {
+		var focusables = qsa(
+			'button, [href], input:not([tabindex="-1"]), select, textarea',
+			panel
+		).filter( function ( el ) { return null === el.closest( '[hidden]' ) || el.closest( '[hidden]' ) === el; } )
+		 .filter( function ( el ) { return ! el.hidden && null !== el.offsetParent; } );
+
+		if ( ! focusables.length ) { return; }
+
+		var first = focusables[ 0 ];
+		var last  = focusables[ focusables.length - 1 ];
+
+		if ( e.shiftKey && document.activeElement === first ) {
+			e.preventDefault();
+			last.focus();
+		} else if ( ! e.shiftKey && document.activeElement === last ) {
+			e.preventDefault();
+			first.focus();
+		}
+	}
+
+	/* ---------- Validation ---------- */
+
+	function clearErrors() {
+		qsa( '.scch-field', form ).forEach( function ( field ) {
+			field.classList.remove( 'scch-invalid' );
+			var err = qs( '.scch-field-error', field );
+			if ( err ) { err.hidden = true; err.textContent = ''; }
+		} );
+		if ( feedback ) { feedback.hidden = true; feedback.textContent = ''; }
+	}
+
+	function setFieldError( key, message ) {
+		var field = qs( '.scch-field[data-field="' + key + '"]', form );
+		if ( ! field ) { return; }
+		field.classList.add( 'scch-invalid' );
+		var err = qs( '.scch-field-error', field );
+		if ( err ) { err.textContent = message; err.hidden = false; }
+	}
+
+	function validateClient() {
+		var ok = true;
+
+		qsa( '.scch-field', form ).forEach( function ( field ) {
+			var key   = field.getAttribute( 'data-field' );
+			var input = qs( 'input, select, textarea', field );
+			if ( ! input ) { return; }
+
+			var value    = input.value.trim();
+			var required = input.hasAttribute( 'required' );
+
+			if ( required && '' === value ) {
+				setFieldError( key, input.validationMessage || 'This field is required.' );
+				ok = false;
+				return;
+			}
+			if ( 'name' === key && value && ( value.length < 3 || value.length > 80 ) ) {
+				setFieldError( key, 'Name must be between 3 and 80 characters.' );
+				ok = false;
+			}
+			if ( 'email' === key && value && ! /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test( value ) ) {
+				setFieldError( key, 'Please enter a valid email address.' );
+				ok = false;
+			}
+			if ( 'message' === key && value.length > 1000 ) {
+				setFieldError( key, 'Message must be 1000 characters or fewer.' );
+				ok = false;
+			}
+			if ( 'captcha' === key && value && ! /^[0-9]+$/.test( value ) ) {
+				setFieldError( key, 'Answer must be a number.' );
+				ok = false;
+			}
+		} );
+
+		return ok;
+	}
+
+	/* ---------- CAPTCHA ---------- */
+
+	function refreshCaptcha() {
+		var body = new FormData();
+		body.append( 'action', 'scch_refresh_captcha' );
+		body.append( 'nonce', config.nonce );
+
+		fetch( config.ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' } )
+			.then( function ( r ) { return r.json(); } )
+			.then( function ( res ) {
+				if ( res && res.success ) { applyCaptcha( res.data ); }
+			} )
+			.catch( function () { /* Keep current question on network failure. */ } );
+	}
+
+	function applyCaptcha( data ) {
+		var q = qs( '#scch-captcha-question' );
+		var t = qs( '#scch-captcha-token' );
+		var a = qs( '#scch-captcha-answer' );
+		if ( q && t && data ) {
+			q.textContent = data.question;
+			t.value = data.token;
+			if ( a ) { a.value = ''; }
+		}
+	}
+
+	/* ---------- Submit ---------- */
+
+	function submit( e ) {
+		e.preventDefault();
+		clearErrors();
+
+		if ( ! validateClient() ) { return; }
+
+		var body = new FormData( form );
+		body.append( 'action', 'scch_submit_lead' );
+		body.append( 'nonce', config.nonce );
+
+		submitBtn.disabled = true;
+		var original = submitBtn.textContent;
+		submitBtn.textContent = ( config.i18n && config.i18n.sending ) || 'Sending…';
+
+		fetch( config.ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' } )
+			.then( function ( r ) { return r.json(); } )
+			.then( function ( res ) {
+				if ( res && res.success ) {
+					showSuccess( res.data );
+				} else {
+					showErrors( res && res.data ? res.data : {} );
+				}
+			} )
+			.catch( function () {
+				if ( feedback ) {
+					feedback.textContent = ( config.i18n && config.i18n.netError ) || 'Network error. Please try again.';
+					feedback.hidden = false;
+				}
+			} )
+			.finally( function () {
+				submitBtn.disabled = false;
+				submitBtn.textContent = original;
+			} );
+	}
+
+	function showErrors( data ) {
+		if ( data.errors ) {
+			Object.keys( data.errors ).forEach( function ( key ) {
+				setFieldError( key, data.errors[ key ] );
+			} );
+		}
+		if ( data.message && feedback ) {
+			feedback.textContent = data.message;
+			feedback.hidden = false;
+		}
+		// Server always issues a fresh challenge after any validation failure.
+		if ( data.captcha ) { applyCaptcha( data.captcha ); }
+
+		var firstInvalid = qs( '.scch-invalid input, .scch-invalid select, .scch-invalid textarea', form );
+		if ( firstInvalid ) { firstInvalid.focus(); }
+	}
+
+	function showSuccess( data ) {
+		var view = qs( '[data-scch-view="success"]', panel );
+		qs( '.scch-success-message', view ).textContent = data.message || '';
+		showView( 'success' );
+		form.reset();
+
+		if ( data.redirect ) {
+			window.setTimeout( function () { window.location.assign( data.redirect ); }, 1600 );
+		}
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', init );
+	} else {
+		init();
+	}
+
+	// Public API. Methods are safe no-ops if the widget isn't on the page.
+	window.SCCH = {
+		open:   function () { safeOpen(); },
+		close:  function () { safeClose(); },
+		toggle: function () { safeToggle(); },
+		isOpen: function () { return isOpen(); }
+	};
+}() );
