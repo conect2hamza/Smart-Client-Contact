@@ -29,38 +29,10 @@ class Settings {
 	 */
 	public static function defaults(): array {
 		return array(
-			'scch_appearance' => array(
-				'position'         => 'bottom-right',
-				'animation'        => 'pulse',
-				'icon'             => 'chat-bubble',
-				'custom_icon_url'  => '',
-				'icon_size'        => 28,
-				'primary_color'    => '#2563eb',
-				'secondary_color'  => '#7c3aed',
-				'use_gradient'     => 1,
-				'button_bg'        => '#2563eb',
-				'icon_color'       => '#ffffff',
-				'text_color'       => '#111827',
-				'heading_bg'       => '',
-				'heading_text'     => '#ffffff',
-				'submit_bg'        => '',
-				'submit_text'      => '#ffffff',
-				'submit_hover_bg'   => '',
-				'submit_hover_text' => '',
-				'dark_text_color'   => '',
-				'border_color'     => 'transparent',
-				'border_width'     => 0,
-				'border_radius'    => 50,
-				'button_size'      => 60,
-				'button_margin'    => 24,
-				'shadow'           => 1,
-				'popup_width'      => 380,
-				'popup_radius'     => 16,
-				'overlay'          => 1,
-				'dark_mode'        => 'auto',
-				'font_family'      => 'inherit',
-				'z_index'          => 99990,
-			),
+			// Every Appearance control is declared once in Design_Tokens and
+			// flows from there into defaults, sanitizing, the CSS, and the
+			// admin screen.
+			'scch_appearance' => Design_Tokens::defaults(),
 			'scch_contact'    => array(
 				'phone_number' => '',
 				'sms_number'   => '',

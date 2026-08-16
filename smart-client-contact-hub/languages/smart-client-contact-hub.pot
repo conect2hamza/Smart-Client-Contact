@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Client Contact Hub 1.0.3\n"
+"Project-Id-Version: Smart Client Contact Hub 1.0.4\n"
 "Report-Msgid-Bugs-To: https://hamzadezinr.com/smart-client-contact-hub\n"
-"POT-Creation-Date: 2026-08-16 18:49+0000\n"
+"POT-Creation-Date: 2026-08-16 19:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,181 +16,186 @@ msgstr ""
 "X-Domain: smart-client-contact-hub\n"
 
 #: admin/class-admin.php:100
+#: admin/views/leads.php:15
+msgid "Leads"
+msgstr ""
+
+#: admin/class-admin.php:101
+#: admin/views/appearance.php:25
+msgid "Appearance"
+msgstr ""
+
+#: admin/class-admin.php:102
 #: admin/views/contact.php:17
 msgid "Contact Settings"
 msgstr ""
 
-#: admin/class-admin.php:101
+#: admin/class-admin.php:103
 #: admin/views/form-builder.php:19
 msgid "Form Builder"
 msgstr ""
 
-#: admin/class-admin.php:102
+#: admin/class-admin.php:104
 #: admin/views/services.php:17
 msgid "Services"
 msgstr ""
 
-#: admin/class-admin.php:103
+#: admin/class-admin.php:105
 #: admin/views/email-templates.php:17
 msgid "Email Templates"
 msgstr ""
 
-#: admin/class-admin.php:104
+#: admin/class-admin.php:106
 #: admin/views/notifications.php:18
 msgid "Notifications"
 msgstr ""
 
-#: admin/class-admin.php:105
+#: admin/class-admin.php:107
 #: admin/views/captcha.php:17
 msgid "CAPTCHA"
 msgstr ""
 
-#: admin/class-admin.php:106
+#: admin/class-admin.php:108
 msgid "Triggers"
 msgstr ""
 
-#: admin/class-admin.php:107
+#: admin/class-admin.php:109
 #: admin/views/export.php:15
 msgid "Export"
 msgstr ""
 
-#: admin/class-admin.php:108
+#: admin/class-admin.php:110
 msgid "Logs"
 msgstr ""
 
-#: admin/class-admin.php:109
+#: admin/class-admin.php:111
 #: admin/views/help.php:17
 msgid "Help"
 msgstr ""
 
-#: admin/class-admin.php:136
+#: admin/class-admin.php:138
 msgid "Leads per page"
 msgstr ""
 
-#: admin/class-admin.php:164
-#: frontend/class-frontend.php:120
+#: admin/class-admin.php:166
+#: frontend/class-frontend.php:121
 msgid "Sending…"
 msgstr ""
 
-#: admin/class-admin.php:165
+#: admin/class-admin.php:167
 msgid "Email sent successfully."
 msgstr ""
 
-#: admin/class-admin.php:166
+#: admin/class-admin.php:168
 msgid "Sending failed:"
 msgstr ""
 
-#: admin/class-admin.php:167
+#: admin/class-admin.php:169
 msgid "Email re-sent."
 msgstr ""
 
-#: admin/class-admin.php:168
+#: admin/class-admin.php:170
 msgid "Remove this service?"
 msgstr ""
 
-#: admin/class-admin.php:169
+#: admin/class-admin.php:171
 msgid "Delete this log entry? This cannot be undone."
 msgstr ""
 
-#: admin/class-admin.php:170
+#: admin/class-admin.php:172
 msgid "Deleting…"
 msgstr ""
 
-#: admin/class-admin.php:171
+#: admin/class-admin.php:173
 msgid "Delete failed:"
 msgstr ""
 
-#: admin/class-admin.php:172
+#: admin/class-admin.php:174
 msgid "Choose image"
 msgstr ""
 
-#: admin/class-admin.php:173
+#: admin/class-admin.php:175
 msgid "Use this image"
 msgstr ""
 
-#: admin/class-admin.php:198
+#: admin/class-admin.php:200
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: admin/class-admin.php:252
+#: admin/class-admin.php:254
 msgid "Settings saved."
 msgstr ""
 
-#: admin/class-admin.php:253
+#: admin/class-admin.php:255
 msgid "Lead updated."
 msgstr ""
 
-#: admin/class-admin.php:254
+#: admin/class-admin.php:256
 msgid "Lead deleted."
 msgstr ""
 
-#: admin/class-admin.php:255
+#: admin/class-admin.php:257
 msgid "All email logs deleted."
 msgstr ""
 
-#: admin/class-admin.php:256
+#: admin/class-admin.php:258
+msgid "Appearance settings restored to their defaults."
+msgstr ""
+
+#: admin/class-admin.php:259
 msgid "The request could not be completed."
 msgstr ""
 
-#: admin/class-admin.php:273
-#: admin/class-admin.php:298
-#: admin/class-admin.php:336
-#: admin/class-admin.php:369
-#: admin/class-admin.php:395
-#: admin/class-admin.php:416
-#: admin/class-admin.php:436
+#: admin/class-admin.php:276
+#: admin/class-admin.php:301
+#: admin/class-admin.php:339
+#: admin/class-admin.php:355
+#: admin/class-admin.php:388
+#: admin/class-admin.php:414
+#: admin/class-admin.php:435
+#: admin/class-admin.php:455
 #: admin/class-export.php:38
 #: admin/class-leads-list-table.php:158
 msgid "Insufficient permissions."
 msgstr ""
 
-#: admin/class-admin.php:374
+#: admin/class-admin.php:393
 #: includes/class-ajax.php:143
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: admin/class-admin.php:384
+#: admin/class-admin.php:403
 msgid "wp_mail() returned false. Check your SMTP configuration."
 msgstr ""
 
-#: admin/class-admin.php:400
-#: admin/class-admin.php:421
+#: admin/class-admin.php:419
+#: admin/class-admin.php:440
 msgid "Log entry not found."
 msgstr ""
 
-#: admin/class-admin.php:407
+#: admin/class-admin.php:426
 msgid "Resend failed. Check the newest log entry for details."
 msgstr ""
 
-#: admin/class-admin.php:428
+#: admin/class-admin.php:447
 msgid "Could not delete this log entry."
 msgstr ""
 
-#: admin/class-admin.php:75
+#: admin/class-admin.php:77
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:87
+#: admin/class-admin.php:89
 #: admin/views/dashboard.php:19
 msgid "Smart Client Contact Hub"
 msgstr ""
 
-#: admin/class-admin.php:88
+#: admin/class-admin.php:90
 msgid "Contact Hub"
 msgstr ""
 
-#: admin/class-admin.php:97
-msgid "Dashboard"
-msgstr ""
-
-#: admin/class-admin.php:98
-#: admin/views/leads.php:15
-msgid "Leads"
-msgstr ""
-
 #: admin/class-admin.php:99
-#: admin/views/appearance.php:17
-msgid "Appearance"
+msgid "Dashboard"
 msgstr ""
 
 #: admin/class-export.php:56
@@ -206,8 +211,8 @@ msgstr ""
 
 #: admin/class-export.php:58
 #: admin/class-leads-list-table.php:47
-#: admin/views/appearance.php:51
 #: admin/views/lead-detail.php:29
+#: includes/class-design-tokens.php:146
 msgid "Phone"
 msgstr ""
 
@@ -227,7 +232,8 @@ msgstr ""
 #: admin/class-export.php:61
 #: admin/class-leads-list-table.php:50
 #: admin/views/lead-detail.php:32
-#: includes/class-settings.php:86
+#: includes/class-design-tokens.php:147
+#: includes/class-settings.php:58
 msgid "Message"
 msgstr ""
 
@@ -287,217 +293,42 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: admin/views/appearance.php:102
-msgid "Secondary Color"
+#: admin/views/appearance.php:107
+#: admin/views/form-builder.php:35
+msgid "Enabled"
 msgstr ""
 
-#: admin/views/appearance.php:106
-msgid "Background Style"
-msgstr ""
-
-#: admin/views/appearance.php:108
-msgid "Use gradient (primary → secondary). Uncheck for solid background:"
-msgstr ""
-
-#: admin/views/appearance.php:113
-msgid "Icon Color"
-msgstr ""
-
-#: admin/views/appearance.php:117
-msgid "Panel Text Color"
-msgstr ""
-
-#: admin/views/appearance.php:120
-msgid "Body text inside the popup: field labels, messages, success text."
-msgstr ""
-
-#: admin/views/appearance.php:124
-msgid "Heading Background Color"
-msgstr ""
-
-#: admin/views/appearance.php:127
-msgid "Background of the popup header. Clear the color to use the primary → secondary gradient."
-msgstr ""
-
-#: admin/views/appearance.php:131
-msgid "Heading Text Color"
-msgstr ""
-
-#: admin/views/appearance.php:135
-msgid "Submit Button Background Color"
-msgstr ""
-
-#: admin/views/appearance.php:138
-msgid "Clear the color to use the primary → secondary gradient."
-msgstr ""
-
-#: admin/views/appearance.php:142
-msgid "Submit Button Text Color"
-msgstr ""
-
-#: admin/views/appearance.php:146
-msgid "Submit Button Hover Background Color"
-msgstr ""
-
-#: admin/views/appearance.php:149
-msgid "Clear the color to keep the default hover effect (slight brightness increase)."
-msgstr ""
-
-#: admin/views/appearance.php:153
-msgid "Submit Button Hover Text Color"
-msgstr ""
-
-#: admin/views/appearance.php:156
-msgid "Clear the color to keep the normal text color on hover."
-msgstr ""
-
-#: admin/views/appearance.php:160
-msgid "Dark Mode Text Color"
-msgstr ""
-
-#: admin/views/appearance.php:163
-msgid "Overall popup text color used when the visitor's device is in dark mode. Clear the color to keep the built-in dark palette. Does not affect the heading or submit button, which have their own colors."
-msgstr ""
-
-#: admin/views/appearance.php:167
-msgid "Typography (font family)"
-msgstr ""
-
-#: admin/views/appearance.php:170
-msgid "Use \"inherit\" to match your theme, or any CSS font stack."
-msgstr ""
-
-#: admin/views/appearance.php:175
-msgid "Popup"
-msgstr ""
-
-#: admin/views/appearance.php:178
-msgid "Popup Width (px)"
-msgstr ""
-
-#: admin/views/appearance.php:182
-msgid "Popup Corner Radius (px)"
-msgstr ""
-
-#: admin/views/appearance.php:186
-msgid "Overlay"
-msgstr ""
-
-#: admin/views/appearance.php:187
-msgid "Dim the page behind the popup on mobile"
-msgstr ""
-
-#: admin/views/appearance.php:190
-msgid "Dark Mode"
-msgstr ""
-
-#: admin/views/appearance.php:193
-msgid "Auto (follow visitor preference)"
-msgstr ""
-
-#: admin/views/appearance.php:194
-msgid "Always Light"
-msgstr ""
-
-#: admin/views/appearance.php:195
-msgid "Always Dark"
-msgstr ""
-
-#: admin/views/appearance.php:200
-msgid "Z-Index"
-msgstr ""
-
-#: admin/views/appearance.php:205
-msgid "Save Appearance"
-msgstr ""
-
-#: admin/views/appearance.php:25
-msgid "Floating Button"
-msgstr ""
-
-#: admin/views/appearance.php:28
-msgid "Position"
-msgstr ""
-
-#: admin/views/appearance.php:31
-msgid "Bottom Right"
-msgstr ""
-
-#: admin/views/appearance.php:32
-msgid "Bottom Left"
-msgstr ""
-
-#: admin/views/appearance.php:37
-msgid "Animation"
-msgstr ""
-
-#: admin/views/appearance.php:47
-msgid "Icon"
-msgstr ""
-
-#: admin/views/appearance.php:50
-msgid "Message Bubble (default)"
-msgstr ""
-
-#: admin/views/appearance.php:52
-msgid "Envelope"
-msgstr ""
-
-#: admin/views/appearance.php:53
-msgid "Headset"
-msgstr ""
-
-#: admin/views/appearance.php:54
-msgid "Custom SVG / image upload"
-msgstr ""
-
-#: admin/views/appearance.php:56
-msgid "Built-in icons are inline SVG — no icon font is loaded, keeping the frontend dependency-free and fast."
-msgstr ""
-
-#: admin/views/appearance.php:60
-msgid "Custom Icon (SVG/PNG)"
-msgstr ""
-
-#: admin/views/appearance.php:63
+#: admin/views/appearance.php:164
 #: admin/views/email-templates.php:36
 msgid "Choose from Media Library"
 msgstr ""
 
-#: admin/views/appearance.php:67
-msgid "Icon Size (px)"
+#: admin/views/appearance.php:188
+msgid "Save Appearance"
 msgstr ""
 
-#: admin/views/appearance.php:71
-msgid "Button Size (px)"
+#: admin/views/appearance.php:193
+msgid "Start over"
 msgstr ""
 
-#: admin/views/appearance.php:75
-msgid "Edge Margin (px)"
+#: admin/views/appearance.php:194
+msgid "Restores every Appearance value on every tab to its shipped default. Other settings are untouched."
 msgstr ""
 
-#: admin/views/appearance.php:79
-msgid "Border Radius (%)"
+#: admin/views/appearance.php:196
+msgid "Reset all Appearance settings to their defaults? This cannot be undone."
 msgstr ""
 
-#: admin/views/appearance.php:83
-msgid "Border Width (px)"
+#: admin/views/appearance.php:199
+msgid "Reset Appearance to Defaults"
 msgstr ""
 
-#: admin/views/appearance.php:90
-msgid "Shadow"
+#: admin/views/appearance.php:29
+msgid "Every visual detail of the widget is editable here. Colors left empty fall back to the shipped design, so you only need to set what you actually want to change."
 msgstr ""
 
-#: admin/views/appearance.php:91
-msgid "Show drop shadow under the button and popup"
-msgstr ""
-
-#: admin/views/appearance.php:95
-msgid "Colors & Branding"
-msgstr ""
-
-#: admin/views/appearance.php:98
-msgid "Primary Color"
+#: admin/views/appearance.php:32
+msgid "Appearance sections"
 msgstr ""
 
 #: admin/views/captcha.php:21
@@ -581,12 +412,12 @@ msgid "Get Your Strategy (lead form)"
 msgstr ""
 
 #: admin/views/contact.php:49
-#: includes/class-settings.php:71
+#: includes/class-settings.php:43
 msgid "Call Us"
 msgstr ""
 
 #: admin/views/contact.php:50
-#: includes/class-settings.php:72
+#: includes/class-settings.php:44
 msgid "Text Us"
 msgstr ""
 
@@ -763,10 +594,6 @@ msgstr ""
 
 #: admin/views/form-builder.php:34
 msgid "Field"
-msgstr ""
-
-#: admin/views/form-builder.php:35
-msgid "Enabled"
 msgstr ""
 
 #: admin/views/form-builder.php:36
@@ -1124,15 +951,15 @@ msgstr ""
 msgid "5. PHP hooks (for developers)"
 msgstr ""
 
-#: frontend/class-frontend.php:121
+#: frontend/class-frontend.php:122
 msgid "Network error. Please try again."
 msgstr ""
 
-#: frontend/class-frontend.php:122
+#: frontend/class-frontend.php:123
 msgid "Your session expired. Please try sending again."
 msgstr ""
 
-#: frontend/class-frontend.php:60
+#: frontend/class-frontend.php:61
 msgid "Contact Us"
 msgstr ""
 
@@ -1202,19 +1029,729 @@ msgstr ""
 msgid "This form is not accepting submissions."
 msgstr ""
 
-#: includes/class-settings.php:107
+#: includes/class-design-tokens.php:1004
+msgid "Regular (400)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1005
+msgid "Medium (500)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1006
+msgid "Semibold (600)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1007
+msgid "Bold (700)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1008
+msgid "Extrabold (800)"
+msgstr ""
+
+#: includes/class-design-tokens.php:104
+msgid "Brand Colors"
+msgstr ""
+
+#: includes/class-design-tokens.php:105
+msgid "The two colors every gradient and accent in the widget is derived from. Individual elements below can override them."
+msgstr ""
+
+#: includes/class-design-tokens.php:111
+msgid "Primary color"
+msgstr ""
+
+#: includes/class-design-tokens.php:117
+msgid "Secondary color"
+msgstr ""
+
+#: includes/class-design-tokens.php:124
+msgid "Gradient angle (degrees)"
+msgstr ""
+
+#: includes/class-design-tokens.php:129
+msgid "Use the gradient on the launcher"
+msgstr ""
+
+#: includes/class-design-tokens.php:130
+msgid "Off uses the solid launcher background below."
+msgstr ""
+
+#: includes/class-design-tokens.php:137
+msgid "Floating Button"
+msgstr ""
+
+#: includes/class-design-tokens.php:138
+msgid "The button visitors see before they open anything."
+msgstr ""
+
+#: includes/class-design-tokens.php:143
+msgid "Icon"
+msgstr ""
+
+#: includes/class-design-tokens.php:145
+msgid "Message bubble"
+msgstr ""
+
+#: includes/class-design-tokens.php:148
+msgid "Headset"
+msgstr ""
+
+#: includes/class-design-tokens.php:149
+msgid "Rocket"
+msgstr ""
+
+#: includes/class-design-tokens.php:150
+msgid "Custom upload"
+msgstr ""
+
+#: includes/class-design-tokens.php:156
+msgid "Custom icon"
+msgstr ""
+
+#: includes/class-design-tokens.php:158
+msgid "Used when Icon is set to Custom upload."
+msgstr ""
+
+#: includes/class-design-tokens.php:166
+msgid "Button size"
+msgstr ""
+
+#: includes/class-design-tokens.php:174
+msgid "Icon size"
+msgstr ""
+
+#: includes/class-design-tokens.php:179
+msgid "Solid background"
+msgstr ""
+
+#: includes/class-design-tokens.php:180
+msgid "Used when the brand gradient is switched off."
+msgstr ""
+
+#: includes/class-design-tokens.php:187
+#: includes/class-design-tokens.php:621
+#: includes/class-design-tokens.php:845
+msgid "Background on hover"
+msgstr ""
+
+#: includes/class-design-tokens.php:188
+msgid "Leave empty to keep the normal background."
+msgstr ""
+
+#: includes/class-design-tokens.php:194
+#: includes/class-design-tokens.php:643
+msgid "Icon color"
+msgstr ""
+
+#: includes/class-design-tokens.php:201
+msgid "Icon color on hover"
+msgstr ""
+
+#: includes/class-design-tokens.php:209
+msgid "Corner rounding"
+msgstr ""
+
+#: includes/class-design-tokens.php:210
+msgid "50% is a circle, 0% is a square."
+msgstr ""
+
+#: includes/class-design-tokens.php:217
+#: includes/class-design-tokens.php:560
+#: includes/class-design-tokens.php:891
+msgid "Border width"
+msgstr ""
+
+#: includes/class-design-tokens.php:224
+#: includes/class-design-tokens.php:567
+#: includes/class-design-tokens.php:898
+msgid "Border color"
+msgstr ""
+
+#: includes/class-design-tokens.php:229
+msgid "Drop shadow"
+msgstr ""
+
+#: includes/class-design-tokens.php:234
+msgid "Shadow color"
+msgstr ""
+
+#: includes/class-design-tokens.php:241
+msgid "Shadow opacity (%)"
+msgstr ""
+
+#: includes/class-design-tokens.php:248
+msgid "Shadow blur"
+msgstr ""
+
+#: includes/class-design-tokens.php:255
+msgid "Shadow vertical offset"
+msgstr ""
+
+#: includes/class-design-tokens.php:262
+msgid "Typography"
+msgstr ""
+
+#: includes/class-design-tokens.php:263
+msgid "Type applies across the whole widget. Individual sizes are set in their own sections."
+msgstr ""
+
+#: includes/class-design-tokens.php:269
+msgid "Body font stack"
+msgstr ""
+
+#: includes/class-design-tokens.php:270
+msgid "Use \"inherit\" to match your theme, or any CSS font stack."
+msgstr ""
+
+#: includes/class-design-tokens.php:277
+msgid "Heading font stack"
+msgstr ""
+
+#: includes/class-design-tokens.php:278
+msgid "Leave empty to use the body font for headings too."
+msgstr ""
+
+#: includes/class-design-tokens.php:286
+msgid "Base font size"
+msgstr ""
+
+#: includes/class-design-tokens.php:294
+msgid "Line height"
+msgstr ""
+
+#: includes/class-design-tokens.php:303
+msgid "Letter spacing (px)"
+msgstr ""
+
+#: includes/class-design-tokens.php:310
+msgid "Popup Container"
+msgstr ""
+
+#: includes/class-design-tokens.php:311
+msgid "The panel that opens above the button."
+msgstr ""
+
+#: includes/class-design-tokens.php:319
+msgid "Width"
+msgstr ""
+
+#: includes/class-design-tokens.php:327
+#: includes/class-design-tokens.php:575
+#: includes/class-design-tokens.php:860
+msgid "Corner radius"
+msgstr ""
+
+#: includes/class-design-tokens.php:333
+#: includes/class-design-tokens.php:955
+msgid "Panel background"
+msgstr ""
+
+#: includes/class-design-tokens.php:339
+#: includes/class-design-tokens.php:962
+msgid "Body text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:345
+#: includes/class-design-tokens.php:969
+msgid "Muted text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:351
+#: includes/class-design-tokens.php:976
+msgid "Divider / border color"
+msgstr ""
+
+#: includes/class-design-tokens.php:358
+msgid "Panel border width"
+msgstr ""
+
+#: includes/class-design-tokens.php:364
+msgid "Panel border color"
+msgstr ""
+
+#: includes/class-design-tokens.php:372
+msgid "Content padding (vertical)"
+msgstr ""
+
+#: includes/class-design-tokens.php:380
+msgid "Content padding (horizontal)"
+msgstr ""
+
+#: includes/class-design-tokens.php:385
+msgid "Panel shadow color"
+msgstr ""
+
+#: includes/class-design-tokens.php:392
+msgid "Panel shadow opacity (%)"
+msgstr ""
+
+#: includes/class-design-tokens.php:399
+msgid "Panel shadow blur"
+msgstr ""
+
+#: includes/class-design-tokens.php:404
+msgid "Dim the page behind the popup"
+msgstr ""
+
+#: includes/class-design-tokens.php:409
+msgid "Overlay color"
+msgstr ""
+
+#: includes/class-design-tokens.php:416
+msgid "Overlay opacity (%)"
+msgstr ""
+
+#: includes/class-design-tokens.php:424
+msgid "Overlay blur"
+msgstr ""
+
+#: includes/class-design-tokens.php:431
+msgid "Popup Header"
+msgstr ""
+
+#: includes/class-design-tokens.php:432
+msgid "The colored band at the top of the panel, with the title and close button."
+msgstr ""
+
+#: includes/class-design-tokens.php:439
+msgid "Header background"
+msgstr ""
+
+#: includes/class-design-tokens.php:440
+#: includes/class-design-tokens.php:637
+#: includes/class-design-tokens.php:833
+msgid "Leave empty to use the brand gradient."
+msgstr ""
+
+#: includes/class-design-tokens.php:446
+msgid "Header text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:454
+msgid "Header padding (vertical)"
+msgstr ""
+
+#: includes/class-design-tokens.php:462
+msgid "Header padding (horizontal)"
+msgstr ""
+
+#: includes/class-design-tokens.php:470
+msgid "Title size"
+msgstr ""
+
+#: includes/class-design-tokens.php:476
+msgid "Title weight"
+msgstr ""
+
+#: includes/class-design-tokens.php:48
+msgid "Layout & Behavior"
+msgstr ""
+
+#: includes/class-design-tokens.php:485
+msgid "Intro text size"
+msgstr ""
+
+#: includes/class-design-tokens.php:49
+msgid "Where the widget sits and how it announces itself."
+msgstr ""
+
+#: includes/class-design-tokens.php:492
+msgid "Intro text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:493
+msgid "Leave empty to use a softened header text color."
+msgstr ""
+
+#: includes/class-design-tokens.php:500
+msgid "Close button background"
+msgstr ""
+
+#: includes/class-design-tokens.php:506
+msgid "Close button icon color"
+msgstr ""
+
+#: includes/class-design-tokens.php:513
+msgid "Close button background on hover"
+msgstr ""
+
+#: includes/class-design-tokens.php:521
+msgid "Close button size"
+msgstr ""
+
+#: includes/class-design-tokens.php:529
+msgid "Close button rounding"
+msgstr ""
+
+#: includes/class-design-tokens.php:536
+msgid "Channel Buttons"
+msgstr ""
+
+#: includes/class-design-tokens.php:537
+msgid "The stacked choices on the first step — the form, call, and text options."
+msgstr ""
+
+#: includes/class-design-tokens.php:54
+msgid "Screen position"
+msgstr ""
+
+#: includes/class-design-tokens.php:544
+#: includes/class-design-tokens.php:832
+msgid "Background"
+msgstr ""
+
+#: includes/class-design-tokens.php:545
+msgid "Leave empty to match the panel background."
+msgstr ""
+
+#: includes/class-design-tokens.php:552
+msgid "Label color"
+msgstr ""
+
+#: includes/class-design-tokens.php:56
+msgid "Bottom right"
+msgstr ""
+
+#: includes/class-design-tokens.php:57
+msgid "Bottom left"
+msgstr ""
+
+#: includes/class-design-tokens.php:583
+msgid "Padding (vertical)"
+msgstr ""
+
+#: includes/class-design-tokens.php:591
+msgid "Padding (horizontal)"
+msgstr ""
+
+#: includes/class-design-tokens.php:599
+msgid "Space between buttons"
+msgstr ""
+
+#: includes/class-design-tokens.php:607
+msgid "Label size"
+msgstr ""
+
+#: includes/class-design-tokens.php:613
+msgid "Label weight"
+msgstr ""
+
+#: includes/class-design-tokens.php:628
+msgid "Border color on hover"
+msgstr ""
+
+#: includes/class-design-tokens.php:629
+#: includes/class-design-tokens.php:803
+msgid "Leave empty to use the primary color."
+msgstr ""
+
+#: includes/class-design-tokens.php:63
+msgid "Launcher animation"
+msgstr ""
+
+#: includes/class-design-tokens.php:636
+msgid "Icon tile background"
+msgstr ""
+
+#: includes/class-design-tokens.php:65
+msgid "Pulse"
+msgstr ""
+
+#: includes/class-design-tokens.php:651
+msgid "Icon tile size"
+msgstr ""
+
+#: includes/class-design-tokens.php:659
+msgid "Icon glyph size"
+msgstr ""
+
+#: includes/class-design-tokens.php:66
+msgid "Bounce"
+msgstr ""
+
+#: includes/class-design-tokens.php:667
+msgid "Icon tile radius"
+msgstr ""
+
+#: includes/class-design-tokens.php:67
+msgid "Scale in"
+msgstr ""
+
+#: includes/class-design-tokens.php:674
+msgid "Form Fields"
+msgstr ""
+
+#: includes/class-design-tokens.php:675
+msgid "Labels, inputs, and the CAPTCHA row on the lead form."
+msgstr ""
+
+#: includes/class-design-tokens.php:68
+msgid "Fade in"
+msgstr ""
+
+#: includes/class-design-tokens.php:683
+msgid "Form title size"
+msgstr ""
+
+#: includes/class-design-tokens.php:689
+msgid "Form title weight"
+msgstr ""
+
+#: includes/class-design-tokens.php:69
+msgid "None"
+msgstr ""
+
+#: includes/class-design-tokens.php:697
+msgid "\"Back\" link color"
+msgstr ""
+
+#: includes/class-design-tokens.php:704
+msgid "Field label color"
+msgstr ""
+
+#: includes/class-design-tokens.php:712
+msgid "Field label size"
+msgstr ""
+
+#: includes/class-design-tokens.php:718
+msgid "Field label weight"
+msgstr ""
+
+#: includes/class-design-tokens.php:727
+msgid "Space between fields"
+msgstr ""
+
+#: includes/class-design-tokens.php:734
+#: includes/class-design-tokens.php:983
+msgid "Input background"
+msgstr ""
+
+#: includes/class-design-tokens.php:741
+msgid "Input text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:748
+msgid "Placeholder color"
+msgstr ""
+
+#: includes/class-design-tokens.php:756
+msgid "Input border width"
+msgstr ""
+
+#: includes/class-design-tokens.php:763
+msgid "Input border color"
+msgstr ""
+
+#: includes/class-design-tokens.php:771
+msgid "Input corner radius"
+msgstr ""
+
+#: includes/class-design-tokens.php:779
+msgid "Input padding (vertical)"
+msgstr ""
+
+#: includes/class-design-tokens.php:78
+msgid "Distance from screen edge"
+msgstr ""
+
+#: includes/class-design-tokens.php:787
+msgid "Input padding (horizontal)"
+msgstr ""
+
+#: includes/class-design-tokens.php:795
+msgid "Input text size"
+msgstr ""
+
+#: includes/class-design-tokens.php:802
+msgid "Focus highlight color"
+msgstr ""
+
+#: includes/class-design-tokens.php:810
+msgid "CAPTCHA question background"
+msgstr ""
+
+#: includes/class-design-tokens.php:817
+msgid "CAPTCHA question text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:824
+msgid "Submit Button"
+msgstr ""
+
+#: includes/class-design-tokens.php:825
+msgid "The button that sends the lead form."
+msgstr ""
+
+#: includes/class-design-tokens.php:839
+msgid "Text color"
+msgstr ""
+
+#: includes/class-design-tokens.php:846
+msgid "Leave empty to keep the default brightness effect."
+msgstr ""
+
+#: includes/class-design-tokens.php:852
+msgid "Text color on hover"
+msgstr ""
+
+#: includes/class-design-tokens.php:86
+msgid "Z-index"
+msgstr ""
+
+#: includes/class-design-tokens.php:868
+msgid "Padding"
+msgstr ""
+
+#: includes/class-design-tokens.php:87
+msgid "Raise this if another fixed element covers the widget."
+msgstr ""
+
+#: includes/class-design-tokens.php:876
+msgid "Text size"
+msgstr ""
+
+#: includes/class-design-tokens.php:882
+msgid "Text weight"
+msgstr ""
+
+#: includes/class-design-tokens.php:905
+msgid "Messages & Success"
+msgstr ""
+
+#: includes/class-design-tokens.php:906
+msgid "Validation errors and the confirmation step."
+msgstr ""
+
+#: includes/class-design-tokens.php:912
+msgid "Error color"
+msgstr ""
+
+#: includes/class-design-tokens.php:918
+msgid "Success color"
+msgstr ""
+
+#: includes/class-design-tokens.php:92
+msgid "Color scheme"
+msgstr ""
+
+#: includes/class-design-tokens.php:924
+msgid "Success check color"
+msgstr ""
+
+#: includes/class-design-tokens.php:932
+msgid "Success circle size"
+msgstr ""
+
+#: includes/class-design-tokens.php:94
+msgid "Follow visitor preference"
+msgstr ""
+
+#: includes/class-design-tokens.php:940
+msgid "Success message size"
+msgstr ""
+
+#: includes/class-design-tokens.php:947
+msgid "Dark Mode Palette"
+msgstr ""
+
+#: includes/class-design-tokens.php:948
+msgid "Used when the color scheme above is \"Always dark\", or \"Follow visitor preference\" and the visitor's device is in dark mode. Leave a color empty to keep the built-in dark value."
+msgstr ""
+
+#: includes/class-design-tokens.php:95
+msgid "Always light"
+msgstr ""
+
+#: includes/class-design-tokens.php:96
+msgid "Always dark"
+msgstr ""
+
+#: includes/class-design-tokens.php:990
+msgid "Channel button background"
+msgstr ""
+
+#: includes/class-settings.php:40
+msgid "How can we help?"
+msgstr ""
+
+#: includes/class-settings.php:41
+msgid "Choose the fastest way to reach us."
+msgstr ""
+
+#: includes/class-settings.php:42
+msgid "Get Your Strategy"
+msgstr ""
+
+#: includes/class-settings.php:48
+msgid "Get Your Free Strategy"
+msgstr ""
+
+#: includes/class-settings.php:49
+msgid "Thank you! Your request has been received. We will get back to you shortly."
+msgstr ""
+
+#: includes/class-settings.php:50
+msgid "Something went wrong. Please review the highlighted fields and try again."
+msgstr ""
+
+#: includes/class-settings.php:52
+msgid "Send My Request"
+msgstr ""
+
+#: includes/class-settings.php:54
+msgid "Full Name"
+msgstr ""
+
+#: includes/class-settings.php:54
+msgid "Jane Smith"
+msgstr ""
+
+#: includes/class-settings.php:55
+msgid "+1 555 000 1234"
+msgstr ""
+
+#: includes/class-settings.php:55
+msgid "Mobile Number"
+msgstr ""
+
+#: includes/class-settings.php:56
+msgid "Email Address"
+msgstr ""
+
+#: includes/class-settings.php:56
+msgid "you@company.com"
+msgstr ""
+
+#: includes/class-settings.php:57
+msgid "Choose a service…"
+msgstr ""
+
+#: includes/class-settings.php:57
+msgid "Select Service"
+msgstr ""
+
+#: includes/class-settings.php:58
+msgid "Tell us about your project…"
+msgstr ""
+
+#: includes/class-settings.php:64
+msgid "Quick check: solve this"
+msgstr ""
+
+#: includes/class-settings.php:79
 msgid "within 1 business day"
 msgstr ""
 
-#: includes/class-settings.php:113
+#: includes/class-settings.php:85
 msgid "New lead from {customer_name} — {website_name}"
 msgstr ""
 
-#: includes/class-settings.php:114
+#: includes/class-settings.php:86
 msgid "You have a new lead"
 msgstr ""
 
-#: includes/class-settings.php:115
+#: includes/class-settings.php:87
 msgid ""
 "A new strategy request was submitted on {website_name}.\n"
 "\n"
@@ -1228,19 +1765,19 @@ msgid ""
 "{message}"
 msgstr ""
 
-#: includes/class-settings.php:116
+#: includes/class-settings.php:88
 msgid "Sent automatically by Smart Client Contact Hub."
 msgstr ""
 
-#: includes/class-settings.php:117
+#: includes/class-settings.php:89
 msgid "Thanks {customer_name} — we received your request"
 msgstr ""
 
-#: includes/class-settings.php:118
+#: includes/class-settings.php:90
 msgid "Thank you, {customer_name}!"
 msgstr ""
 
-#: includes/class-settings.php:119
+#: includes/class-settings.php:91
 msgid ""
 "We received your request regarding {service} and our team will respond {response_time}.\n"
 "\n"
@@ -1253,80 +1790,12 @@ msgid ""
 "Need us sooner? {business_contact}"
 msgstr ""
 
-#: includes/class-settings.php:120
+#: includes/class-settings.php:92
 msgid "{business_name} — {website_name}"
 msgstr ""
 
-#: includes/class-settings.php:121
+#: includes/class-settings.php:93
 msgid "View Lead"
-msgstr ""
-
-#: includes/class-settings.php:68
-msgid "How can we help?"
-msgstr ""
-
-#: includes/class-settings.php:69
-msgid "Choose the fastest way to reach us."
-msgstr ""
-
-#: includes/class-settings.php:70
-msgid "Get Your Strategy"
-msgstr ""
-
-#: includes/class-settings.php:76
-msgid "Get Your Free Strategy"
-msgstr ""
-
-#: includes/class-settings.php:77
-msgid "Thank you! Your request has been received. We will get back to you shortly."
-msgstr ""
-
-#: includes/class-settings.php:78
-msgid "Something went wrong. Please review the highlighted fields and try again."
-msgstr ""
-
-#: includes/class-settings.php:80
-msgid "Send My Request"
-msgstr ""
-
-#: includes/class-settings.php:82
-msgid "Full Name"
-msgstr ""
-
-#: includes/class-settings.php:82
-msgid "Jane Smith"
-msgstr ""
-
-#: includes/class-settings.php:83
-msgid "+1 555 000 1234"
-msgstr ""
-
-#: includes/class-settings.php:83
-msgid "Mobile Number"
-msgstr ""
-
-#: includes/class-settings.php:84
-msgid "Email Address"
-msgstr ""
-
-#: includes/class-settings.php:84
-msgid "you@company.com"
-msgstr ""
-
-#: includes/class-settings.php:85
-msgid "Choose a service…"
-msgstr ""
-
-#: includes/class-settings.php:85
-msgid "Select Service"
-msgstr ""
-
-#: includes/class-settings.php:86
-msgid "Tell us about your project…"
-msgstr ""
-
-#: includes/class-settings.php:92
-msgid "Quick check: solve this"
 msgstr ""
 
 #: templates/widget.php:154

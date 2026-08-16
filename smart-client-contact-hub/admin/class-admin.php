@@ -7,6 +7,7 @@
 
 namespace SCCH\Admin;
 
+use SCCH\Design_Tokens;
 use SCCH\Email_Log_Repository;
 use SCCH\Email_Manager;
 use SCCH\Lead_Repository;
@@ -55,6 +56,7 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
 		add_action( 'admin_post_scch_save_settings', array( $this, 'save_settings' ) );
 		add_action( 'admin_post_scch_save_services', array( $this, 'save_services' ) );
+		add_action( 'admin_post_scch_reset_appearance', array( $this, 'reset_appearance' ) );
 		add_action( 'admin_post_scch_lead_action', array( $this, 'handle_lead_action' ) );
 		add_action( 'wp_ajax_scch_test_email', array( $this, 'ajax_test_email' ) );
 		add_action( 'wp_ajax_scch_resend_email', array( $this, 'ajax_resend_email' ) );
@@ -253,6 +255,7 @@ class Admin {
 			'lead_updated'   => array( 'success', __( 'Lead updated.', 'smart-client-contact-hub' ) ),
 			'lead_deleted'   => array( 'success', __( 'Lead deleted.', 'smart-client-contact-hub' ) ),
 			'logs_cleared'   => array( 'success', __( 'All email logs deleted.', 'smart-client-contact-hub' ) ),
+			'appearance_reset' => array( 'success', __( 'Appearance settings restored to their defaults.', 'smart-client-contact-hub' ) ),
 			'error'          => array( 'error', __( 'The request could not be completed.', 'smart-client-contact-hub' ) ),
 		);
 
@@ -326,6 +329,22 @@ class Admin {
 		Settings::flush_cache();
 
 		$this->redirect_back( 'saved' );
+	}
+
+	/**
+	 * Restore every Appearance value to its shipped default.
+	 */
+	public function reset_appearance(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Insufficient permissions.', 'smart-client-contact-hub' ) );
+		}
+		check_admin_referer( 'scch_reset_appearance' );
+
+		update_option( 'scch_appearance', Design_Tokens::defaults() );
+		Settings::flush_cache();
+
+		wp_safe_redirect( add_query_arg( 'scch_notice', 'appearance_reset', admin_url( 'admin.php?page=scch-appearance' ) ) );
+		exit;
 	}
 
 	/**
@@ -467,38 +486,7 @@ class Admin {
 
 		switch ( $group ) {
 			case 'scch_appearance':
-				return array(
-					'position'        => in_array( $raw['position'] ?? '', array( 'bottom-right', 'bottom-left' ), true ) ? $raw['position'] : 'bottom-right',
-					'animation'       => in_array( $raw['animation'] ?? '', array( 'fade', 'scale', 'bounce', 'pulse', 'none' ), true ) ? $raw['animation'] : 'pulse',
-					'icon'            => sanitize_key( $raw['icon'] ?? 'chat-bubble' ),
-					'custom_icon_url' => esc_url_raw( $raw['custom_icon_url'] ?? '' ),
-					'icon_size'       => min( 96, max( 12, absint( $raw['icon_size'] ?? 28 ) ) ),
-					'primary_color'   => $this->color( $raw['primary_color'] ?? '', '#2563eb' ),
-					'secondary_color' => $this->color( $raw['secondary_color'] ?? '', '#7c3aed' ),
-					'use_gradient'    => empty( $raw['use_gradient'] ) ? 0 : 1,
-					'button_bg'       => $this->color( $raw['button_bg'] ?? '', '#2563eb' ),
-					'icon_color'      => $this->color( $raw['icon_color'] ?? '', '#ffffff' ),
-					'text_color'      => $this->color( $raw['text_color'] ?? '', '#111827' ),
-					'heading_bg'      => '' === trim( (string) ( $raw['heading_bg'] ?? '' ) ) ? '' : $this->color( $raw['heading_bg'], '' ),
-					'heading_text'    => $this->color( $raw['heading_text'] ?? '', '#ffffff' ),
-					'submit_bg'       => '' === trim( (string) ( $raw['submit_bg'] ?? '' ) ) ? '' : $this->color( $raw['submit_bg'], '' ),
-					'submit_text'     => $this->color( $raw['submit_text'] ?? '', '#ffffff' ),
-					'submit_hover_bg' => '' === trim( (string) ( $raw['submit_hover_bg'] ?? '' ) ) ? '' : $this->color( $raw['submit_hover_bg'], '' ),
-					'submit_hover_text' => '' === trim( (string) ( $raw['submit_hover_text'] ?? '' ) ) ? '' : $this->color( $raw['submit_hover_text'], '' ),
-					'dark_text_color' => '' === trim( (string) ( $raw['dark_text_color'] ?? '' ) ) ? '' : $this->color( $raw['dark_text_color'], '' ),
-					'border_color'    => $this->color( $raw['border_color'] ?? '', 'transparent', true ),
-					'border_width'    => min( 12, absint( $raw['border_width'] ?? 0 ) ),
-					'border_radius'   => min( 100, absint( $raw['border_radius'] ?? 50 ) ),
-					'button_size'     => min( 140, max( 36, absint( $raw['button_size'] ?? 60 ) ) ),
-					'button_margin'   => min( 120, absint( $raw['button_margin'] ?? 24 ) ),
-					'shadow'          => empty( $raw['shadow'] ) ? 0 : 1,
-					'popup_width'     => min( 640, max( 280, absint( $raw['popup_width'] ?? 380 ) ) ),
-					'popup_radius'    => min( 48, absint( $raw['popup_radius'] ?? 16 ) ),
-					'overlay'         => empty( $raw['overlay'] ) ? 0 : 1,
-					'dark_mode'       => in_array( $raw['dark_mode'] ?? '', array( 'auto', 'light', 'dark' ), true ) ? $raw['dark_mode'] : 'auto',
-					'font_family'     => $this->font_family( $raw['font_family'] ?? 'inherit' ),
-					'z_index'         => min( 2147483000, max( 1, absint( $raw['z_index'] ?? 99990 ) ) ),
-				);
+				return $this->sanitize_tokens( $raw );
 
 			case 'scch_contact':
 				$channels = array_values( array_intersect( array( 'form', 'call', 'sms' ), (array) ( $raw['channels'] ?? array() ) ) );
@@ -649,6 +637,97 @@ class Admin {
 		}
 		$hex = sanitize_hex_color( $value );
 		return $hex ? $hex : $fallback;
+	}
+
+	/**
+	 * Sanitize the Appearance group against the Design_Tokens schema.
+	 *
+	 * Every value is coerced by its declared type and clamped to its declared
+	 * range, so a hand-crafted POST cannot introduce a value the CSS layer is
+	 * not prepared to emit. Keys absent from the schema are discarded.
+	 *
+	 * @param array $raw Unslashed raw input.
+	 * @return array<string,mixed>
+	 */
+	private function sanitize_tokens( array $raw ): array {
+		$clean = array();
+
+		foreach ( Design_Tokens::fields() as $key => $field ) {
+			$value   = $raw[ $key ] ?? null;
+			$default = $field['default'];
+
+			switch ( $field['type'] ) {
+				case 'toggle':
+					// Absent means unchecked, which is a real value here: the
+					// whole group is rebuilt on every save.
+					$clean[ $key ] = empty( $value ) ? 0 : 1;
+					break;
+
+				case 'select':
+					$clean[ $key ] = isset( $field['options'][ (string) $value ] ) ? (string) $value : $default;
+					break;
+
+				case 'color':
+					$clean[ $key ] = $this->token_color( $value, $field );
+					break;
+
+				case 'px':
+				case 'pct':
+				case 'num':
+					$number        = null === $value || '' === $value ? (int) $default : (int) $value;
+					$clean[ $key ] = max( (int) ( $field['min'] ?? 0 ), min( (int) ( $field['max'] ?? PHP_INT_MAX ), $number ) );
+					break;
+
+				case 'dec':
+					$number        = null === $value || '' === $value ? (float) $default : (float) $value;
+					$number        = max( (float) ( $field['min'] ?? 0 ), min( (float) ( $field['max'] ?? 100 ), $number ) );
+					$clean[ $key ] = rtrim( rtrim( number_format( $number, 2, '.', '' ), '0' ), '.' ) ?: '0';
+					break;
+
+				case 'font':
+					$clean[ $key ] = ! empty( $field['empty'] ) && '' === trim( (string) $value )
+						? ''
+						: $this->font_family( (string) $value );
+					break;
+
+				case 'url':
+					$clean[ $key ] = esc_url_raw( (string) $value );
+					break;
+
+				default:
+					$clean[ $key ] = sanitize_text_field( (string) $value );
+			}
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Resolve one color token, honoring its empty and transparent allowances.
+	 *
+	 * @param mixed $value Raw value.
+	 * @param array $field Field definition.
+	 */
+	private function token_color( $value, array $field ): string {
+		$value = trim( (string) $value );
+
+		if ( ! empty( $field['transparent'] ) && 'transparent' === strtolower( $value ) ) {
+			return 'transparent';
+		}
+
+		if ( '' === $value ) {
+			// An empty value is meaningful for optional tokens: no custom
+			// property is emitted, so the stylesheet's fallback applies.
+			return ! empty( $field['empty'] ) ? '' : (string) $field['default'];
+		}
+
+		$hex = sanitize_hex_color( $value );
+
+		if ( $hex ) {
+			return $hex;
+		}
+
+		return ! empty( $field['empty'] ) ? '' : (string) $field['default'];
 	}
 
 	/**

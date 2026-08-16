@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,8 +42,24 @@ Every submission is validated client- and server-side, stored in a custom databa
 
 = Customization =
 
-* Position (bottom right / bottom left), animation (fade, scale, bounce, pulse, none).
-* Colors, gradient or solid background, border, shadow, radius, sizes, spacing, typography, popup width, overlay, dark mode (auto/light/dark), z-index.
+The Appearance screen exposes every visual value in the widget — 117 controls across eleven tabs, with no CSS required:
+
+* **Layout & Behavior** — corner, launcher animation, edge distance, z-index, light/dark/auto color scheme.
+* **Brand Colors** — primary, secondary, gradient angle, and whether the launcher uses the gradient or a solid fill.
+* **Floating Button** — icon (built-in or your own upload), button and icon size, icon color, hover background and hover icon color, corner rounding, border width and color, and a shadow you control by color, opacity, blur, and offset.
+* **Typography** — separate body and heading font stacks, base size, line height, letter spacing.
+* **Popup Container** — width, corner radius, panel background, body/muted/divider colors, panel border, content padding, panel shadow, and an overlay with its own color, opacity, and blur.
+* **Popup Header** — background, text color, padding, title size and weight, intro size and color, and close-button color, background, hover background, size, and rounding.
+* **Channel Buttons** — background, label color, size and weight, border width and color, corner radius, padding, spacing between buttons, hover background and border, plus the icon tile's background, glyph color, tile size, glyph size, and tile radius.
+* **Form Fields** — form title size and weight, back-link color, label color/size/weight, spacing between fields, and full control of inputs: background, text, placeholder, border width and color, radius, padding, text size, focus highlight color, and the CAPTCHA question's background and text.
+* **Submit Button** — background, text, hover background and hover text, radius, padding, text size and weight, border width and color.
+* **Messages & Success** — error and success colors, success check color, circle size, and message size.
+* **Dark Mode Palette** — panel background, body text, muted text, dividers, input background, and channel background for dark mode specifically.
+
+Any color left empty falls back to the shipped design, so you only set what you want to change. A Reset button restores every Appearance value at once.
+
+Other customization:
+
 * Form builder: enable/disable fields, labels, placeholders, required flags, field order, success/error messages, optional thank-you redirect.
 * Services manager: create, edit, delete, and sort the service dropdown.
 
@@ -90,6 +106,17 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.0.4 =
+* New: the Appearance screen is now a full design system — 117 controls across eleven tabs covering icon colors, text colors, section backgrounds, borders, buttons, typography, spacing, shadows, overlays, hover states, and a dedicated dark-mode palette. Everything the widget draws is editable without writing CSS.
+* New: controls are organized into tabs (Layout, Brand, Floating Button, Typography, Popup Container, Popup Header, Channel Buttons, Form Fields, Submit Button, Messages & Success, Dark Mode). Saving from any tab preserves values on all the others.
+* New: "Reset Appearance to Defaults" restores every design value at once, leaving all other settings untouched.
+* New: gradient angle, per-element hover colors, separate heading and body font stacks, letter spacing, line height, and shadow control by color, opacity, blur, and offset.
+* New: the dark-mode palette is editable — panel background, body text, muted text, dividers, input background, and channel background — instead of only the body text color.
+* Fix: "Always light" now actually prevents dark mode. The stylesheet already honored a data-forced-light marker, but the widget never emitted it, so a visitor whose device was in dark mode still got the dark palette.
+* Change: every color left empty emits no CSS at all and falls back to the shipped design, so a default install now ships noticeably less generated CSS than before despite the far larger option set.
+* Internal: all Appearance options are declared once in a single schema that drives the defaults, the sanitizer, the generated CSS, and the admin screen, so the four can no longer drift apart. Every value is range-clamped and type-checked on save.
+* Upgrade: all thirty existing Appearance settings keep their names and values. Nothing needs to be reconfigured.
 
 = 1.0.3 =
 * Fix: the form no longer breaks behind a full-page cache. The CAPTCHA challenge and the submission nonce were printed into the page HTML, so every visitor served the same cached page shared one single-use token — the first submission consumed it and everyone after it was told their correct answer was wrong. Both are now issued per visitor over AJAX when the form is opened.

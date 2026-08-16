@@ -25,7 +25,7 @@ $scch_tel       = preg_replace( '/[^0-9+]/', '', (string) $contact['phone_number
 $scch_sms       = preg_replace( '/[^0-9+]/', '', (string) $contact['sms_number'] );
 $scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_body'] ) ? '?&body=' . rawurlencode( $contact['sms_body'] ) : '' );
 ?>
-<div id="scch-root" class="scch-root <?php echo esc_attr( $scch_position ); ?>" data-animation="<?php echo esc_attr( $scch_animation ); ?>">
+<div id="scch-root" class="scch-root <?php echo esc_attr( $scch_position ); ?>" data-animation="<?php echo esc_attr( $scch_animation ); ?>"<?php echo 'light' === ( $appearance['dark_mode'] ?? 'auto' ) ? ' data-forced-light' : ''; ?>>
 
 	<button type="button" id="scch-launcher" class="scch-launcher scch-anim-<?php echo esc_attr( $scch_animation ); ?>"
 		aria-haspopup="dialog" aria-expanded="false" aria-controls="scch-panel"

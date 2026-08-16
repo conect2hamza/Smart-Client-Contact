@@ -79,3 +79,21 @@
 .scch-clear-logs {
 	margin: 1em 0;
 }
+
+/* ---------- Appearance screen ---------- */
+
+.scch-appearance__intro { max-width: 70ch; margin: .5em 0 1em; }
+
+.scch-appearance .scch-tabs { margin-bottom: 1.5em; }
+
+.scch-appearance .form-table th { width: 260px; }
+
+/* Unit suffix printed after a numeric control. */
+.scch-unit {
+	margin-left: .35em;
+	color: #646970;
+	font-size: 12px;
+}
+
+/* Keep long color-picker stacks from becoming a single tall column. */
+.scch-appearance .wp-picker-container { vertical-align: middle; }

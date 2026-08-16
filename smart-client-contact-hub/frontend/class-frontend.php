@@ -8,6 +8,7 @@
 namespace SCCH\Frontend;
 
 use SCCH\Captcha;
+use SCCH\Design_Tokens;
 use SCCH\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -127,99 +128,209 @@ class Frontend {
 
 	/**
 	 * Build CSS custom properties from Appearance settings.
+	 *
+	 * Emission is driven by the Design_Tokens schema: any field carrying a
+	 * 'css' key becomes a custom property. Optional colors left empty emit
+	 * nothing at all, so the fallback baked into the stylesheet's var() call
+	 * applies — that is how "leave empty to inherit" is implemented, and it
+	 * keeps the generated CSS to only what the site actually overrode.
 	 */
 	private function dynamic_css(): string {
 		$a = Settings::group( 'scch_appearance' );
 
-		$background = ! empty( $a['use_gradient'] )
-			? sprintf( 'linear-gradient(135deg, %s 0%%, %s 100%%)', $a['primary_color'], $a['secondary_color'] )
-			: $a['button_bg'];
+		$dark_keys = Design_Tokens::dark_keys();
+		$light     = array();
+		$dark      = array();
 
-		$shadow = ! empty( $a['shadow'] ) ? '0 8px 24px rgba(0,0,0,.22)' : 'none';
+		foreach ( Design_Tokens::fields() as $key => $field ) {
+			if ( empty( $field['css'] ) ) {
+				continue;
+			}
 
-		$css = sprintf(
-			':root{--scch-primary:%1$s;--scch-secondary:%2$s;--scch-btn-bg:%3$s;--scch-icon-color:%4$s;--scch-icon-size:%5$dpx;--scch-btn-size:%6$dpx;--scch-btn-margin:%7$dpx;--scch-btn-radius:%8$d%%;--scch-border:%9$dpx solid %10$s;--scch-shadow:%11$s;--scch-popup-width:%12$dpx;--scch-popup-radius:%13$dpx;--scch-font:%14$s;--scch-z:%15$d;}',
-			sanitize_hex_color( $a['primary_color'] ) ?: '#2563eb',
-			sanitize_hex_color( $a['secondary_color'] ) ?: '#7c3aed',
-			esc_attr( $background ),
-			sanitize_hex_color( $a['icon_color'] ) ?: '#ffffff',
-			(int) $a['icon_size'],
-			(int) $a['button_size'],
-			(int) $a['button_margin'],
-			(int) $a['border_radius'],
-			(int) $a['border_width'],
-			'transparent' === $a['border_color'] ? 'transparent' : ( sanitize_hex_color( $a['border_color'] ) ?: 'transparent' ),
-			$shadow,
-			(int) $a['popup_width'],
-			(int) $a['popup_radius'],
-			'inherit' === $a['font_family'] ? 'inherit' : esc_attr( $a['font_family'] ),
-			(int) $a['z_index']
+			$value = self::token_value( $a[ $key ] ?? '', $field );
+
+			if ( '' === $value ) {
+				continue;
+			}
+
+			if ( in_array( $key, $dark_keys, true ) ) {
+				$dark[] = $field['css'] . ':' . $value;
+			} else {
+				$light[] = $field['css'] . ':' . $value;
+			}
+		}
+
+		// Composites: values built from more than one control.
+		$light[] = '--scch-gradient:' . $this->gradient( $a );
+		$light[] = '--scch-btn-bg:' . ( empty( $a['use_gradient'] ) ? $this->hex( $a['button_bg'], '#2563eb' ) : $this->gradient( $a ) );
+		$light[] = '--scch-border:' . (int) $a['border_width'] . 'px solid ' . $this->border_color( $a['border_color'] ?? '' );
+		$light[] = '--scch-shadow:' . $this->shadow(
+			! empty( $a['shadow'] ),
+			$a['shadow_offset'] ?? 8,
+			$a['shadow_blur'] ?? 24,
+			$a['shadow_color'] ?? '#000000',
+			$a['shadow_opacity'] ?? 22
 		);
+		$light[] = '--scch-panel-shadow:' . $this->shadow(
+			true,
+			20,
+			$a['panel_shadow_blur'] ?? 50,
+			$a['panel_shadow_color'] ?? '#000000',
+			$a['panel_shadow_opacity'] ?? 25
+		);
+		$light[] = '--scch-panel-border:' . (int) $a['panel_border_width'] . 'px solid ' . $this->border_color( $a['panel_border_color'] ?? '' );
+		$light[] = '--scch-overlay-bg:' . (
+			empty( $a['overlay'] )
+				? 'transparent'
+				: $this->rgba( $a['overlay_color'] ?? '#111827', $a['overlay_opacity'] ?? 35 )
+		);
+
+		// The header intro is softened only while it inherits the header
+		// color; an explicitly chosen color renders at full strength.
+		if ( '' !== $this->hex( $a['intro_color'] ?? '', '' ) ) {
+			$light[] = '--scch-intro-opacity:1';
+		}
+
+		$css = '.scch-root{' . implode( ';', $light ) . ';}';
 
 		if ( empty( $a['overlay'] ) ) {
-			$css .= '.scch-overlay{background:transparent !important;backdrop-filter:none !important;}';
+			$css .= '.scch-root .scch-overlay{backdrop-filter:none;}';
 		}
 
-		// Panel text, heading, and submit button colors. Empty bg = primary→secondary gradient.
-		$gradient   = sprintf(
-			'linear-gradient(135deg, %s 0%%, %s 100%%)',
-			sanitize_hex_color( $a['primary_color'] ) ?: '#2563eb',
-			sanitize_hex_color( $a['secondary_color'] ) ?: '#7c3aed'
-		);
-		$heading_bg = sanitize_hex_color( $a['heading_bg'] ?? '' ) ?: $gradient;
-		$submit_bg  = sanitize_hex_color( $a['submit_bg'] ?? '' ) ?: $gradient;
-
-		$css .= sprintf(
-			'.scch-root{--scch-text:%1$s;--scch-heading-bg:%2$s;--scch-heading-text:%3$s;--scch-submit-bg:%4$s;--scch-submit-text:%5$s;}',
-			sanitize_hex_color( $a['text_color'] ?? '' ) ?: '#111827',
-			esc_attr( $heading_bg ),
-			sanitize_hex_color( $a['heading_text'] ?? '' ) ?: '#ffffff',
-			esc_attr( $submit_bg ),
-			sanitize_hex_color( $a['submit_text'] ?? '' ) ?: '#ffffff'
-		);
-
-		// Direct rules with concrete values: higher specificity than the
-		// stylesheet and independent of custom-property support, so CSS
-		// optimizers or aggressive theme styles can't break the colors.
-		$heading_text = sanitize_hex_color( $a['heading_text'] ?? '' ) ?: '#ffffff';
-		$css         .= sprintf(
-			'.scch-root .scch-panel-header{background:%1$s;color:%2$s;}.scch-root .scch-panel-title{color:%2$s;}.scch-root .scch-submit{background:%3$s;color:%4$s;}',
-			esc_attr( $heading_bg ),
-			$heading_text,
-			esc_attr( $submit_bg ),
-			sanitize_hex_color( $a['submit_text'] ?? '' ) ?: '#ffffff'
-		);
-
-		// Custom hover colors: emitted only when set, so the default
-		// brightness hover effect stays intact otherwise.
-		$hover_bg   = sanitize_hex_color( $a['submit_hover_bg'] ?? '' );
-		$hover_text = sanitize_hex_color( $a['submit_hover_text'] ?? '' );
-		if ( $hover_bg || $hover_text ) {
-			$hover_rules = '';
-			if ( $hover_bg ) {
-				// filter:none so brightness doesn't distort the exact chosen color.
-				$hover_rules .= 'background:' . $hover_bg . ';filter:none;';
-			}
-			if ( $hover_text ) {
-				$hover_rules .= 'color:' . $hover_text . ';';
-			}
-			$css .= '.scch-root .scch-submit:hover:not(:disabled){' . $hover_rules . '}';
+		// Submit hover: emitted only when set, so the default brightness
+		// effect survives otherwise. filter:none keeps a chosen color exact.
+		$hover_bg   = $this->hex( $a['submit_hover_bg'] ?? '', '' );
+		$hover_text = $this->hex( $a['submit_hover_text'] ?? '', '' );
+		if ( '' !== $hover_bg || '' !== $hover_text ) {
+			$rules = '' !== $hover_bg ? 'background:' . $hover_bg . ';filter:none;' : '';
+			$rules .= '' !== $hover_text ? 'color:' . $hover_text . ';' : '';
+			$css   .= '.scch-root .scch-submit:hover:not(:disabled){' . $rules . '}';
 		}
 
-		// Dark mode overall text color: same selector as the stylesheet's
-		// dark palette, printed later, so it wins only when set.
-		$dark_text = sanitize_hex_color( $a['dark_text_color'] ?? '' );
-		if ( $dark_text ) {
-			$css .= '@media (prefers-color-scheme: dark){.scch-root:not([data-forced-light]){--scch-text:' . $dark_text . ';}}';
-		}
+		// Dark palette. "Always dark" applies it unconditionally; "follow
+		// visitor preference" scopes it to the media query, matching the
+		// selector the stylesheet uses so these overrides win.
+		$dark_css = $dark ? implode( ';', $dark ) . ';' : '';
 
 		if ( 'dark' === $a['dark_mode'] ) {
-			$css .= '.scch-root{color-scheme:dark;}';
-		} elseif ( 'light' === $a['dark_mode'] ) {
-			$css .= '.scch-root{color-scheme:light;}';
+			$css .= '.scch-root{color-scheme:dark;' . $dark_css . '}';
+		} else {
+			$css .= '.scch-root{color-scheme:' . ( 'light' === $a['dark_mode'] ? 'light' : 'light dark' ) . ';}';
+			if ( '' !== $dark_css && 'light' !== $a['dark_mode'] ) {
+				$css .= '@media (prefers-color-scheme: dark){.scch-root:not([data-forced-light]){' . $dark_css . '}}';
+			}
 		}
 
 		return $css;
+	}
+
+	/**
+	 * Format a single token value for CSS output.
+	 *
+	 * @param mixed $value Stored value.
+	 * @param array $field Field definition.
+	 */
+	private static function token_value( $value, array $field ): string {
+		switch ( $field['type'] ) {
+			case 'px':
+				return (int) $value . 'px';
+			case 'pct':
+				return (int) $value . '%';
+			case 'num':
+				return (string) (int) $value;
+			case 'dec':
+				return (string) (float) $value . ( $field['unit'] ?? '' );
+			case 'font':
+				$font = trim( (string) $value );
+				// Already restricted to font-stack characters on save.
+				return '' === $font ? '' : $font;
+			case 'select':
+				return isset( $field['options'][ (string) $value ] ) ? (string) $value : '';
+			case 'color':
+				if ( 'transparent' === $value ) {
+					return 'transparent';
+				}
+				return (string) ( sanitize_hex_color( (string) $value ) ?: '' );
+		}
+
+		return '';
+	}
+
+	/**
+	 * The brand gradient built from the two brand colors and the angle.
+	 *
+	 * @param array $a Appearance settings.
+	 */
+	private function gradient( array $a ): string {
+		return sprintf(
+			'linear-gradient(%ddeg, %s 0%%, %s 100%%)',
+			(int) ( $a['gradient_angle'] ?? 135 ),
+			$this->hex( $a['primary_color'] ?? '', '#2563eb' ),
+			$this->hex( $a['secondary_color'] ?? '', '#7c3aed' )
+		);
+	}
+
+	/**
+	 * A box-shadow built from color, opacity, blur, and offset.
+	 *
+	 * @param bool  $enabled Whether a shadow is drawn at all.
+	 * @param mixed $offset  Vertical offset in px.
+	 * @param mixed $blur    Blur radius in px.
+	 * @param mixed $color   Hex color.
+	 * @param mixed $opacity Opacity percentage.
+	 */
+	private function shadow( bool $enabled, $offset, $blur, $color, $opacity ): string {
+		if ( ! $enabled ) {
+			return 'none';
+		}
+
+		return sprintf( '0 %dpx %dpx %s', (int) $offset, (int) $blur, $this->rgba( $color, $opacity ) );
+	}
+
+	/**
+	 * Convert a hex color plus an opacity percentage to an rgba() string.
+	 *
+	 * @param mixed $color   Hex color.
+	 * @param mixed $opacity Percentage, 0–100.
+	 */
+	private function rgba( $color, $opacity ): string {
+		$hex = ltrim( $this->hex( $color, '#000000' ), '#' );
+
+		if ( 3 === strlen( $hex ) ) {
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+		}
+
+		$alpha = max( 0, min( 100, (int) $opacity ) ) / 100;
+
+		return sprintf(
+			'rgba(%d,%d,%d,%s)',
+			hexdec( substr( $hex, 0, 2 ) ),
+			hexdec( substr( $hex, 2, 2 ) ),
+			hexdec( substr( $hex, 4, 2 ) ),
+			rtrim( rtrim( number_format( $alpha, 2, '.', '' ), '0' ), '.' ) ?: '0'
+		);
+	}
+
+	/**
+	 * Validate a hex color with a fallback.
+	 *
+	 * @param mixed  $value    Raw color.
+	 * @param string $fallback Value used when invalid or empty.
+	 */
+	private function hex( $value, string $fallback ): string {
+		return (string) ( sanitize_hex_color( (string) $value ) ?: $fallback );
+	}
+
+	/**
+	 * Border color allowing the transparent keyword.
+	 *
+	 * @param mixed $value Raw color.
+	 */
+	private function border_color( $value ): string {
+		if ( 'transparent' === $value || '' === $value ) {
+			return 'transparent';
+		}
+		return $this->hex( $value, 'transparent' );
 	}
 
 	/**
