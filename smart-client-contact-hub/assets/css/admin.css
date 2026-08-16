@@ -74,3 +74,8 @@
 #scch-test-result { margin-left: 10px; font-weight: 600; }
 #scch-test-result.scch-ok  { color: #15803d; }
 #scch-test-result.scch-err { color: #b91c1c; }
+
+/* Clear All Logs sits above the table; it used to be wrapped in a <p>. */
+.scch-clear-logs {
+	margin: 1em 0;
+}

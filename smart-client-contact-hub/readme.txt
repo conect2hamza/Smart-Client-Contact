@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,12 @@ Every submission is validated client- and server-side, stored in a custom databa
 
 Nonce verification on every write, capability checks (manage_options), prepared SQL for every query, input sanitization, output escaping, honeypot field, transient-backed IP rate limiting, single-use server-side CAPTCHA tokens.
 
+The spam defenses are layered, and it is worth being clear about what each one does. The honeypot and the IP rate limiter carry most of the weight against automated submissions. The math CAPTCHA stops naive scripted posting and gives a visible signal of intent, but the challenge is readable text in the page — a purpose-built bot can parse and solve it. It is a deliberate trade for keeping the plugin free of third-party CAPTCHA services, not a substitute for one.
+
+= Page caching =
+
+Fully compatible. The submission nonce and the CAPTCHA challenge are issued per visitor over AJAX when the form is opened, never printed into the cached HTML, so pages served from WP Rocket, LiteSpeed, Cloudflare, Varnish or any other full-page cache behave exactly like uncached ones.
+
 = Extensibility =
 
 * `scch_render_widget` filter — hide the widget on specific pages.
@@ -84,6 +90,20 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.0.3 =
+* Fix: the form no longer breaks behind a full-page cache. The CAPTCHA challenge and the submission nonce were printed into the page HTML, so every visitor served the same cached page shared one single-use token — the first submission consumed it and everyone after it was told their correct answer was wrong. Both are now issued per visitor over AJAX when the form is opened.
+* Performance: generating that challenge on every page render wrote two rows into wp_options for every single page view, cached or not, whether or not the visitor ever opened the widget. Challenges are now created only when a form is actually opened.
+* Security: the challenge endpoint is rate limited, closing an unauthenticated path that could be looped to inflate the options table. Challenge and submission limits are counted separately, so opening the form never consumes a visitor's submission allowance.
+* Security: the Appearance font-family value is restricted to characters valid in a font stack. It is printed into a stylesheet on every public page, and the previous escaping allowed an administrator to break out of the declaration and inject arbitrary CSS site-wide (relevant on multisite, where site administrators do not have unfiltered_html).
+* Fix: phone and email are validated against the storage column widths. Over-length values previously aborted the insert under MySQL strict mode, losing the lead and showing the visitor a generic failure.
+* Fix: a rejected nonce no longer fails silently. The bare "-1" response parsed as valid JSON, so the form displayed nothing at all; it now reports an expired session and fetches a fresh challenge.
+* Fix: no more PHP warning on every wp-admin page load for users below manage_options. add_submenu_page() returns false without the capability, and the Leads screen hook was read unconditionally.
+* Fix: submissions are rejected when the form channel is switched off, instead of only hiding the button.
+* Fix: the scch_triggers option and the per-user Leads screen option are removed on uninstall when "Delete plugin settings" is selected.
+* Performance: CSV export streams in batches instead of loading every lead into memory, and the email log table gains an index on created_at.
+* Compat: translations load on init rather than plugins_loaded, avoiding the WordPress 6.7+ notice for loading a text domain too early.
+* Housekeeping: removed the unused scch_flush_needed option and a duplicate bulk-action nonce field, regenerated the translation template, and corrected the readme's description of what the math CAPTCHA does and does not stop.
 
 = 1.0.2 =
 * New: delete individual email log entries from the Logs screen (AJAX, capability + nonce checked).

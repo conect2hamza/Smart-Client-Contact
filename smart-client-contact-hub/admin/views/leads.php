@@ -20,10 +20,10 @@ defined( 'ABSPATH' ) || exit;
 	<form method="get">
 		<input type="hidden" name="page" value="scch-leads" />
 		<?php
-		// Required by WP_List_Table::process_bulk_action(), which verifies
-		// this exact nonce action before running a bulk delete or status
-		// change. WP_List_Table does not print this itself.
-		wp_nonce_field( 'bulk-leads' );
+		// No bulk nonce is printed here: WP_List_Table::display() emits
+		// wp_nonce_field( 'bulk-leads' ) from display_tablenav( 'top' ), which
+		// is the field process_bulk_action() verifies. Adding a second one
+		// only duplicates the _wpnonce input.
 		$table->views();
 		$table->search_box( __( 'Search leads', 'smart-client-contact-hub' ), 'scch-lead-search' );
 		$table->display();

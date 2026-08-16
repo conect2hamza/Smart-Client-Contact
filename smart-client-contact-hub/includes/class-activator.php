@@ -21,7 +21,6 @@ class Activator {
 		self::create_tables();
 		self::seed_defaults();
 		update_option( 'scch_version', SCCH_VERSION );
-		update_option( 'scch_flush_needed', 1 );
 	}
 
 	/**
@@ -65,7 +64,8 @@ class Activator {
 			created_at DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00',
 			PRIMARY KEY  (id),
 			KEY lead_id (lead_id),
-			KEY status (status)
+			KEY status (status),
+			KEY created_at (created_at)
 		) {$charset};";
 		dbDelta( $sql );
 	}

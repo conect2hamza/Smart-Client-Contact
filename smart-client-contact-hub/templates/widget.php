@@ -91,7 +91,8 @@ $scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_bod
 			<?php endforeach; ?>
 		</div>
 
-		<!-- Step 2: strategy form -->
+		<!-- Step 2: strategy form. Omitted entirely when the form channel is off. -->
+		<?php if ( in_array( 'form', $scch_channels, true ) ) : ?>
 		<div class="scch-view scch-view-form" data-scch-view="form" hidden>
 			<button type="button" class="scch-back" data-scch-goto="channels">&larr; <?php esc_html_e( 'Back', 'smart-client-contact-hub' ); ?></button>
 			<h3 class="scch-form-title"><?php echo esc_html( $form['form_title'] ); ?></h3>
@@ -136,13 +137,21 @@ $scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_bod
 				<?php endforeach; ?>
 
 				<?php if ( $captcha ) : ?>
+					<?php
+					/*
+					 * Question and token are intentionally empty in the markup.
+					 * This template is printed into pages that may be cached
+					 * and served to many visitors, so the challenge is issued
+					 * per visitor over AJAX when the form view opens.
+					 */
+					?>
 					<div class="scch-field scch-captcha" data-field="captcha">
 						<label for="scch-captcha-answer">
 							<?php echo esc_html( \SCCH\Settings::get( 'scch_captcha', 'label' ) ); ?>
 							<span class="scch-req" aria-hidden="true">*</span>
 						</label>
 						<div class="scch-captcha-row">
-							<span class="scch-captcha-question" id="scch-captcha-question"><?php echo esc_html( $captcha['question'] ); ?></span>
+							<span class="scch-captcha-question" id="scch-captcha-question" aria-live="polite"><?php echo esc_html__( 'Loading…', 'smart-client-contact-hub' ); ?></span>
 							<input type="text" inputmode="numeric" pattern="[0-9]*" id="scch-captcha-answer"
 								name="captcha_answer" required aria-required="true" aria-describedby="scch-captcha-question"
 								autocomplete="off" />
@@ -150,7 +159,7 @@ $scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_bod
 								<?php echo Frontend::icon( 'refresh' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 							</button>
 						</div>
-						<input type="hidden" name="captcha_token" id="scch-captcha-token" value="<?php echo esc_attr( $captcha['token'] ); ?>" />
+						<input type="hidden" name="captcha_token" id="scch-captcha-token" value="" />
 						<p class="scch-field-error" role="alert" hidden></p>
 					</div>
 				<?php endif; ?>
@@ -166,6 +175,7 @@ $scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_bod
 				<button type="submit" class="scch-submit"><?php echo esc_html( $form['submit_label'] ); ?></button>
 			</form>
 		</div>
+		<?php endif; ?>
 
 		<!-- Step 3: success -->
 		<div class="scch-view scch-view-success" data-scch-view="success" hidden>

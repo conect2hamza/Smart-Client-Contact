@@ -38,6 +38,16 @@ class Admin {
 	private array $hooks = array();
 
 	/**
+	 * Screen hook for the Leads submenu, or '' when the current user cannot
+	 * see it. add_submenu_page() returns false without the capability, and
+	 * admin_menu fires for every logged-in user who reaches wp-admin — so
+	 * this must never be assumed present.
+	 *
+	 * @var string
+	 */
+	private string $leads_hook = '';
+
+	/**
 	 * Register hooks.
 	 */
 	public function register(): void {
@@ -101,13 +111,19 @@ class Admin {
 
 		foreach ( $pages as $page ) {
 			$hook = add_submenu_page( self::MENU, $page[1] . ' — Smart Client Contact Hub', $page[1], self::CAP, $page[0], $page[2] );
-			if ( $hook ) {
-				$this->hooks[] = $hook;
+			if ( ! $hook ) {
+				continue;
+			}
+			$this->hooks[] = $hook;
+			if ( 'scch-leads' === $page[0] ) {
+				$this->leads_hook = $hook;
 			}
 		}
 
 		// The leads screen needs WP_List_Table screen options.
-		add_action( 'load-' . $this->hooks[1], array( $this, 'leads_screen_options' ) );
+		if ( '' !== $this->leads_hook ) {
+			add_action( 'load-' . $this->leads_hook, array( $this, 'leads_screen_options' ) );
+		}
 	}
 
 	/**
@@ -480,7 +496,7 @@ class Admin {
 					'popup_radius'    => min( 48, absint( $raw['popup_radius'] ?? 16 ) ),
 					'overlay'         => empty( $raw['overlay'] ) ? 0 : 1,
 					'dark_mode'       => in_array( $raw['dark_mode'] ?? '', array( 'auto', 'light', 'dark' ), true ) ? $raw['dark_mode'] : 'auto',
-					'font_family'     => sanitize_text_field( $raw['font_family'] ?? 'inherit' ),
+					'font_family'     => $this->font_family( $raw['font_family'] ?? 'inherit' ),
 					'z_index'         => min( 2147483000, max( 1, absint( $raw['z_index'] ?? 99990 ) ) ),
 				);
 
@@ -633,6 +649,22 @@ class Admin {
 		}
 		$hex = sanitize_hex_color( $value );
 		return $hex ? $hex : $fallback;
+	}
+
+	/**
+	 * Sanitize a CSS font-family stack.
+	 *
+	 * This value is printed into a stylesheet on every public page, where
+	 * esc_attr() is not sufficient escaping: it leaves ; { } untouched, so a
+	 * value could close the declaration and inject arbitrary CSS site-wide.
+	 * Only the characters a font stack legitimately needs survive.
+	 *
+	 * @param string $value Raw value.
+	 */
+	private function font_family( string $value ): string {
+		$clean = preg_replace( '/[^A-Za-z0-9 ,\'"\-]/', '', sanitize_text_field( $value ) );
+		$clean = trim( (string) $clean );
+		return '' === $clean ? 'inherit' : substr( $clean, 0, 200 );
 	}
 
 	/**

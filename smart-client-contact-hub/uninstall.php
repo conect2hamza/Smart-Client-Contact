@@ -29,16 +29,20 @@ if ( ! empty( $scch_uninstall['delete_settings'] ) ) {
 		'scch_contact',
 		'scch_form',
 		'scch_captcha',
+		'scch_triggers',
 		'scch_email',
 		'scch_general',
 		'scch_uninstall',
 		'scch_services',
 		'scch_version',
-		'scch_flush_needed',
+		'scch_flush_needed', // Retired in 1.0.3; removed here for older installs.
 	);
 	foreach ( $scch_options as $scch_option ) {
 		delete_option( $scch_option );
 	}
+
+	// Per-user screen option created by the Leads list table.
+	delete_metadata( 'user', 0, 'scch_leads_per_page', '', true );
 }
 
 // Transients (CAPTCHA challenges and rate-limit counters) are always removed:

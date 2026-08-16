@@ -119,6 +119,7 @@ class Frontend {
 				'i18n'           => array(
 					'sending'  => __( 'Sending…', 'smart-client-contact-hub' ),
 					'netError' => __( 'Network error. Please try again.', 'smart-client-contact-hub' ),
+					'expired'  => __( 'Your session expired. Please try sending again.', 'smart-client-contact-hub' ),
 				),
 			)
 		);
@@ -255,7 +256,13 @@ class Frontend {
 		$form       = Settings::group( 'scch_form' );
 		$fields     = Settings::form_fields();
 		$services   = Settings::services();
-		$captcha    = Captcha::enabled() ? Captcha::generate() : null;
+
+		// No challenge is generated here. Doing so wrote two options rows on
+		// every single page view and embedded a single-use token into markup
+		// that a page cache then served to every visitor. The widget renders
+		// the CAPTCHA field empty and the script fetches a challenge when the
+		// visitor opens the form. See Ajax::refresh_captcha().
+		$captcha = Captcha::enabled();
 
 		include SCCH_PATH . 'templates/widget.php';
 	}

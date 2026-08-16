@@ -123,22 +123,6 @@ class Lead_Repository {
 	}
 
 	/**
-	 * All leads matching a status filter (for CSV export).
-	 *
-	 * @param string $status Optional status.
-	 */
-	public static function all( string $status = '' ): array {
-		global $wpdb;
-		$table = self::table();
-
-		if ( '' !== $status && in_array( $status, self::STATUSES, true ) ) {
-			return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE status = %s ORDER BY submission_date DESC", $status ) ) ?: array(); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		}
-
-		return $wpdb->get_results( "SELECT * FROM {$table} ORDER BY submission_date DESC" ) ?: array(); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-	}
-
-	/**
 	 * Bulk delete by IDs.
 	 *
 	 * @param int[] $ids Lead IDs.

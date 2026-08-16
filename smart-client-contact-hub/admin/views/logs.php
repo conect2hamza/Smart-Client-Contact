@@ -25,14 +25,12 @@ $scch_pages  = (int) ceil( $scch_result['total'] / 30 );
 	<?php endif; ?>
 
 	<?php if ( ! empty( $scch_result['items'] ) ) : ?>
-		<p>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
-				onsubmit="return confirm('<?php echo esc_js( __( 'Delete ALL email logs permanently? This cannot be undone.', 'smart-client-contact-hub' ) ); ?>');">
-				<?php wp_nonce_field( 'scch_clear_logs' ); ?>
-				<input type="hidden" name="action" value="scch_clear_logs" />
-				<?php submit_button( __( 'Clear All Logs', 'smart-client-contact-hub' ), 'delete', 'submit', false ); ?>
-			</form>
-		</p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-clear-logs"
+			onsubmit="return confirm('<?php echo esc_js( __( 'Delete ALL email logs permanently? This cannot be undone.', 'smart-client-contact-hub' ) ); ?>');">
+			<?php wp_nonce_field( 'scch_clear_logs' ); ?>
+			<input type="hidden" name="action" value="scch_clear_logs" />
+			<?php submit_button( __( 'Clear All Logs', 'smart-client-contact-hub' ), 'delete', 'submit', false ); ?>
+		</form>
 	<?php endif; ?>
 
 	<?php if ( empty( $scch_result['items'] ) ) : ?>

@@ -20,13 +20,32 @@ class Rate_Limiter {
 	private const CACHE_GROUP = 'scch_rate_limit';
 
 	/**
-	 * Whether the current client may submit.
+	 * Headroom multiplier for the challenge bucket.
+	 *
+	 * A visitor requests a challenge every time they open the form view, and
+	 * again on every manual refresh, so this bucket has to tolerate far more
+	 * traffic than the submission bucket before it starts refusing.
 	 */
-	public static function allowed(): bool {
+	private const CHALLENGE_HEADROOM = 6;
+
+	/**
+	 * Whether the current client may perform an action in the given bucket.
+	 *
+	 * Buckets are counted independently: exhausting challenge requests never
+	 * consumes a visitor's submission allowance, and vice versa.
+	 *
+	 * @param string $bucket 'submit' | 'challenge'.
+	 */
+	public static function allowed( string $bucket = 'submit' ): bool {
 		$max    = max( 1, (int) Settings::get( 'scch_general', 'rate_limit_max', 5 ) );
 		$window = max( 1, (int) Settings::get( 'scch_general', 'rate_limit_window', 10 ) );
-		$key    = self::key();
-		$ttl    = $window * MINUTE_IN_SECONDS;
+
+		if ( 'challenge' === $bucket ) {
+			$max *= self::CHALLENGE_HEADROOM;
+		}
+
+		$key = self::key( $bucket );
+		$ttl = $window * MINUTE_IN_SECONDS;
 
 		// When a persistent object cache (Redis, Memcached, …) is active,
 		// wp_cache_incr() is atomic and closes the check-then-act race that a
@@ -68,15 +87,23 @@ class Rate_Limiter {
 	}
 
 	/**
-	 * Transient key for the current client IP.
+	 * Transient key for the current client IP within a bucket.
+	 *
+	 * @param string $bucket Counter bucket.
 	 */
-	private static function key(): string {
-		return 'scch_rl_' . md5( self::client_ip() . wp_salt( 'nonce' ) );
+	private static function key( string $bucket ): string {
+		return 'scch_rl_' . $bucket . '_' . md5( self::client_ip() . wp_salt( 'nonce' ) );
 	}
 
 	/**
 	 * Best-effort client IP. REMOTE_ADDR only — proxy headers are spoofable
 	 * and must not be trusted for rate limiting.
+	 *
+	 * When REMOTE_ADDR is absent or malformed this returns an empty string,
+	 * and every such request shares a single counter. That is the intended
+	 * failure mode: unattributable traffic is limited collectively rather
+	 * than exempted. In practice it only occurs on misconfigured proxies —
+	 * see the note on the CAPTCHA screen.
 	 */
 	public static function client_ip(): string {
 		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';

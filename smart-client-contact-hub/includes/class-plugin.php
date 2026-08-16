@@ -40,7 +40,11 @@ final class Plugin {
 	 * Register all hooks.
 	 */
 	public function run(): void {
-		$this->maybe_upgrade();
+		// Deferred to init: the upgrade path reaches Settings::defaults(),
+		// which calls __() dozens of times. Running that on plugins_loaded
+		// loads translations before init, which WordPress 6.7+ flags via
+		// _doing_it_wrong().
+		add_action( 'init', array( $this, 'maybe_upgrade' ), 20 );
 
 		( new Ajax() )->register();
 
@@ -55,7 +59,7 @@ final class Plugin {
 	/**
 	 * Re-run table creation if the plugin was updated in place.
 	 */
-	private function maybe_upgrade(): void {
+	public function maybe_upgrade(): void {
 		if ( SCCH_VERSION !== get_option( 'scch_version' ) ) {
 			Activator::activate();
 		}

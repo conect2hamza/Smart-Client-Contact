@@ -9,6 +9,12 @@
 	var root, launcher, panel, overlay, form, feedback, submitBtn;
 	var lastFocused = null;
 
+	// Timestamp of the last successful challenge fetch. The nonce and the
+	// CAPTCHA token both come from that call, so re-fetching on a stale
+	// value is what keeps the form working on cached pages.
+	var challengeAt = 0;
+	var CHALLENGE_TTL = 10 * 60 * 1000;
+
 	function qs( sel, ctx ) { return ( ctx || document ).querySelector( sel ); }
 	function qsa( sel, ctx ) { return Array.prototype.slice.call( ( ctx || document ).querySelectorAll( sel ) ); }
 
@@ -44,7 +50,7 @@
 		if ( form ) {
 			form.addEventListener( 'submit', submit );
 			var refresh = qs( '.scch-captcha-refresh', form );
-			if ( refresh ) { refresh.addEventListener( 'click', refreshCaptcha ); }
+			if ( refresh ) { refresh.addEventListener( 'click', fetchChallenge ); }
 		}
 
 		initExternalTriggers();
@@ -139,7 +145,9 @@
 			view.hidden = view.getAttribute( 'data-scch-view' ) !== name;
 		} );
 		if ( 'form' === name ) {
-			var firstInput = qs( 'input, select, textarea', qs( '[data-scch-view="form"]', panel ) );
+			ensureChallenge();
+			var formView = qs( '[data-scch-view="form"]', panel );
+			var firstInput = formView ? qs( 'input, select, textarea', formView ) : null;
 			if ( firstInput ) { firstInput.focus(); }
 		}
 	}
@@ -221,26 +229,42 @@
 		return ok;
 	}
 
-	/* ---------- CAPTCHA ---------- */
+	/* ---------- Challenge (nonce + CAPTCHA) ---------- */
 
-	function refreshCaptcha() {
-		var body = new FormData();
-		body.append( 'action', 'scch_refresh_captcha' );
-		body.append( 'nonce', config.nonce );
-
-		fetch( config.ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' } )
-			.then( function ( r ) { return r.json(); } )
-			.then( function ( res ) {
-				if ( res && res.success ) { applyCaptcha( res.data ); }
-			} )
-			.catch( function () { /* Keep current question on network failure. */ } );
+	/**
+	 * Fetch a challenge unless a recent one is still good. Called when the
+	 * form view opens, so a visitor on a cached page always submits with a
+	 * nonce and token minted for them rather than baked into the HTML.
+	 */
+	function ensureChallenge() {
+		if ( challengeAt && ( Date.now() - challengeAt ) < CHALLENGE_TTL ) { return; }
+		fetchChallenge();
 	}
 
-	function applyCaptcha( data ) {
+	function fetchChallenge() {
+		var body = new FormData();
+		body.append( 'action', 'scch_refresh_captcha' );
+
+		return fetch( config.ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' } )
+			.then( function ( r ) { return r.json(); } )
+			.then( function ( res ) {
+				if ( res && true === res.success ) {
+					challengeAt = Date.now();
+					applyChallenge( res.data );
+				}
+			} )
+			.catch( function () { /* Keep the current question on network failure. */ } );
+	}
+
+	function applyChallenge( data ) {
+		if ( ! data ) { return; }
+
+		if ( data.nonce ) { config.nonce = data.nonce; }
+
 		var q = qs( '#scch-captcha-question' );
 		var t = qs( '#scch-captcha-token' );
 		var a = qs( '#scch-captcha-answer' );
-		if ( q && t && data ) {
+		if ( q && t && data.token ) {
 			q.textContent = data.question;
 			t.value = data.token;
 			if ( a ) { a.value = ''; }
@@ -266,22 +290,37 @@
 		fetch( config.ajaxUrl, { method: 'POST', body: body, credentials: 'same-origin' } )
 			.then( function ( r ) { return r.json(); } )
 			.then( function ( res ) {
-				if ( res && res.success ) {
+				if ( res && true === res.success ) {
 					showSuccess( res.data );
-				} else {
-					showErrors( res && res.data ? res.data : {} );
+					return;
 				}
+
+				// A rejected nonce is answered with a bare -1, which parses as
+				// valid JSON but carries no data. Without this branch the form
+				// would fail completely silently. Pull a fresh challenge so the
+				// visitor's next attempt succeeds.
+				if ( ! res || 'object' !== typeof res || ! res.data ) {
+					showFeedback( ( config.i18n && config.i18n.expired ) || 'Your session expired. Please try again.' );
+					challengeAt = 0;
+					fetchChallenge();
+					return;
+				}
+
+				showErrors( res.data );
 			} )
 			.catch( function () {
-				if ( feedback ) {
-					feedback.textContent = ( config.i18n && config.i18n.netError ) || 'Network error. Please try again.';
-					feedback.hidden = false;
-				}
+				showFeedback( ( config.i18n && config.i18n.netError ) || 'Network error. Please try again.' );
 			} )
 			.finally( function () {
 				submitBtn.disabled = false;
 				submitBtn.textContent = original;
 			} );
+	}
+
+	function showFeedback( message ) {
+		if ( ! feedback ) { return; }
+		feedback.textContent = message;
+		feedback.hidden = false;
 	}
 
 	function showErrors( data ) {
@@ -290,12 +329,13 @@
 				setFieldError( key, data.errors[ key ] );
 			} );
 		}
-		if ( data.message && feedback ) {
-			feedback.textContent = data.message;
-			feedback.hidden = false;
+		if ( data.message ) { showFeedback( data.message ); }
+		// Server always issues a fresh challenge after any validation failure,
+		// so the token in the form is current again — no need to re-fetch.
+		if ( data.captcha ) {
+			applyChallenge( data.captcha );
+			challengeAt = Date.now();
 		}
-		// Server always issues a fresh challenge after any validation failure.
-		if ( data.captcha ) { applyCaptcha( data.captcha ); }
 
 		var firstInvalid = qs( '.scch-invalid input, .scch-invalid select, .scch-invalid textarea', form );
 		if ( firstInvalid ) { firstInvalid.focus(); }
@@ -306,6 +346,10 @@
 		qs( '.scch-success-message', view ).textContent = data.message || '';
 		showView( 'success' );
 		form.reset();
+
+		// The token was consumed by this submission. Force a new challenge if
+		// the visitor opens the form again.
+		challengeAt = 0;
 
 		if ( data.redirect ) {
 			window.setTimeout( function () { window.location.assign( data.redirect ); }, 1600 );
