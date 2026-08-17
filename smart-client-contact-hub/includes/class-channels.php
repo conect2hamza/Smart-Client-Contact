@@ -138,24 +138,13 @@ class Channels {
 	}
 
 	/**
-	 * Icon choices offered per channel, on top of "custom upload".
+	 * Icon choices offered per channel. Comes from the shared library, so a
+	 * channel and the launcher button always offer the same set.
 	 *
 	 * @return array<string,string>
 	 */
 	public static function icon_choices(): array {
-		return array(
-			'chat-bubble' => __( 'Message bubble', 'smart-client-contact-hub' ),
-			'rocket'      => __( 'Rocket', 'smart-client-contact-hub' ),
-			'phone'       => __( 'Phone', 'smart-client-contact-hub' ),
-			'sms'         => __( 'Message', 'smart-client-contact-hub' ),
-			'whatsapp'    => __( 'WhatsApp', 'smart-client-contact-hub' ),
-			'telegram'    => __( 'Telegram', 'smart-client-contact-hub' ),
-			'messenger'   => __( 'Messenger', 'smart-client-contact-hub' ),
-			'mail'        => __( 'Envelope', 'smart-client-contact-hub' ),
-			'headset'     => __( 'Headset', 'smart-client-contact-hub' ),
-			'link'        => __( 'Link', 'smart-client-contact-hub' ),
-			'custom'      => __( 'Custom upload', 'smart-client-contact-hub' ),
-		);
+		return Icons::choices();
 	}
 
 	/**

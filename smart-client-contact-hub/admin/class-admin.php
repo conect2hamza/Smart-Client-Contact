@@ -9,6 +9,7 @@ namespace SCCH\Admin;
 
 use SCCH\Channels;
 use SCCH\Design_Tokens;
+use SCCH\Icons;
 use SCCH\Email_Log_Repository;
 use SCCH\Email_Manager;
 use SCCH\Lead_Repository;
@@ -698,6 +699,10 @@ class Admin {
 
 				case 'select':
 					$clean[ $key ] = isset( $field['options'][ (string) $value ] ) ? (string) $value : $default;
+					break;
+
+				case 'icon':
+					$clean[ $key ] = Icons::exists( (string) $value ) ? (string) $value : (string) $default;
 					break;
 
 				case 'color':

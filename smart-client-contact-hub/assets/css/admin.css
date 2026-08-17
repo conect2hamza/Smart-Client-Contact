@@ -149,3 +149,76 @@
 .scch-channel-row .scch-f .wp-color-result.button { margin-bottom: 0; }
 
 .scch-channels__add { margin: 18px 0; display: flex; gap: 8px; align-items: center; }
+
+/* ---------- Icon picker ---------- */
+
+.scch-iconpick { max-width: 640px; }
+
+.scch-iconpick__group {
+	margin: 12px 0 6px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	color: #646970;
+}
+.scch-iconpick__group:first-child { margin-top: 0; }
+
+.scch-iconpick__grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+/* The radio itself is hidden; its label is the swatch. Not display:none, so
+   it stays focusable and the focus ring can be drawn on the label. */
+.scch-iconpick__radio {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	pointer-events: none;
+}
+
+.scch-iconpick__opt {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	border: 1px solid #c3c4c7;
+	border-radius: 5px;
+	background: #fff;
+	color: #50575e;
+	cursor: pointer;
+	transition: border-color .12s ease, color .12s ease, background .12s ease;
+}
+
+.scch-iconpick__opt svg { width: 20px; height: 20px; }
+.scch-iconpick__opt img { max-width: 22px; max-height: 22px; }
+
+.scch-iconpick__opt:hover { border-color: #2271b1; color: #2271b1; }
+
+.scch-iconpick__radio:checked + .scch-iconpick__opt {
+	border-color: #2271b1;
+	background: #2271b1;
+	color: #fff;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.scch-iconpick__radio:focus-visible + .scch-iconpick__opt {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+
+.scch-iconpick__opt--custom { font-size: 18px; font-weight: 400; }
+
+.scch-iconpick__custom { margin: 10px 0 0; }
+.scch-iconpick__custom .scch-f__inline { display: flex; gap: 6px; max-width: 460px; }
+.scch-iconpick__custom .scch-f__inline input { flex: 1 1 auto; }
+.scch-iconpick__custom .description { display: block; margin-top: 4px; }
+
+/* Icon picker inside a channel card spans the whole grid. */
+.scch-channel-row .scch-f--wide { grid-column: 1 / -1; margin: 12px 0; }
+.scch-channel-row .scch-f__label { display: block; margin-bottom: 4px; font-weight: 600; }

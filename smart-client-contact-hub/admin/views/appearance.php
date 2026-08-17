@@ -71,6 +71,11 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 						 * its default. Hidden sections submit their current
 						 * values unchanged.
 						 */
+						// The picker renders the custom-URL input itself.
+						if ( ! empty( $scch_field['hidden'] ) && $scch_visible ) {
+							continue;
+						}
+
 						if ( ! $scch_visible ) {
 							if ( 'toggle' === $scch_field['type'] ) {
 								printf(
@@ -90,7 +95,7 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 						?>
 						<tr>
 							<th scope="row">
-								<?php if ( 'toggle' === $scch_field['type'] ) : ?>
+								<?php if ( in_array( $scch_field['type'], array( 'toggle', 'icon' ), true ) ) : ?>
 									<?php echo esc_html( $scch_field['label'] ); ?>
 								<?php else : ?>
 									<label for="<?php echo esc_attr( $scch_id ); ?>"><?php echo esc_html( $scch_field['label'] ); ?></label>
@@ -99,6 +104,15 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 							<td>
 								<?php
 								switch ( $scch_field['type'] ) :
+									case 'icon':
+										$picker_name     = $scch_input;
+										$picker_value    = (string) $scch_value;
+										$picker_uid      = $scch_id;
+										$picker_url_name = 'scch_appearance[' . $scch_field['url_key'] . ']';
+										$picker_url      = (string) ( $scch_a[ $scch_field['url_key'] ] ?? '' );
+										include SCCH_PATH . 'admin/views/partials/icon-picker.php';
+										break;
+
 									case 'toggle':
 										?>
 										<input type="hidden" name="<?php echo esc_attr( $scch_input ); ?>" value="0" />

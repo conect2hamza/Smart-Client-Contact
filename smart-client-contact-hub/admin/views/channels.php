@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit;
 
 $scch_rows  = Channels::raw();
 $scch_types = Channels::types();
-$scch_icons = Channels::icon_choices();
 
 /**
  * Render one channel row. Used for the stored rows and, with a placeholder
@@ -22,7 +21,7 @@ $scch_icons = Channels::icon_choices();
  * @param array  $row   Channel row.
  * @param string $index Array index for the field names.
  */
-$scch_render_row = static function ( array $row, string $index ) use ( $scch_types, $scch_icons ): void {
+$scch_render_row = static function ( array $row, string $index ) use ( $scch_types ): void {
 	$type = $row['type'];
 	$def  = $scch_types[ $type ] ?? $scch_types['link'];
 	$name = 'channels[' . $index . ']';
@@ -82,22 +81,17 @@ $scch_render_row = static function ( array $row, string $index ) use ( $scch_typ
 				<input type="hidden" name="<?php echo esc_attr( $name ); ?>[extra]" value="" />
 			<?php endif; ?>
 
-			<p class="scch-f">
-				<label for="<?php echo esc_attr( $uid ); ?>-icon"><?php esc_html_e( 'Icon', 'smart-client-contact-hub' ); ?></label>
-				<select id="<?php echo esc_attr( $uid ); ?>-icon" class="scch-channel-icon-select" name="<?php echo esc_attr( $name ); ?>[icon]">
-					<?php foreach ( $scch_icons as $scch_iv => $scch_il ) : ?>
-						<option value="<?php echo esc_attr( $scch_iv ); ?>" <?php selected( $row['icon'], $scch_iv ); ?>><?php echo esc_html( $scch_il ); ?></option>
-					<?php endforeach; ?>
-				</select>
-			</p>
-
-			<p class="scch-f scch-channel-row__custom-icon"<?php echo 'custom' === $row['icon'] ? '' : ' hidden'; ?>>
-				<label for="<?php echo esc_attr( $uid ); ?>-iconurl"><?php esc_html_e( 'Custom icon image', 'smart-client-contact-hub' ); ?></label>
-				<span class="scch-f__inline">
-					<input type="url" id="<?php echo esc_attr( $uid ); ?>-iconurl" name="<?php echo esc_attr( $name ); ?>[icon_url]" value="<?php echo esc_attr( $row['icon_url'] ); ?>" />
-					<button type="button" class="button scch-media-btn" data-target="#<?php echo esc_attr( $uid ); ?>-iconurl"><?php esc_html_e( 'Choose', 'smart-client-contact-hub' ); ?></button>
-				</span>
-			</p>
+			<div class="scch-f scch-f--wide">
+				<span class="scch-f__label"><?php esc_html_e( 'Icon', 'smart-client-contact-hub' ); ?></span>
+				<?php
+				$picker_name     = $name . '[icon]';
+				$picker_value    = $row['icon'];
+				$picker_uid      = $uid;
+				$picker_url      = $row['icon_url'];
+				$picker_url_name = $name . '[icon_url]';
+				include SCCH_PATH . 'admin/views/partials/icon-picker.php';
+				?>
+			</div>
 
 			<p class="scch-f">
 				<label for="<?php echo esc_attr( $uid ); ?>-iconbg"><?php esc_html_e( 'Icon tile color', 'smart-client-contact-hub' ); ?></label>

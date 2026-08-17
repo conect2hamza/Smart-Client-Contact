@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Build the popup from as many buttons as you need on the Channels screen:
 * **Email** — opens the visitor's mail app, optionally with the subject pre-filled.
 * **Custom link** — anything else: Viber, Skype, Calendly, a booking page. Pair it with your own uploaded icon.
 
-Every button has its own editable text, an optional line of small print under it, its own icon, and its own icon color, icon tile color, and text color. Any button can be switched off without deleting it, and the order is yours to set. Add the same type more than once — two WhatsApp numbers for two departments works fine.
+Every button has its own editable text, an optional line of small print under it, its own icon chosen from a 43-icon library, and its own icon color, icon tile color, and text color. Any button can be switched off without deleting it, and the order is yours to set. Add the same type more than once — two WhatsApp numbers for two departments works fine.
 
 Every submission is validated client- and server-side, stored in a custom database table, and triggers a branded notification email to the administrator plus a confirmation email to the customer.
 
@@ -53,11 +53,11 @@ Every submission is validated client- and server-side, stored in a custom databa
 
 = Customization =
 
-The Appearance screen exposes every visual value in the widget — 117 controls across eleven tabs, with no CSS required:
+The Appearance screen exposes every visual value in the widget — 119 controls across eleven tabs, with no CSS required:
 
 * **Layout & Behavior** — corner, launcher animation, edge distance, z-index, light/dark/auto color scheme.
 * **Brand Colors** — primary, secondary, gradient angle, and whether the launcher uses the gradient or a solid fill.
-* **Floating Button** — icon (built-in or your own upload), button and icon size, icon color, hover background and hover icon color, corner rounding, border width and color, and a shadow you control by color, opacity, blur, and offset.
+* **Floating Button** — icon (any of 43 built-ins, or your own upload), button and icon size, icon color, hover background and hover icon color, corner rounding, border width and color, and a shadow you control by color, opacity, blur, and offset.
 * **Typography** — separate body and heading font stacks, base size, line height, letter spacing.
 * **Popup Container** — width, corner radius, panel background, body/muted/divider colors, panel border, content padding, panel shadow, and an overlay with its own color, opacity, and blur.
 * **Popup Header** — background, text color, padding, title size and weight, intro size and color, and close-button color, background, hover background, size, and rounding.
@@ -117,6 +117,14 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.0.6 =
+* New: a 43-icon built-in library, up from six. Grouped as Contact (message bubbles, phone, SMS, envelopes, paper plane, headset, life ring, map pin, globe, link), General (rocket, lightning, star, heart, sparkles, calendar, clock, person, team, briefcase, cart, gift, question, info, check, bell, video, wrench, document) and Apps & social (WhatsApp, Telegram, Messenger, Facebook, Instagram, X, LinkedIn, YouTube, TikTok, Viber, Skype, Discord).
+* New: icons are chosen from a visual picker instead of a dropdown — a grid of the actual icons, grouped, with the current one highlighted. It is a plain radio group, so it works without JavaScript and is fully keyboard navigable.
+* New: the same picker is used for the floating button and for every channel, so both offer the identical set. Uploading your own image is the last option in the grid and previews there once chosen.
+* Change: all icons now live in one shared library rather than being duplicated across three files, so the launcher and the channels can no longer offer different sets.
+* Fix: the floating button's icon list previously offered an "Envelope" option that had no matching icon and silently fell back to the message bubble.
+* Icons remain inline SVG using currentColor — still no icon font, no CDN, and they take their color from your icon color settings.
 
 = 1.0.5 =
 * New: Channels screen. The popup is no longer fixed at three buttons — add as many as you want, of eight types: lead form, phone call, SMS, WhatsApp, Telegram, Facebook Messenger, email, and custom link. The same type can be added more than once, so two WhatsApp numbers for two departments is just two rows.

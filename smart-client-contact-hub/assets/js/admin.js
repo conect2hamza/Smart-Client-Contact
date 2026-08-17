@@ -96,12 +96,23 @@
 			row.next( '.scch-channel-row' ).after( row );
 		} );
 
-		// Custom icon URL only matters when the icon is set to "custom".
-		$( document ).on( 'change', '.scch-channel-icon-select', function () {
-			$( this )
-				.closest( '.scch-channel-row' )
-				.find( '.scch-channel-row__custom-icon' )
-				.prop( 'hidden', 'custom' !== $( this ).val() );
+		// The custom image field only matters when "your own image" is picked.
+		$( document ).on( 'change', '.scch-iconpick__radio', function () {
+			var picker = $( this ).closest( '.scch-iconpick' );
+			picker.find( '.scch-iconpick__custom' ).prop( 'hidden', 'custom' !== $( this ).val() );
+		} );
+
+		// Choosing an image implies the custom option, and previews it.
+		$( document ).on( 'change', '.scch-iconpick__custom input[type="url"]', function () {
+			var picker = $( this ).closest( '.scch-iconpick' );
+			var url = $( this ).val();
+			var swatch = picker.find( '.scch-iconpick__opt--custom' );
+
+			picker.find( '.scch-iconpick__radio--custom' ).prop( 'checked', true );
+
+			if ( url ) {
+				swatch.html( $( '<img>' ).attr( { src: url, alt: '' } ) );
+			}
 		} );
 
 		// Dim a row that is switched off so the state reads at a glance.

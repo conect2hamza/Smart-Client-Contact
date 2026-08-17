@@ -138,24 +138,17 @@ class Design_Tokens {
 				'intro'  => __( 'The button visitors see before they open anything.', 'smart-client-contact-hub' ),
 				'fields' => array(
 					'icon'              => array(
-						'type'    => 'select',
-						'default' => 'chat-bubble',
-						'label'   => __( 'Icon', 'smart-client-contact-hub' ),
-						'options' => array(
-							'chat-bubble' => __( 'Message bubble', 'smart-client-contact-hub' ),
-							'phone'       => __( 'Phone', 'smart-client-contact-hub' ),
-							'sms'         => __( 'Message', 'smart-client-contact-hub' ),
-							'headset'     => __( 'Headset', 'smart-client-contact-hub' ),
-							'rocket'      => __( 'Rocket', 'smart-client-contact-hub' ),
-							'custom'      => __( 'Custom upload', 'smart-client-contact-hub' ),
-						),
+						'type'     => 'icon',
+						'default'  => 'chat-bubble',
+						'label'    => __( 'Icon', 'smart-client-contact-hub' ),
+						'url_key'  => 'custom_icon_url',
+						'help'     => __( 'Built-in icons are inline SVG — no icon font is loaded. Choose "your own image" to upload instead.', 'smart-client-contact-hub' ),
 					),
 					'custom_icon_url'   => array(
 						'type'    => 'url',
 						'default' => '',
 						'label'   => __( 'Custom icon', 'smart-client-contact-hub' ),
-						'media'   => true,
-						'help'    => __( 'Used when Icon is set to Custom upload.', 'smart-client-contact-hub' ),
+						'hidden'  => true,
 					),
 					'button_size'       => array(
 						'type'    => 'px',
