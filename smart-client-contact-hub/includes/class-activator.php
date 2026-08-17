@@ -20,6 +20,11 @@ class Activator {
 	public static function activate(): void {
 		self::create_tables();
 		self::seed_defaults();
+
+		// Builds the channel list from the pre-1.0.5 Contact Settings the
+		// first time, so an upgrading site keeps exactly the buttons it had.
+		Channels::maybe_migrate();
+
 		update_option( 'scch_version', SCCH_VERSION );
 	}
 

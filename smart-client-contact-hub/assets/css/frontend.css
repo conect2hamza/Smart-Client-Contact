@@ -220,7 +220,24 @@
 	background: var(--scch-cicon-bg, var(--scch-gradient, linear-gradient(135deg, var(--scch-primary, #2563eb), var(--scch-secondary, #7c3aed))));
 	color: var(--scch-cicon-color, #fff);
 }
-.scch-channel-icon svg { width: var(--scch-cicon-size, 20px); height: var(--scch-cicon-size, 20px); }
+.scch-channel-icon svg,
+.scch-channel-icon .scch-custom-icon { width: var(--scch-cicon-size, 20px); height: var(--scch-cicon-size, 20px); }
+
+/* Label plus its optional second line. */
+.scch-channel-text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+	text-align: left;
+}
+
+.scch-channel-desc {
+	font-size: var(--scch-channel-desc-fs, 12px);
+	font-weight: 400;
+	line-height: 1.35;
+	color: var(--scch-channel-desc-color, var(--scch-muted));
+}
 
 /* ---------- Form ---------- */
 

@@ -63,6 +63,52 @@
 			}
 		} );
 
+		// Channel repeater.
+		var channelIndex = $( '#scch-channel-list .scch-channel-row' ).length;
+
+		$( '#scch-add-channel' ).on( 'click', function () {
+			var type = $( '#scch-new-channel-type' ).val();
+			var tpl = $( '.scch-channel-template[data-type="' + type + '"]' ).html();
+			if ( ! tpl ) { return; }
+
+			// Templates are rendered server-side with a placeholder index so
+			// the field markup lives in one place. Swap it for a unique one.
+			var row = $( tpl.replace( /__INDEX__/g, 'new-' + channelIndex++ ) );
+			$( '#scch-channel-list' ).append( row );
+			row.find( '.scch-color' ).wpColorPicker();
+			row.find( 'input[type="text"]' ).first().trigger( 'focus' );
+			row.get( 0 ).scrollIntoView( { behavior: 'smooth', block: 'center' } );
+		} );
+
+		$( document ).on( 'click', '.scch-remove-channel', function () {
+			if ( window.confirm( scchAdmin.i18n.confirmDeleteChannel ) ) {
+				$( this ).closest( '.scch-channel-row' ).remove();
+			}
+		} );
+
+		// Reorder channel cards (the services repeater uses table rows).
+		$( document ).on( 'click', '.scch-channel-row .scch-move-up', function () {
+			var row = $( this ).closest( '.scch-channel-row' );
+			row.prev( '.scch-channel-row' ).before( row );
+		} );
+		$( document ).on( 'click', '.scch-channel-row .scch-move-down', function () {
+			var row = $( this ).closest( '.scch-channel-row' );
+			row.next( '.scch-channel-row' ).after( row );
+		} );
+
+		// Custom icon URL only matters when the icon is set to "custom".
+		$( document ).on( 'change', '.scch-channel-icon-select', function () {
+			$( this )
+				.closest( '.scch-channel-row' )
+				.find( '.scch-channel-row__custom-icon' )
+				.prop( 'hidden', 'custom' !== $( this ).val() );
+		} );
+
+		// Dim a row that is switched off so the state reads at a glance.
+		$( document ).on( 'change', '.scch-channel-enabled', function () {
+			$( this ).closest( '.scch-channel-row' ).toggleClass( 'is-off', ! this.checked );
+		} );
+
 		// Test email.
 		$( '#scch-send-test' ).on( 'click', function () {
 			var btn = $( this );

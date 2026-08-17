@@ -613,6 +613,22 @@ class Design_Tokens {
 						'label'   => __( 'Label weight', 'smart-client-contact-hub' ),
 						'options' => self::weights(),
 					),
+					'channel_desc_size'    => array(
+						'type'    => 'px',
+						'default' => 12,
+						'min'     => 8,
+						'max'     => 22,
+						'css'     => '--scch-channel-desc-fs',
+						'label'   => __( 'Small-text size', 'smart-client-contact-hub' ),
+						'help'    => __( 'The optional second line under a channel label.', 'smart-client-contact-hub' ),
+					),
+					'channel_desc_color'   => array(
+						'type'    => 'color',
+						'default' => '',
+						'empty'   => true,
+						'css'     => '--scch-channel-desc-color',
+						'label'   => __( 'Small-text color', 'smart-client-contact-hub' ),
+					),
 					'channel_hover_bg'     => array(
 						'type'    => 'color',
 						'default' => '',

@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,11 +12,22 @@ Premium floating contact widget with lead capture, built-in math CAPTCHA, lead m
 
 == Description ==
 
-Smart Client Contact Hub adds a customizable floating contact button to every page of your site. When clicked, it opens a modern popup with three options:
+Smart Client Contact Hub adds a customizable floating contact button to every page of your site. When clicked, it opens a modern popup listing the ways a visitor can reach you — you decide which, how many, what each one says, and how each one looks.
 
-1. **Get Your Strategy** — a beautiful lead form (name, phone, email, service, message) protected by a built-in math CAPTCHA.
-2. **Call Us** — instantly launches a phone call via tel: using your configured number.
-3. **Text Us** — launches SMS via sms: using your configured mobile number.
+= Contact channels =
+
+Build the popup from as many buttons as you need on the Channels screen:
+
+* **Lead form** — name, phone, email, service, message, protected by a built-in math CAPTCHA.
+* **Phone call** — launches a call with tel:.
+* **SMS** — opens the messaging app, optionally with your message pre-filled.
+* **WhatsApp** — opens wa.me, optionally with your message pre-filled.
+* **Telegram** — a @username or a full t.me link.
+* **Facebook Messenger** — a Page username or a full m.me link.
+* **Email** — opens the visitor's mail app, optionally with the subject pre-filled.
+* **Custom link** — anything else: Viber, Skype, Calendly, a booking page. Pair it with your own uploaded icon.
+
+Every button has its own editable text, an optional line of small print under it, its own icon, and its own icon color, icon tile color, and text color. Any button can be switched off without deleting it, and the order is yours to set. Add the same type more than once — two WhatsApp numbers for two departments works fine.
 
 Every submission is validated client- and server-side, stored in a custom database table, and triggers a branded notification email to the administrator plus a confirmation email to the customer.
 
@@ -76,13 +87,13 @@ Fully compatible. The submission nonce and the CAPTCHA challenge are issued per 
 = Extensibility =
 
 * `scch_render_widget` filter — hide the widget on specific pages.
-* `scch_channels` filter — register additional channels (WhatsApp, Telegram, …) without touching plugin core.
+* `scch_channels` filter — register extra channels in code; they are appended after the ones configured in the admin.
 * `scch_lead_created` action — integrate with CRMs or automation after a lead is stored.
 
 == Installation ==
 
 1. Upload the plugin ZIP via Plugins → Add New → Upload Plugin, then activate it.
-2. Go to Contact Hub → Contact Settings and add your phone and SMS numbers.
+2. Go to Contact Hub → Channels and set up the buttons you want: the lead form, a phone number, WhatsApp, and anything else.
 3. Go to Contact Hub → Services and define your service list.
 4. Go to Contact Hub → Notifications, confirm the recipient, and send a test email.
 5. The widget appears automatically on every public page.
@@ -106,6 +117,17 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.0.5 =
+* New: Channels screen. The popup is no longer fixed at three buttons — add as many as you want, of eight types: lead form, phone call, SMS, WhatsApp, Telegram, Facebook Messenger, email, and custom link. The same type can be added more than once, so two WhatsApp numbers for two departments is just two rows.
+* New: every channel has its own on/off switch. Switching one off hides the button without losing its settings.
+* New: every channel has its own editable button text plus an optional line of small print underneath it ("Replies in a few minutes").
+* New: per-channel colors — icon color, icon tile color, and text color, set on the channel itself and applying to that button only.
+* New: per-channel icon choice, including WhatsApp, Telegram, Messenger and envelope glyphs, or your own uploaded image.
+* New: channels are reordered with up/down controls, and non-form channels can open in a new tab.
+* New: two Appearance controls for the channel small print — its size and color.
+* Change: Contact Settings now holds only the popup title and intro. Phone numbers, SMS text and the three button labels moved to Channels, where they are per-channel.
+* Upgrade: your existing setup is migrated automatically on update. The three buttons keep their labels, numbers, pre-filled SMS text, and their on/off state exactly as they were. Nothing needs to be reconfigured.
 
 = 1.0.4 =
 * New: the Appearance screen is now a full design system — 117 controls across eleven tabs covering icon colors, text colors, section backgrounds, borders, buttons, typography, spacing, shadows, overlays, hover states, and a dedicated dark-mode palette. Everything the widget draws is editable without writing CSS.

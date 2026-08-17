@@ -81,7 +81,7 @@ class Ajax {
 		// The form channel can be switched off in Contact Settings. Honor that
 		// here too, so "disabled" means the endpoint refuses rather than
 		// merely hiding the button.
-		if ( ! in_array( 'form', (array) Settings::get( 'scch_contact', 'channels', array() ), true ) ) {
+		if ( ! Channels::form_enabled() ) {
 			wp_send_json_error(
 				array( 'message' => __( 'This form is not accepting submissions.', 'smart-client-contact-hub' ) ),
 				403

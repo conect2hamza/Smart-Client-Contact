@@ -7,6 +7,7 @@
 
 namespace SCCH\Admin;
 
+use SCCH\Channels;
 use SCCH\Design_Tokens;
 use SCCH\Email_Log_Repository;
 use SCCH\Email_Manager;
@@ -56,6 +57,7 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
 		add_action( 'admin_post_scch_save_settings', array( $this, 'save_settings' ) );
 		add_action( 'admin_post_scch_save_services', array( $this, 'save_services' ) );
+		add_action( 'admin_post_scch_save_channels', array( $this, 'save_channels' ) );
 		add_action( 'admin_post_scch_reset_appearance', array( $this, 'reset_appearance' ) );
 		add_action( 'admin_post_scch_lead_action', array( $this, 'handle_lead_action' ) );
 		add_action( 'wp_ajax_scch_test_email', array( $this, 'ajax_test_email' ) );
@@ -100,6 +102,7 @@ class Admin {
 			array( 'scch-leads', __( 'Leads', 'smart-client-contact-hub' ), array( $this, 'render_leads' ) ),
 			array( 'scch-appearance', __( 'Appearance', 'smart-client-contact-hub' ), $this->view_renderer( 'appearance' ) ),
 			array( 'scch-contact', __( 'Contact Settings', 'smart-client-contact-hub' ), $this->view_renderer( 'contact' ) ),
+			array( 'scch-channels', __( 'Channels', 'smart-client-contact-hub' ), $this->view_renderer( 'channels' ) ),
 			array( 'scch-form-builder', __( 'Form Builder', 'smart-client-contact-hub' ), $this->view_renderer( 'form-builder' ) ),
 			array( 'scch-services', __( 'Services', 'smart-client-contact-hub' ), $this->view_renderer( 'services' ) ),
 			array( 'scch-email-templates', __( 'Email Templates', 'smart-client-contact-hub' ), $this->view_renderer( 'email-templates' ) ),
@@ -168,6 +171,7 @@ class Admin {
 					'failed'       => __( 'Sending failed:', 'smart-client-contact-hub' ),
 					'resent'       => __( 'Email re-sent.', 'smart-client-contact-hub' ),
 					'confirmDel'   => __( 'Remove this service?', 'smart-client-contact-hub' ),
+					'confirmDeleteChannel' => __( 'Remove this channel? Switch it off instead if you only want to hide it.', 'smart-client-contact-hub' ),
 					'confirmDeleteLog' => __( 'Delete this log entry? This cannot be undone.', 'smart-client-contact-hub' ),
 					'deleting'     => __( 'Deleting…', 'smart-client-contact-hub' ),
 					'deleteFailed' => __( 'Delete failed:', 'smart-client-contact-hub' ),
@@ -332,6 +336,23 @@ class Admin {
 	}
 
 	/**
+	 * Persist the contact channel list. Row order is the submitted order.
+	 */
+	public function save_channels(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Insufficient permissions.', 'smart-client-contact-hub' ) );
+		}
+		check_admin_referer( 'scch_save_channels' );
+
+		$rows = isset( $_POST['channels'] ) && is_array( $_POST['channels'] ) ? wp_unslash( $_POST['channels'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized in Channels::sanitize().
+
+		update_option( Channels::OPTION, Channels::sanitize( $rows ) );
+		Settings::flush_cache();
+
+		$this->redirect_back( 'saved' );
+	}
+
+	/**
 	 * Restore every Appearance value to its shipped default.
 	 */
 	public function reset_appearance(): void {
@@ -489,18 +510,30 @@ class Admin {
 				return $this->sanitize_tokens( $raw );
 
 			case 'scch_contact':
-				$channels = array_values( array_intersect( array( 'form', 'call', 'sms' ), (array) ( $raw['channels'] ?? array() ) ) );
-				return array(
-					'phone_number' => preg_replace( '/[^0-9+]/', '', (string) ( $raw['phone_number'] ?? '' ) ),
-					'sms_number'   => preg_replace( '/[^0-9+]/', '', (string) ( $raw['sms_number'] ?? '' ) ),
-					'sms_body'     => sanitize_text_field( $raw['sms_body'] ?? '' ),
-					'panel_title'  => sanitize_text_field( $raw['panel_title'] ?? $current['panel_title'] ),
-					'panel_intro'  => sanitize_text_field( $raw['panel_intro'] ?? $current['panel_intro'] ),
-					'cta_strategy' => sanitize_text_field( $raw['cta_strategy'] ?? $current['cta_strategy'] ),
-					'cta_call'     => sanitize_text_field( $raw['cta_call'] ?? $current['cta_call'] ),
-					'cta_text'     => sanitize_text_field( $raw['cta_text'] ?? $current['cta_text'] ),
-					'channels'     => $channels ? $channels : array( 'form' ),
-				);
+				// Merged per key rather than rebuilt. Since 1.0.5 the channel
+				// fields live on the Channels screen and are not posted from
+				// here; rebuilding would wipe the values the one-time channel
+				// migration reads.
+				$clean = $current;
+
+				foreach ( array( 'panel_title', 'panel_intro', 'cta_strategy', 'cta_call', 'cta_text', 'sms_body' ) as $key ) {
+					if ( array_key_exists( $key, $raw ) ) {
+						$clean[ $key ] = sanitize_text_field( $raw[ $key ] );
+					}
+				}
+
+				foreach ( array( 'phone_number', 'sms_number' ) as $key ) {
+					if ( array_key_exists( $key, $raw ) ) {
+						$clean[ $key ] = preg_replace( '/[^0-9+]/', '', (string) $raw[ $key ] );
+					}
+				}
+
+				if ( array_key_exists( 'channels', $raw ) ) {
+					$channels          = array_values( array_intersect( array( 'form', 'call', 'sms' ), (array) $raw['channels'] ) );
+					$clean['channels'] = $channels ? $channels : array( 'form' );
+				}
+
+				return $clean;
 
 			case 'scch_form':
 				$fields = array();

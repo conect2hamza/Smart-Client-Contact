@@ -34,6 +34,7 @@ if ( ! empty( $scch_uninstall['delete_settings'] ) ) {
 		'scch_general',
 		'scch_uninstall',
 		'scch_services',
+		'scch_channel_items',
 		'scch_version',
 		'scch_flush_needed', // Retired in 1.0.3; removed here for older installs.
 	);

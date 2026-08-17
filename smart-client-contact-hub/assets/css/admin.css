@@ -97,3 +97,55 @@
 
 /* Keep long color-picker stacks from becoming a single tall column. */
 .scch-appearance .wp-picker-container { vertical-align: middle; }
+
+/* ---------- Channels screen ---------- */
+
+.scch-channels__intro { max-width: 70ch; margin: .5em 0 1.5em; }
+
+.scch-channel-row {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	margin: 0 0 12px;
+	padding: 12px 16px 4px;
+	max-width: 900px;
+}
+
+.scch-channel-row.is-off { opacity: .62; }
+
+.scch-channel-row__bar {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.scch-channel-row__handle { display: inline-flex; gap: 4px; }
+.scch-channel-row__type { font-size: 14px; }
+.scch-channel-row__toggle { display: inline-flex; align-items: center; gap: 6px; }
+.scch-channel-row__bar .scch-remove-channel { margin-left: auto; }
+.scch-channel-row__help { margin: 8px 0 0; }
+
+.scch-channel-row__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 0 24px;
+	margin-top: 4px;
+}
+
+.scch-channel-row .scch-f { margin: 12px 0; }
+.scch-channel-row .scch-f label { display: block; margin-bottom: 4px; font-weight: 600; }
+.scch-channel-row .scch-f input[type="text"],
+.scch-channel-row .scch-f input[type="url"],
+.scch-channel-row .scch-f select { width: 100%; max-width: 100%; }
+.scch-channel-row .scch-f--check label { font-weight: 400; }
+.scch-channel-row .scch-f__inline { display: flex; gap: 6px; align-items: center; }
+.scch-channel-row .scch-f__inline input { flex: 1 1 auto; }
+
+/* The color picker injects its own wrapper; keep it from stretching. */
+.scch-channel-row .scch-f .wp-picker-container { display: inline-block; }
+.scch-channel-row .scch-f .wp-color-result.button { margin-bottom: 0; }
+
+.scch-channels__add { margin: 18px 0; display: flex; gap: 8px; align-items: center; }

@@ -19,7 +19,7 @@ $scch_u = Settings::group( 'scch_uninstall' );
 
 	<h2><?php esc_html_e( 'Getting started', 'smart-client-contact-hub' ); ?></h2>
 	<ol>
-		<li><?php esc_html_e( 'Contact Settings — add the phone number for "Call Us" and the mobile number for "Text Us".', 'smart-client-contact-hub' ); ?></li>
+		<li><?php esc_html_e( 'Channels — set up the buttons visitors see: the lead form, a phone number, WhatsApp, Telegram, email, or any custom link.', 'smart-client-contact-hub' ); ?></li>
 		<li><?php esc_html_e( 'Services — define the options for the "Select Service" dropdown.', 'smart-client-contact-hub' ); ?></li>
 		<li><?php esc_html_e( 'Notifications — confirm the recipient address and send yourself a test email.', 'smart-client-contact-hub' ); ?></li>
 		<li><?php esc_html_e( 'Appearance — match the widget to your brand. The widget then shows automatically on every public page.', 'smart-client-contact-hub' ); ?></li>
@@ -33,12 +33,22 @@ $scch_u = Settings::group( 'scch_uninstall' );
 	<pre><code>add_filter( 'scch_render_widget', fn( $show ) =&gt; is_page( 'checkout' ) ? false : $show );</code></pre>
 
 	<h2><?php esc_html_e( 'Adding channels (WhatsApp, Telegram, …)', 'smart-client-contact-hub' ); ?></h2>
-	<p><?php esc_html_e( 'Extra contact channels can be registered with the scch_channels filter without modifying plugin core:', 'smart-client-contact-hub' ); ?></p>
+	<p>
+		<?php
+		printf(
+			/* translators: %s: Channels admin URL. */
+			wp_kses_post( __( 'No code needed: add WhatsApp, Telegram, Messenger, email, or any custom link on the <a href="%s">Channels</a> screen. Each button has its own text, small print, destination, icon, and colors, and can be switched off without deleting it.', 'smart-client-contact-hub' ) ),
+			esc_url( admin_url( 'admin.php?page=scch-channels' ) )
+		);
+		?>
+	</p>
+	<p><?php esc_html_e( 'Channels can also be registered in code with the scch_channels filter. These are appended after the ones configured in the admin:', 'smart-client-contact-hub' ); ?></p>
 	<pre><code>add_filter( 'scch_channels', function ( $channels ) {
 	$channels[] = array(
 		'id'    =&gt; 'whatsapp',
 		'label' =&gt; 'WhatsApp',
 		'url'   =&gt; 'https://wa.me/15550001234',
+		'description' =&gt; 'Chat with us now',
 		'icon'  =&gt; '&lt;svg …&gt;&lt;/svg&gt;',
 	);
 	return $channels;

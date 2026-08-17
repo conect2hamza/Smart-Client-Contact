@@ -9,7 +9,8 @@
  * @var array      $form       Form settings.
  * @var array      $fields     Enabled, ordered form fields.
  * @var array      $services   Services list.
- * @var array|null $captcha    {token, question} or null when disabled.
+ * @var array      $channels   Enabled channels, in display order.
+ * @var bool       $captcha    Whether the CAPTCHA field renders.
  *
  * @package SCCH
  */
@@ -20,10 +21,13 @@ defined( 'ABSPATH' ) || exit;
 
 $scch_position  = 'bottom-left' === $appearance['position'] ? 'scch-pos-left' : 'scch-pos-right';
 $scch_animation = in_array( $appearance['animation'], array( 'fade', 'scale', 'bounce', 'pulse', 'none' ), true ) ? $appearance['animation'] : 'none';
-$scch_channels  = (array) $contact['channels'];
-$scch_tel       = preg_replace( '/[^0-9+]/', '', (string) $contact['phone_number'] );
-$scch_sms       = preg_replace( '/[^0-9+]/', '', (string) $contact['sms_number'] );
-$scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_body'] ) ? '?&body=' . rawurlencode( $contact['sms_body'] ) : '' );
+$scch_has_form  = false;
+foreach ( $channels as $scch_row ) {
+	if ( 'form' === $scch_row['type'] ) {
+		$scch_has_form = true;
+		break;
+	}
+}
 ?>
 <div id="scch-root" class="scch-root <?php echo esc_attr( $scch_position ); ?>" data-animation="<?php echo esc_attr( $scch_animation ); ?>"<?php echo 'light' === ( $appearance['dark_mode'] ?? 'auto' ) ? ' data-forced-light' : ''; ?>>
 
@@ -49,50 +53,65 @@ $scch_sms_href  = 'sms:' . $scch_sms . ( '' !== trim( (string) $contact['sms_bod
 
 		<!-- Step 1: channel choice -->
 		<div class="scch-view scch-view-channels" data-scch-view="channels">
-			<?php if ( in_array( 'form', $scch_channels, true ) ) : ?>
-				<button type="button" class="scch-channel" data-scch-goto="form">
-					<span class="scch-channel-icon"><?php echo Frontend::icon( 'rocket' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
-					<span class="scch-channel-label"><?php echo esc_html( $contact['cta_strategy'] ); ?></span>
-				</button>
-			<?php endif; ?>
-
-			<?php if ( in_array( 'call', $scch_channels, true ) && $scch_tel ) : ?>
-				<a class="scch-channel" href="<?php echo esc_url( 'tel:' . $scch_tel ); ?>">
-					<span class="scch-channel-icon"><?php echo Frontend::icon( 'phone' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
-					<span class="scch-channel-label"><?php echo esc_html( $contact['cta_call'] ); ?></span>
-				</a>
-			<?php endif; ?>
-
-			<?php if ( in_array( 'sms', $scch_channels, true ) && $scch_sms ) : ?>
-				<a class="scch-channel" href="<?php echo esc_url( $scch_sms_href ); ?>">
-					<span class="scch-channel-icon"><?php echo Frontend::icon( 'sms' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
-					<span class="scch-channel-label"><?php echo esc_html( $contact['cta_text'] ); ?></span>
-				</a>
-			<?php endif; ?>
-
 			<?php
-			/**
-			 * Extra contact channels (e.g. WhatsApp, Telegram) registered
-			 * without modifying plugin core. Each entry:
-			 * array{ id:string, label:string, url:string, icon?:string (inline SVG) }
-			 *
-			 * @param array $extra_channels Default empty.
-			 */
-			$scch_extra = apply_filters( 'scch_channels', array() );
-			foreach ( (array) $scch_extra as $scch_channel ) :
-				if ( empty( $scch_channel['label'] ) || empty( $scch_channel['url'] ) ) {
-					continue;
+			foreach ( $channels as $scch_channel ) :
+				/*
+				 * Per-channel colors ride on the same custom properties the
+				 * stylesheet already reads, so an override here cascades to
+				 * that one button without any extra rules. Only validated hex
+				 * values reach this attribute.
+				 */
+				$scch_style = '';
+				foreach ( array(
+					'--scch-cicon-bg'      => $scch_channel['icon_bg'],
+					'--scch-cicon-color'   => $scch_channel['icon_color'],
+					'--scch-channel-text'  => $scch_channel['text_color'],
+				) as $scch_prop => $scch_val ) {
+					if ( '' !== (string) $scch_val ) {
+						$scch_style .= $scch_prop . ':' . $scch_val . ';';
+					}
 				}
+
+				$scch_classes = 'scch-channel scch-channel--' . sanitize_html_class( $scch_channel['id'] ?: $scch_channel['type'] );
+				$scch_is_form = 'form' === $scch_channel['type'];
+				$scch_ext     = ! $scch_is_form && preg_match( '#^https?://#i', (string) $scch_channel['url'] );
 				?>
-				<a class="scch-channel scch-channel--<?php echo esc_attr( sanitize_html_class( $scch_channel['id'] ?? 'custom' ) ); ?>" href="<?php echo esc_url( $scch_channel['url'] ); ?>">
-					<span class="scch-channel-icon"><?php echo isset( $scch_channel['icon'] ) ? wp_kses( $scch_channel['icon'], Frontend::svg_kses() ) : Frontend::icon( 'chat-bubble' ); // phpcs:ignore WordPress.Security.EscapeOutput -- kses-filtered SVG / static inline SVG. ?></span>
-					<span class="scch-channel-label"><?php echo esc_html( $scch_channel['label'] ); ?></span>
-				</a>
+				<?php if ( $scch_is_form ) : ?>
+					<button type="button" class="<?php echo esc_attr( $scch_classes ); ?>" data-scch-goto="form"
+						<?php echo '' !== $scch_style ? 'style="' . esc_attr( $scch_style ) . '"' : ''; ?>>
+				<?php else : ?>
+					<a class="<?php echo esc_attr( $scch_classes ); ?>" href="<?php echo esc_url( $scch_channel['url'] ); ?>"
+						<?php echo $scch_ext && ! empty( $scch_channel['new_tab'] ) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>
+						<?php echo '' !== $scch_style ? 'style="' . esc_attr( $scch_style ) . '"' : ''; ?>>
+				<?php endif; ?>
+
+					<span class="scch-channel-icon">
+						<?php
+						if ( ! empty( $scch_channel['raw_icon'] ) ) {
+							// Inline SVG supplied through the scch_channels filter.
+							echo wp_kses( $scch_channel['raw_icon'], Frontend::svg_kses() ); // phpcs:ignore WordPress.Security.EscapeOutput -- kses-filtered SVG.
+						} else {
+							echo Frontend::icon( $scch_channel['icon'], $scch_channel['icon_url'] ); // phpcs:ignore WordPress.Security.EscapeOutput -- static inline SVG / escaped img.
+						}
+						?>
+					</span>
+					<span class="scch-channel-text">
+						<span class="scch-channel-label"><?php echo esc_html( $scch_channel['label'] ); ?></span>
+						<?php if ( '' !== trim( (string) $scch_channel['description'] ) ) : ?>
+							<span class="scch-channel-desc"><?php echo esc_html( $scch_channel['description'] ); ?></span>
+						<?php endif; ?>
+					</span>
+
+				<?php if ( $scch_is_form ) : ?>
+					</button>
+				<?php else : ?>
+					</a>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		</div>
 
 		<!-- Step 2: strategy form. Omitted entirely when the form channel is off. -->
-		<?php if ( in_array( 'form', $scch_channels, true ) ) : ?>
+		<?php if ( $scch_has_form ) : ?>
 		<div class="scch-view scch-view-form" data-scch-view="form" hidden>
 			<button type="button" class="scch-back" data-scch-goto="channels">&larr; <?php esc_html_e( 'Back', 'smart-client-contact-hub' ); ?></button>
 			<h3 class="scch-form-title"><?php echo esc_html( $form['form_title'] ); ?></h3>
