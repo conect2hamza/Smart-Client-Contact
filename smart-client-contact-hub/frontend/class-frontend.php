@@ -208,11 +208,13 @@ class Frontend {
 
 		// Submit hover: emitted only when set, so the default brightness
 		// effect survives otherwise. filter:none keeps a chosen color exact.
-		$hover_bg   = $this->hex( $a['submit_hover_bg'] ?? '', '' );
-		$hover_text = $this->hex( $a['submit_hover_text'] ?? '', '' );
-		if ( '' !== $hover_bg || '' !== $hover_text ) {
-			$rules = '' !== $hover_bg ? 'background:' . $hover_bg . ';filter:none;' : '';
+		$hover_bg     = $this->hex( $a['submit_hover_bg'] ?? '', '' );
+		$hover_text   = $this->hex( $a['submit_hover_text'] ?? '', '' );
+		$hover_border = $this->hex( $a['submit_hover_border'] ?? '', '' );
+		if ( '' !== $hover_bg || '' !== $hover_text || '' !== $hover_border ) {
+			$rules  = '' !== $hover_bg ? 'background:' . $hover_bg . ';filter:none;' : '';
 			$rules .= '' !== $hover_text ? 'color:' . $hover_text . ';' : '';
+			$rules .= '' !== $hover_border ? 'border-color:' . $hover_border . ';' : '';
 			$css   .= '.scch-root .scch-submit:hover:not(:disabled){' . $rules . '}';
 		}
 

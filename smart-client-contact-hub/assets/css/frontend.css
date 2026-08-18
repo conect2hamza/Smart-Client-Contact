@@ -436,7 +436,9 @@
 	font-size: var(--scch-submit-fs, 15px);
 	font-weight: var(--scch-submit-fw, 700);
 	cursor: pointer;
-	transition: filter .15s ease, transform .15s ease;
+	/* Background and color are listed so a chosen hover color eases in
+	   rather than snapping; filter covers the default brightness lift. */
+	transition: filter .15s ease, transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
 }
 .scch-submit:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
 .scch-submit:disabled { opacity: .65; cursor: wait; }

@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Client Contact Hub 1.2.1\n"
+"Project-Id-Version: Smart Client Contact Hub 1.2.2\n"
 "Report-Msgid-Bugs-To: https://hamzadezinr.com/smart-client-contact-hub\n"
-"POT-Creation-Date: 2026-08-18 15:32+0000\n"
+"POT-Creation-Date: 2026-08-18 16:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2016,7 +2016,7 @@ msgstr ""
 msgid "A @username, or a full t.me link."
 msgstr ""
 
-#: includes/class-design-tokens.php:1028
+#: includes/class-design-tokens.php:1035
 msgid "Channel button background"
 msgstr ""
 
@@ -2024,28 +2024,28 @@ msgstr ""
 msgid "Brand Colors"
 msgstr ""
 
-#: includes/class-design-tokens.php:1042
+#: includes/class-design-tokens.php:1049
 msgid "Regular (400)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1043
-msgid "Medium (500)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1044
-msgid "Semibold (600)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1045
-msgid "Bold (700)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1046
-msgid "Extrabold (800)"
 msgstr ""
 
 #: includes/class-design-tokens.php:105
 msgid "The two colors every gradient and accent in the widget is derived from. Individual elements below can override them."
+msgstr ""
+
+#: includes/class-design-tokens.php:1050
+msgid "Medium (500)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1051
+msgid "Semibold (600)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1052
+msgid "Bold (700)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1053
+msgid "Extrabold (800)"
 msgstr ""
 
 #: includes/class-design-tokens.php:111
@@ -2120,13 +2120,13 @@ msgstr ""
 
 #: includes/class-design-tokens.php:210
 #: includes/class-design-tokens.php:553
-#: includes/class-design-tokens.php:929
+#: includes/class-design-tokens.php:936
 msgid "Border width"
 msgstr ""
 
 #: includes/class-design-tokens.php:217
 #: includes/class-design-tokens.php:560
-#: includes/class-design-tokens.php:936
+#: includes/class-design-tokens.php:943
 msgid "Border color"
 msgstr ""
 
@@ -2196,27 +2196,27 @@ msgstr ""
 
 #: includes/class-design-tokens.php:320
 #: includes/class-design-tokens.php:568
-#: includes/class-design-tokens.php:898
+#: includes/class-design-tokens.php:905
 msgid "Corner radius"
 msgstr ""
 
 #: includes/class-design-tokens.php:326
-#: includes/class-design-tokens.php:993
+#: includes/class-design-tokens.php:1000
 msgid "Panel background"
 msgstr ""
 
 #: includes/class-design-tokens.php:332
-#: includes/class-design-tokens.php:1000
+#: includes/class-design-tokens.php:1007
 msgid "Body text color"
 msgstr ""
 
 #: includes/class-design-tokens.php:338
-#: includes/class-design-tokens.php:1007
+#: includes/class-design-tokens.php:1014
 msgid "Muted text color"
 msgstr ""
 
 #: includes/class-design-tokens.php:344
-#: includes/class-design-tokens.php:1014
+#: includes/class-design-tokens.php:1021
 msgid "Divider / border color"
 msgstr ""
 
@@ -2278,7 +2278,6 @@ msgstr ""
 
 #: includes/class-design-tokens.php:433
 #: includes/class-design-tokens.php:661
-#: includes/class-design-tokens.php:871
 msgid "Leave empty to use the brand gradient."
 msgstr ""
 
@@ -2412,6 +2411,7 @@ msgid "Launcher animation"
 msgstr ""
 
 #: includes/class-design-tokens.php:637
+#: includes/class-design-tokens.php:896
 msgid "Border color on hover"
 msgstr ""
 
@@ -2509,7 +2509,7 @@ msgid "Space between fields"
 msgstr ""
 
 #: includes/class-design-tokens.php:772
-#: includes/class-design-tokens.php:1021
+#: includes/class-design-tokens.php:1028
 msgid "Input background"
 msgstr ""
 
@@ -2577,23 +2577,31 @@ msgstr ""
 msgid "Raise this if another fixed element covers the widget."
 msgstr ""
 
+#: includes/class-design-tokens.php:871
+msgid "The resting color. Leave empty to use the brand gradient instead of a flat color."
+msgstr ""
+
 #: includes/class-design-tokens.php:884
 msgid "Leave empty to keep the default brightness effect."
 msgstr ""
 
-#: includes/class-design-tokens.php:906
-msgid "Padding"
+#: includes/class-design-tokens.php:897
+msgid "Only visible once the border width below is above zero."
 msgstr ""
 
-#: includes/class-design-tokens.php:914
-msgid "Text size"
+#: includes/class-design-tokens.php:913
+msgid "Padding"
 msgstr ""
 
 #: includes/class-design-tokens.php:92
 msgid "Color scheme"
 msgstr ""
 
-#: includes/class-design-tokens.php:920
+#: includes/class-design-tokens.php:921
+msgid "Text size"
+msgstr ""
+
+#: includes/class-design-tokens.php:927
 msgid "Text weight"
 msgstr ""
 
@@ -2601,47 +2609,47 @@ msgstr ""
 msgid "Follow visitor preference"
 msgstr ""
 
-#: includes/class-design-tokens.php:943
-msgid "Messages & Success"
-msgstr ""
-
-#: includes/class-design-tokens.php:944
-msgid "Validation errors and the confirmation step."
-msgstr ""
-
 #: includes/class-design-tokens.php:95
 msgid "Always light"
 msgstr ""
 
 #: includes/class-design-tokens.php:950
-msgid "Error color"
+msgid "Messages & Success"
 msgstr ""
 
-#: includes/class-design-tokens.php:956
-msgid "Success color"
+#: includes/class-design-tokens.php:951
+msgid "Validation errors and the confirmation step."
+msgstr ""
+
+#: includes/class-design-tokens.php:957
+msgid "Error color"
 msgstr ""
 
 #: includes/class-design-tokens.php:96
 msgid "Always dark"
 msgstr ""
 
-#: includes/class-design-tokens.php:962
+#: includes/class-design-tokens.php:963
+msgid "Success color"
+msgstr ""
+
+#: includes/class-design-tokens.php:969
 msgid "Success check color"
 msgstr ""
 
-#: includes/class-design-tokens.php:970
+#: includes/class-design-tokens.php:977
 msgid "Success circle size"
 msgstr ""
 
-#: includes/class-design-tokens.php:978
+#: includes/class-design-tokens.php:985
 msgid "Success message size"
 msgstr ""
 
-#: includes/class-design-tokens.php:985
+#: includes/class-design-tokens.php:992
 msgid "Dark Mode Palette"
 msgstr ""
 
-#: includes/class-design-tokens.php:986
+#: includes/class-design-tokens.php:993
 msgid "Used when the color scheme above is \"Always dark\", or \"Follow visitor preference\" and the visitor's device is in dark mode. Leave a color empty to keep the built-in dark value."
 msgstr ""
 

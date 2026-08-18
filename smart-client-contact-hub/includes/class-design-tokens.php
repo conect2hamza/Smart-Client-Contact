@@ -868,7 +868,7 @@ class Design_Tokens {
 						'empty'   => true,
 						'css'     => '--scch-submit-bg',
 						'label'   => __( 'Background', 'smart-client-contact-hub' ),
-						'help'    => __( 'Leave empty to use the brand gradient.', 'smart-client-contact-hub' ),
+						'help'    => __( 'The resting color. Leave empty to use the brand gradient instead of a flat color.', 'smart-client-contact-hub' ),
 					),
 					'submit_text'        => array(
 						'type'    => 'color',
@@ -888,6 +888,13 @@ class Design_Tokens {
 						'default' => '',
 						'empty'   => true,
 						'label'   => __( 'Text color on hover', 'smart-client-contact-hub' ),
+					),
+					'submit_hover_border' => array(
+						'type'    => 'color',
+						'default' => '',
+						'empty'   => true,
+						'label'   => __( 'Border color on hover', 'smart-client-contact-hub' ),
+						'help'    => __( 'Only visible once the border width below is above zero.', 'smart-client-contact-hub' ),
 					),
 					'submit_radius'      => array(
 						'type'    => 'px',

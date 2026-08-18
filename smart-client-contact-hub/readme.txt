@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,11 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.2.2 =
+* New: border color on hover for the submit button, completing the set alongside the background, text and border colors it already had for both states.
+* Fix: a chosen submit hover color snapped into place instead of easing, because only the brightness filter and the lift were being transitioned. Background, text and border now ease like the rest of the widget.
+* Clearer wording on the submit background control: it is the resting color, and leaving it empty is what selects the brand gradient rather than a flat color.
 
 = 1.2.1 =
 * New: hover colors for the channel buttons. Text, small text, icon, and icon tile each take their own hover color, both globally in Appearance → Channels and per button on the Channels screen, alongside the background and border hover colors that were already there.
