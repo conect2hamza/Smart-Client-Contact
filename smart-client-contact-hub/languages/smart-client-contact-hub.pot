@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Client Contact Hub 1.2.0\n"
+"Project-Id-Version: Smart Client Contact Hub 1.2.1\n"
 "Report-Msgid-Bugs-To: https://hamzadezinr.com/smart-client-contact-hub\n"
-"POT-Creation-Date: 2026-08-18 15:20+0000\n"
+"POT-Creation-Date: 2026-08-18 15:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -650,36 +650,55 @@ msgstr ""
 
 #: admin/views/channels.php:102
 #: includes/class-design-tokens.php:187
-#: includes/class-design-tokens.php:652
+#: includes/class-design-tokens.php:667
 msgid "Icon color"
 msgstr ""
 
 #: admin/views/channels.php:107
-#: includes/class-design-tokens.php:848
+#: includes/class-design-tokens.php:877
 msgid "Text color"
 msgstr ""
 
-#: admin/views/channels.php:116
-msgid "Open in a new tab"
+#: admin/views/channels.php:112
+msgid "Icon tile color on hover"
 msgstr ""
 
-#: admin/views/channels.php:128
-msgid "Contact Channels"
+#: admin/views/channels.php:117
+#: includes/class-design-tokens.php:194
+#: includes/class-design-tokens.php:681
+msgid "Icon color on hover"
+msgstr ""
+
+#: admin/views/channels.php:122
+#: includes/class-design-tokens.php:890
+msgid "Text color on hover"
+msgstr ""
+
+#: admin/views/channels.php:124
+msgid "Leave any hover color empty and that part stays as it is when hovered."
 msgstr ""
 
 #: admin/views/channels.php:132
+msgid "Open in a new tab"
+msgstr ""
+
+#: admin/views/channels.php:144
+msgid "Contact Channels"
+msgstr ""
+
+#: admin/views/channels.php:148
 msgid "These are the buttons visitors see when they open the popup. Add as many as you like, rename any of them, switch one off without deleting it, and drag the order with the arrows. Colors set here apply to that button only."
 msgstr ""
 
-#: admin/views/channels.php:146
+#: admin/views/channels.php:162
 msgid "Channel type to add"
 msgstr ""
 
-#: admin/views/channels.php:152
+#: admin/views/channels.php:168
 msgid "+ Add channel"
 msgstr ""
 
-#: admin/views/channels.php:155
+#: admin/views/channels.php:171
 msgid "Save Channels"
 msgstr ""
 
@@ -1997,28 +2016,32 @@ msgstr ""
 msgid "A @username, or a full t.me link."
 msgstr ""
 
-#: includes/class-design-tokens.php:1013
-msgid "Regular (400)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1014
-msgid "Medium (500)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1015
-msgid "Semibold (600)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1016
-msgid "Bold (700)"
-msgstr ""
-
-#: includes/class-design-tokens.php:1017
-msgid "Extrabold (800)"
+#: includes/class-design-tokens.php:1028
+msgid "Channel button background"
 msgstr ""
 
 #: includes/class-design-tokens.php:104
 msgid "Brand Colors"
+msgstr ""
+
+#: includes/class-design-tokens.php:1042
+msgid "Regular (400)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1043
+msgid "Medium (500)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1044
+msgid "Semibold (600)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1045
+msgid "Bold (700)"
+msgstr ""
+
+#: includes/class-design-tokens.php:1046
+msgid "Extrabold (800)"
 msgstr ""
 
 #: includes/class-design-tokens.php:105
@@ -2079,16 +2102,12 @@ msgstr ""
 
 #: includes/class-design-tokens.php:180
 #: includes/class-design-tokens.php:630
-#: includes/class-design-tokens.php:854
+#: includes/class-design-tokens.php:883
 msgid "Background on hover"
 msgstr ""
 
 #: includes/class-design-tokens.php:181
 msgid "Leave empty to keep the normal background."
-msgstr ""
-
-#: includes/class-design-tokens.php:194
-msgid "Icon color on hover"
 msgstr ""
 
 #: includes/class-design-tokens.php:202
@@ -2101,13 +2120,13 @@ msgstr ""
 
 #: includes/class-design-tokens.php:210
 #: includes/class-design-tokens.php:553
-#: includes/class-design-tokens.php:900
+#: includes/class-design-tokens.php:929
 msgid "Border width"
 msgstr ""
 
 #: includes/class-design-tokens.php:217
 #: includes/class-design-tokens.php:560
-#: includes/class-design-tokens.php:907
+#: includes/class-design-tokens.php:936
 msgid "Border color"
 msgstr ""
 
@@ -2177,27 +2196,27 @@ msgstr ""
 
 #: includes/class-design-tokens.php:320
 #: includes/class-design-tokens.php:568
-#: includes/class-design-tokens.php:869
+#: includes/class-design-tokens.php:898
 msgid "Corner radius"
 msgstr ""
 
 #: includes/class-design-tokens.php:326
-#: includes/class-design-tokens.php:964
+#: includes/class-design-tokens.php:993
 msgid "Panel background"
 msgstr ""
 
 #: includes/class-design-tokens.php:332
-#: includes/class-design-tokens.php:971
+#: includes/class-design-tokens.php:1000
 msgid "Body text color"
 msgstr ""
 
 #: includes/class-design-tokens.php:338
-#: includes/class-design-tokens.php:978
+#: includes/class-design-tokens.php:1007
 msgid "Muted text color"
 msgstr ""
 
 #: includes/class-design-tokens.php:344
-#: includes/class-design-tokens.php:985
+#: includes/class-design-tokens.php:1014
 msgid "Divider / border color"
 msgstr ""
 
@@ -2258,8 +2277,8 @@ msgid "Header background"
 msgstr ""
 
 #: includes/class-design-tokens.php:433
-#: includes/class-design-tokens.php:646
-#: includes/class-design-tokens.php:842
+#: includes/class-design-tokens.php:661
+#: includes/class-design-tokens.php:871
 msgid "Leave empty to use the brand gradient."
 msgstr ""
 
@@ -2332,7 +2351,7 @@ msgid "The stacked choices on the first step — the form, call, and text option
 msgstr ""
 
 #: includes/class-design-tokens.php:537
-#: includes/class-design-tokens.php:841
+#: includes/class-design-tokens.php:870
 msgid "Background"
 msgstr ""
 
@@ -2397,16 +2416,24 @@ msgid "Border color on hover"
 msgstr ""
 
 #: includes/class-design-tokens.php:638
-#: includes/class-design-tokens.php:812
+#: includes/class-design-tokens.php:841
 msgid "Leave empty to use the primary color."
 msgstr ""
 
 #: includes/class-design-tokens.php:645
-msgid "Icon tile background"
+msgid "Label color on hover"
+msgstr ""
+
+#: includes/class-design-tokens.php:646
+msgid "Leave empty to keep the normal label color."
 msgstr ""
 
 #: includes/class-design-tokens.php:65
 msgid "Pulse"
+msgstr ""
+
+#: includes/class-design-tokens.php:653
+msgid "Small-text color on hover"
 msgstr ""
 
 #: includes/class-design-tokens.php:66
@@ -2414,208 +2441,208 @@ msgid "Bounce"
 msgstr ""
 
 #: includes/class-design-tokens.php:660
-msgid "Icon tile size"
-msgstr ""
-
-#: includes/class-design-tokens.php:668
-msgid "Icon glyph size"
+msgid "Icon tile background"
 msgstr ""
 
 #: includes/class-design-tokens.php:67
 msgid "Scale in"
 msgstr ""
 
-#: includes/class-design-tokens.php:676
-msgid "Icon tile radius"
+#: includes/class-design-tokens.php:674
+msgid "Icon tile background on hover"
 msgstr ""
 
 #: includes/class-design-tokens.php:68
 msgid "Fade in"
 msgstr ""
 
-#: includes/class-design-tokens.php:683
-msgid "Form Fields"
-msgstr ""
-
-#: includes/class-design-tokens.php:684
-msgid "Labels, inputs, and the CAPTCHA row on the lead form."
+#: includes/class-design-tokens.php:689
+msgid "Icon tile size"
 msgstr ""
 
 #: includes/class-design-tokens.php:69
 msgid "None"
 msgstr ""
 
-#: includes/class-design-tokens.php:692
-msgid "Form title size"
+#: includes/class-design-tokens.php:697
+msgid "Icon glyph size"
 msgstr ""
 
-#: includes/class-design-tokens.php:698
-msgid "Form title weight"
+#: includes/class-design-tokens.php:705
+msgid "Icon tile radius"
 msgstr ""
 
-#: includes/class-design-tokens.php:706
-msgid "\"Back\" link color"
+#: includes/class-design-tokens.php:712
+msgid "Form Fields"
 msgstr ""
 
 #: includes/class-design-tokens.php:713
-msgid "Field label color"
+msgid "Labels, inputs, and the CAPTCHA row on the lead form."
 msgstr ""
 
 #: includes/class-design-tokens.php:721
-msgid "Field label size"
+msgid "Form title size"
 msgstr ""
 
 #: includes/class-design-tokens.php:727
-msgid "Field label weight"
+msgid "Form title weight"
 msgstr ""
 
-#: includes/class-design-tokens.php:736
-msgid "Space between fields"
+#: includes/class-design-tokens.php:735
+msgid "\"Back\" link color"
 msgstr ""
 
-#: includes/class-design-tokens.php:743
-#: includes/class-design-tokens.php:992
-msgid "Input background"
+#: includes/class-design-tokens.php:742
+msgid "Field label color"
 msgstr ""
 
 #: includes/class-design-tokens.php:750
-msgid "Input text color"
+msgid "Field label size"
 msgstr ""
 
-#: includes/class-design-tokens.php:757
-msgid "Placeholder color"
+#: includes/class-design-tokens.php:756
+msgid "Field label weight"
 msgstr ""
 
 #: includes/class-design-tokens.php:765
-msgid "Input border width"
+msgid "Space between fields"
 msgstr ""
 
 #: includes/class-design-tokens.php:772
-msgid "Input border color"
+#: includes/class-design-tokens.php:1021
+msgid "Input background"
+msgstr ""
+
+#: includes/class-design-tokens.php:779
+msgid "Input text color"
 msgstr ""
 
 #: includes/class-design-tokens.php:78
 msgid "Distance from screen edge"
 msgstr ""
 
-#: includes/class-design-tokens.php:780
+#: includes/class-design-tokens.php:786
+msgid "Placeholder color"
+msgstr ""
+
+#: includes/class-design-tokens.php:794
+msgid "Input border width"
+msgstr ""
+
+#: includes/class-design-tokens.php:801
+msgid "Input border color"
+msgstr ""
+
+#: includes/class-design-tokens.php:809
 msgid "Input corner radius"
 msgstr ""
 
-#: includes/class-design-tokens.php:788
+#: includes/class-design-tokens.php:817
 msgid "Input padding (vertical)"
 msgstr ""
 
-#: includes/class-design-tokens.php:796
+#: includes/class-design-tokens.php:825
 msgid "Input padding (horizontal)"
 msgstr ""
 
-#: includes/class-design-tokens.php:804
+#: includes/class-design-tokens.php:833
 msgid "Input text size"
 msgstr ""
 
-#: includes/class-design-tokens.php:811
+#: includes/class-design-tokens.php:840
 msgid "Focus highlight color"
 msgstr ""
 
-#: includes/class-design-tokens.php:819
+#: includes/class-design-tokens.php:848
 msgid "CAPTCHA question background"
 msgstr ""
 
-#: includes/class-design-tokens.php:826
-msgid "CAPTCHA question text color"
-msgstr ""
-
-#: includes/class-design-tokens.php:833
-msgid "Submit Button"
-msgstr ""
-
-#: includes/class-design-tokens.php:834
-msgid "The button that sends the lead form."
-msgstr ""
-
 #: includes/class-design-tokens.php:855
-msgid "Leave empty to keep the default brightness effect."
+msgid "CAPTCHA question text color"
 msgstr ""
 
 #: includes/class-design-tokens.php:86
 msgid "Z-index"
 msgstr ""
 
-#: includes/class-design-tokens.php:861
-msgid "Text color on hover"
+#: includes/class-design-tokens.php:862
+msgid "Submit Button"
+msgstr ""
+
+#: includes/class-design-tokens.php:863
+msgid "The button that sends the lead form."
 msgstr ""
 
 #: includes/class-design-tokens.php:87
 msgid "Raise this if another fixed element covers the widget."
 msgstr ""
 
-#: includes/class-design-tokens.php:877
+#: includes/class-design-tokens.php:884
+msgid "Leave empty to keep the default brightness effect."
+msgstr ""
+
+#: includes/class-design-tokens.php:906
 msgid "Padding"
 msgstr ""
 
-#: includes/class-design-tokens.php:885
-msgid "Text size"
-msgstr ""
-
-#: includes/class-design-tokens.php:891
-msgid "Text weight"
-msgstr ""
-
 #: includes/class-design-tokens.php:914
-msgid "Messages & Success"
-msgstr ""
-
-#: includes/class-design-tokens.php:915
-msgid "Validation errors and the confirmation step."
+msgid "Text size"
 msgstr ""
 
 #: includes/class-design-tokens.php:92
 msgid "Color scheme"
 msgstr ""
 
-#: includes/class-design-tokens.php:921
-msgid "Error color"
-msgstr ""
-
-#: includes/class-design-tokens.php:927
-msgid "Success color"
-msgstr ""
-
-#: includes/class-design-tokens.php:933
-msgid "Success check color"
+#: includes/class-design-tokens.php:920
+msgid "Text weight"
 msgstr ""
 
 #: includes/class-design-tokens.php:94
 msgid "Follow visitor preference"
 msgstr ""
 
-#: includes/class-design-tokens.php:941
-msgid "Success circle size"
+#: includes/class-design-tokens.php:943
+msgid "Messages & Success"
 msgstr ""
 
-#: includes/class-design-tokens.php:949
-msgid "Success message size"
+#: includes/class-design-tokens.php:944
+msgid "Validation errors and the confirmation step."
 msgstr ""
 
 #: includes/class-design-tokens.php:95
 msgid "Always light"
 msgstr ""
 
-#: includes/class-design-tokens.php:956
-msgid "Dark Mode Palette"
+#: includes/class-design-tokens.php:950
+msgid "Error color"
 msgstr ""
 
-#: includes/class-design-tokens.php:957
-msgid "Used when the color scheme above is \"Always dark\", or \"Follow visitor preference\" and the visitor's device is in dark mode. Leave a color empty to keep the built-in dark value."
+#: includes/class-design-tokens.php:956
+msgid "Success color"
 msgstr ""
 
 #: includes/class-design-tokens.php:96
 msgid "Always dark"
 msgstr ""
 
-#: includes/class-design-tokens.php:999
-msgid "Channel button background"
+#: includes/class-design-tokens.php:962
+msgid "Success check color"
+msgstr ""
+
+#: includes/class-design-tokens.php:970
+msgid "Success circle size"
+msgstr ""
+
+#: includes/class-design-tokens.php:978
+msgid "Success message size"
+msgstr ""
+
+#: includes/class-design-tokens.php:985
+msgid "Dark Mode Palette"
+msgstr ""
+
+#: includes/class-design-tokens.php:986
+msgid "Used when the color scheme above is \"Always dark\", or \"Follow visitor preference\" and the visitor's device is in dark mode. Leave a color empty to keep the built-in dark value."
 msgstr ""
 
 #. translators: %s: follow-up title.
@@ -3165,19 +3192,19 @@ msgstr ""
 msgid "Lead score %d out of 100"
 msgstr ""
 
-#: templates/widget.php:116
+#: templates/widget.php:119
 msgid "Back"
 msgstr ""
 
-#: templates/widget.php:168
+#: templates/widget.php:171
 msgid "Choose…"
 msgstr ""
 
-#: templates/widget.php:258
+#: templates/widget.php:261
 msgid "Loading…"
 msgstr ""
 
-#: templates/widget.php:262
+#: templates/widget.php:265
 msgid "Get a new question"
 msgstr ""
 

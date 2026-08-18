@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Build the popup from as many buttons as you need on the Channels screen:
 * **Email** — opens the visitor's mail app, optionally with the subject pre-filled.
 * **Custom link** — anything else: Viber, Skype, Calendly, a booking page. Pair it with your own uploaded icon.
 
-Every button has its own editable text, an optional line of small print under it, its own icon chosen from a 43-icon library, and its own icon color, icon tile color, and text color. Any button can be switched off without deleting it, and the order is yours to set. Add the same type more than once — two WhatsApp numbers for two departments works fine.
+Every button has its own editable text, an optional line of small print under it, its own icon chosen from a 43-icon library, and its own icon color, icon tile color, and text color — each with a matching hover color. Leave a hover color empty and that part simply stays as it is when hovered. Any button can be switched off without deleting it, and the order is yours to set. Add the same type more than once — two WhatsApp numbers for two departments works fine.
 
 = Form builder =
 
@@ -139,6 +139,11 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.2.1 =
+* New: hover colors for the channel buttons. Text, small text, icon, and icon tile each take their own hover color, both globally in Appearance → Channels and per button on the Channels screen, alongside the background and border hover colors that were already there.
+* Leave any hover color empty and that part keeps its resting color on hover, so nothing changes unless you ask it to. A color set on one button overrides the global one for that button only.
+* Change: the label, small text and icon tile now transition on hover instead of snapping, matching the background and border.
 
 = 1.2.0 =
 The form is no longer a fixed set of five fields. Everything from earlier releases keeps working and no stored data is touched.

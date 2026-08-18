@@ -108,6 +108,22 @@ $scch_render_row = static function ( array $row, string $index ) use ( $scch_typ
 				<input type="text" class="scch-color" id="<?php echo esc_attr( $uid ); ?>-textcolor" name="<?php echo esc_attr( $name ); ?>[text_color]" value="<?php echo esc_attr( $row['text_color'] ); ?>" />
 			</p>
 
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-iconbghover"><?php esc_html_e( 'Icon tile color on hover', 'smart-client-contact-hub' ); ?></label>
+				<input type="text" class="scch-color" id="<?php echo esc_attr( $uid ); ?>-iconbghover" name="<?php echo esc_attr( $name ); ?>[icon_bg_hover]" value="<?php echo esc_attr( $row['icon_bg_hover'] ); ?>" />
+			</p>
+
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-iconcolorhover"><?php esc_html_e( 'Icon color on hover', 'smart-client-contact-hub' ); ?></label>
+				<input type="text" class="scch-color" id="<?php echo esc_attr( $uid ); ?>-iconcolorhover" name="<?php echo esc_attr( $name ); ?>[icon_color_hover]" value="<?php echo esc_attr( $row['icon_color_hover'] ); ?>" />
+			</p>
+
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-textcolorhover"><?php esc_html_e( 'Text color on hover', 'smart-client-contact-hub' ); ?></label>
+				<input type="text" class="scch-color" id="<?php echo esc_attr( $uid ); ?>-textcolorhover" name="<?php echo esc_attr( $name ); ?>[text_color_hover]" value="<?php echo esc_attr( $row['text_color_hover'] ); ?>" />
+				<span class="description"><?php esc_html_e( 'Leave any hover color empty and that part stays as it is when hovered.', 'smart-client-contact-hub' ); ?></span>
+			</p>
+
 			<?php if ( 'form' !== $type ) : ?>
 				<p class="scch-f scch-f--check">
 					<label>

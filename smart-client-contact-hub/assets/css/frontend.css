@@ -195,18 +195,34 @@
 	font-weight: var(--scch-channel-fw, 600);
 	text-decoration: none;
 	cursor: pointer;
-	transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease, background .15s ease;
+	transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
 	box-sizing: border-box;
 }
 
 .scch-channel:last-child { margin-bottom: 0; }
 
+/*
+ * Every hover color falls back to the resting one, so leaving a hover color
+ * empty means "do not change on hover" rather than "reset to the default".
+ */
 .scch-channel:hover,
 .scch-channel:focus-visible {
 	background: var(--scch-channel-hover-bg, var(--scch-channel-bg, var(--scch-surface)));
 	border-color: var(--scch-channel-hover-bc, var(--scch-primary, #2563eb));
+	color: var(--scch-channel-hover-text, var(--scch-channel-text, var(--scch-text)));
 	transform: translateY(-1px);
 	box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+}
+
+.scch-channel:hover .scch-channel-desc,
+.scch-channel:focus-visible .scch-channel-desc {
+	color: var(--scch-channel-hover-desc-color, var(--scch-channel-desc-color, var(--scch-muted)));
+}
+
+.scch-channel:hover .scch-channel-icon,
+.scch-channel:focus-visible .scch-channel-icon {
+	background: var(--scch-cicon-hover-bg, var(--scch-cicon-bg, var(--scch-gradient, linear-gradient(135deg, var(--scch-primary, #2563eb), var(--scch-secondary, #7c3aed)))));
+	color: var(--scch-cicon-hover-color, var(--scch-cicon-color, #fff));
 }
 
 .scch-channel-icon {
@@ -219,6 +235,7 @@
 	border-radius: var(--scch-cicon-radius, 10px);
 	background: var(--scch-cicon-bg, var(--scch-gradient, linear-gradient(135deg, var(--scch-primary, #2563eb), var(--scch-secondary, #7c3aed))));
 	color: var(--scch-cicon-color, #fff);
+	transition: background .15s ease, color .15s ease;
 }
 .scch-channel-icon svg,
 .scch-channel-icon .scch-custom-icon { width: var(--scch-cicon-size, 20px); height: var(--scch-cicon-size, 20px); }
@@ -237,6 +254,7 @@
 	font-weight: 400;
 	line-height: 1.35;
 	color: var(--scch-channel-desc-color, var(--scch-muted));
+	transition: color .15s ease;
 }
 
 /* ---------- Form ---------- */

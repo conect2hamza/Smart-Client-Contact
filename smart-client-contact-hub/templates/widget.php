@@ -63,9 +63,12 @@ foreach ( $channels as $scch_row ) {
 				 */
 				$scch_style = '';
 				foreach ( array(
-					'--scch-cicon-bg'      => $scch_channel['icon_bg'],
-					'--scch-cicon-color'   => $scch_channel['icon_color'],
-					'--scch-channel-text'  => $scch_channel['text_color'],
+					'--scch-cicon-bg'            => $scch_channel['icon_bg'],
+					'--scch-cicon-color'         => $scch_channel['icon_color'],
+					'--scch-channel-text'        => $scch_channel['text_color'],
+					'--scch-cicon-hover-bg'      => $scch_channel['icon_bg_hover'],
+					'--scch-cicon-hover-color'   => $scch_channel['icon_color_hover'],
+					'--scch-channel-hover-text'  => $scch_channel['text_color_hover'],
 				) as $scch_prop => $scch_val ) {
 					if ( '' !== (string) $scch_val ) {
 						$scch_style .= $scch_prop . ':' . $scch_val . ';';

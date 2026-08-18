@@ -637,6 +637,21 @@ class Design_Tokens {
 						'label'   => __( 'Border color on hover', 'smart-client-contact-hub' ),
 						'help'    => __( 'Leave empty to use the primary color.', 'smart-client-contact-hub' ),
 					),
+					'channel_hover_text'   => array(
+						'type'    => 'color',
+						'default' => '',
+						'empty'   => true,
+						'css'     => '--scch-channel-hover-text',
+						'label'   => __( 'Label color on hover', 'smart-client-contact-hub' ),
+						'help'    => __( 'Leave empty to keep the normal label color.', 'smart-client-contact-hub' ),
+					),
+					'channel_hover_desc'   => array(
+						'type'    => 'color',
+						'default' => '',
+						'empty'   => true,
+						'css'     => '--scch-channel-hover-desc-color',
+						'label'   => __( 'Small-text color on hover', 'smart-client-contact-hub' ),
+					),
 					'channel_icon_bg'      => array(
 						'type'    => 'color',
 						'default' => '',
@@ -650,6 +665,20 @@ class Design_Tokens {
 						'default' => '#ffffff',
 						'css'     => '--scch-cicon-color',
 						'label'   => __( 'Icon color', 'smart-client-contact-hub' ),
+					),
+					'channel_icon_hover_bg' => array(
+						'type'    => 'color',
+						'default' => '',
+						'empty'   => true,
+						'css'     => '--scch-cicon-hover-bg',
+						'label'   => __( 'Icon tile background on hover', 'smart-client-contact-hub' ),
+					),
+					'channel_icon_hover_color' => array(
+						'type'    => 'color',
+						'default' => '',
+						'empty'   => true,
+						'css'     => '--scch-cicon-hover-color',
+						'label'   => __( 'Icon color on hover', 'smart-client-contact-hub' ),
 					),
 					'channel_icon_box'     => array(
 						'type'    => 'px',

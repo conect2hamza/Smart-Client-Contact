@@ -3,7 +3,7 @@
  * Plugin Name:       Smart Client Contact Hub
  * Plugin URI:        https://hamzadezinr.com/smart-client-contact-hub
  * Description:       Premium floating contact widget with lead capture, built-in math CAPTCHA, email notifications, and full lead management — 100% standalone, no third-party plugins required.
- * Version:           1.2.0
+ * Version:           1.2.1
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Author:            Hamza Dezinr
@@ -20,7 +20,7 @@ namespace SCCH;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SCCH_VERSION', '1.2.0' );
+define( 'SCCH_VERSION', '1.2.1' );
 define( 'SCCH_FILE', __FILE__ );
 define( 'SCCH_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SCCH_URL', plugin_dir_url( __FILE__ ) );

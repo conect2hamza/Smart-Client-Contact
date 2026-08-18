@@ -159,19 +159,22 @@ class Channels {
 		$type  = isset( $types[ $type ] ) ? $type : 'link';
 
 		return array(
-			'id'          => '',
-			'type'        => $type,
-			'enabled'     => 1,
-			'label'       => $types[ $type ]['label'],
-			'description' => '',
-			'value'       => '',
-			'extra'       => '',
-			'icon'        => $types[ $type ]['icon'],
-			'icon_url'    => '',
-			'icon_color'  => '',
-			'icon_bg'     => $types[ $type ]['brand'],
-			'text_color'  => '',
-			'new_tab'     => 1,
+			'id'               => '',
+			'type'             => $type,
+			'enabled'          => 1,
+			'label'            => $types[ $type ]['label'],
+			'description'      => '',
+			'value'            => '',
+			'extra'            => '',
+			'icon'             => $types[ $type ]['icon'],
+			'icon_url'         => '',
+			'icon_color'       => '',
+			'icon_bg'          => $types[ $type ]['brand'],
+			'text_color'       => '',
+			'icon_color_hover' => '',
+			'icon_bg_hover'    => '',
+			'text_color_hover' => '',
+			'new_tab'          => 1,
 		);
 	}
 
@@ -399,21 +402,26 @@ class Channels {
 			$icon = isset( $icons[ $row['icon'] ?? '' ] ) ? $row['icon'] : $types[ $type ]['icon'];
 
 			$clean[] = array(
-				'id'          => $id,
-				'type'        => $type,
-				'enabled'     => empty( $row['enabled'] ) ? 0 : 1,
-				'label'       => $label,
-				'description' => sanitize_text_field( $row['description'] ?? '' ),
-				'value'       => 'link' === $type
+				'id'               => $id,
+				'type'             => $type,
+				'enabled'          => empty( $row['enabled'] ) ? 0 : 1,
+				'label'            => $label,
+				'description'      => sanitize_text_field( $row['description'] ?? '' ),
+				'value'            => 'link' === $type
 					? esc_url_raw( trim( (string) ( $row['value'] ?? '' ) ) )
 					: sanitize_text_field( $row['value'] ?? '' ),
-				'extra'       => sanitize_text_field( $row['extra'] ?? '' ),
-				'icon'        => $icon,
-				'icon_url'    => esc_url_raw( $row['icon_url'] ?? '' ),
-				'icon_color'  => self::color( $row['icon_color'] ?? '' ),
-				'icon_bg'     => self::color( $row['icon_bg'] ?? '' ),
-				'text_color'  => self::color( $row['text_color'] ?? '' ),
-				'new_tab'     => empty( $row['new_tab'] ) ? 0 : 1,
+				'extra'            => sanitize_text_field( $row['extra'] ?? '' ),
+				'icon'             => $icon,
+				'icon_url'         => esc_url_raw( $row['icon_url'] ?? '' ),
+				'icon_color'       => self::color( $row['icon_color'] ?? '' ),
+				'icon_bg'          => self::color( $row['icon_bg'] ?? '' ),
+				'text_color'       => self::color( $row['text_color'] ?? '' ),
+				// Hover colors are optional everywhere: empty emits no custom
+				// property, so the button keeps its resting color on hover.
+				'icon_color_hover' => self::color( $row['icon_color_hover'] ?? '' ),
+				'icon_bg_hover'    => self::color( $row['icon_bg_hover'] ?? '' ),
+				'text_color_hover' => self::color( $row['text_color_hover'] ?? '' ),
+				'new_tab'          => empty( $row['new_tab'] ) ? 0 : 1,
 			);
 		}
 
