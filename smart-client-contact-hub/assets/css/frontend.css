@@ -7,7 +7,7 @@
  * untouched install produces almost no generated CSS.
  */
 
-.scch-root {
+#scch-root{
 	position: fixed;
 	bottom: var(--scch-btn-margin, 24px);
 	z-index: var(--scch-z, 99990);
@@ -25,12 +25,35 @@
 	--scch-success: #16a34a;
 }
 
-.scch-pos-right { right: var(--scch-btn-margin, 24px); }
-.scch-pos-left  { left: var(--scch-btn-margin, 24px); }
+/*
+ * Themes style bare `button`, `input` and `a` inside content, and those rules
+ * reach into the widget. Every rule below is keyed on the #scch-root id so a
+ * theme's class or element selector cannot outrank it, and this block resets
+ * the few inherited properties the widget never declares itself — otherwise a
+ * theme's uppercase buttons or letter-spaced links leak in. Component rules
+ * follow and win on top of it.
+ */
+#scch-root button,
+#scch-root input,
+#scch-root select,
+#scch-root textarea,
+#scch-root a {
+	font-family: inherit;
+	letter-spacing: inherit;
+	text-transform: none;
+	text-shadow: none;
+	text-decoration: none;
+	min-height: 0;
+	min-width: 0;
+	box-sizing: border-box;
+}
+
+#scch-root.scch-pos-right{ right: var(--scch-btn-margin, 24px); }
+#scch-root.scch-pos-left{ left: var(--scch-btn-margin, 24px); }
 
 /* ---------- Launcher ---------- */
 
-.scch-launcher {
+#scch-root .scch-launcher{
 	position: relative;
 	overflow: hidden;
 	display: flex;
@@ -48,20 +71,18 @@
 	transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
 }
 
-.scch-launcher:hover,
-.scch-launcher:focus-visible {
+#scch-root .scch-launcher:hover, #scch-root .scch-launcher:focus-visible{
 	transform: translateY(-2px) scale(1.04);
 	background: var(--scch-btn-hover-bg, var(--scch-btn-bg, #2563eb));
 	color: var(--scch-icon-hover-color, var(--scch-icon-color, #fff));
 }
 
-.scch-launcher:focus-visible,
-.scch-panel :focus-visible {
+#scch-root .scch-launcher:focus-visible, #scch-root .scch-panel :focus-visible{
 	outline: 3px solid var(--scch-focus, var(--scch-primary, #2563eb));
 	outline-offset: 2px;
 }
 
-.scch-launcher-icon {
+#scch-root .scch-launcher-icon{
 	position: absolute;
 	inset: 0;
 	display: flex;
@@ -69,14 +90,13 @@
 	justify-content: center;
 }
 
-.scch-launcher-icon svg,
-.scch-custom-icon {
+#scch-root .scch-launcher-icon svg, #scch-root .scch-custom-icon{
 	width: var(--scch-icon-size, 28px);
 	height: var(--scch-icon-size, 28px);
 	display: block;
 }
 
-.scch-launcher-icon[hidden] { display: none !important; }
+#scch-root .scch-launcher-icon[hidden]{ display: none !important; }
 
 /* Launcher animations */
 @keyframes scch-fade   { from { opacity: 0; } to { opacity: 1; } }
@@ -92,14 +112,14 @@
 	100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
 }
 
-.scch-anim-fade   { animation: scch-fade .5s ease both; }
-.scch-anim-scale  { animation: scch-scale .35s cubic-bezier(.34, 1.56, .64, 1) both; }
-.scch-anim-bounce { animation: scch-bounce 1.6s ease .4s 3; }
-.scch-anim-pulse  { animation: scch-pulse 2.2s ease-out infinite; }
+#scch-root .scch-anim-fade{ animation: scch-fade .5s ease both; }
+#scch-root .scch-anim-scale{ animation: scch-scale .35s cubic-bezier(.34, 1.56, .64, 1) both; }
+#scch-root .scch-anim-bounce{ animation: scch-bounce 1.6s ease .4s 3; }
+#scch-root .scch-anim-pulse{ animation: scch-pulse 2.2s ease-out infinite; }
 
 /* ---------- Overlay ---------- */
 
-.scch-overlay {
+#scch-root .scch-overlay{
 	position: fixed;
 	inset: 0;
 	background: var(--scch-overlay-bg, rgba(17, 24, 39, .35));
@@ -109,7 +129,7 @@
 
 /* ---------- Panel ---------- */
 
-.scch-panel {
+#scch-root .scch-panel{
 	position: absolute;
 	bottom: calc(var(--scch-btn-size, 60px) + 16px);
 	width: min(var(--scch-popup-width, 380px), calc(100vw - 32px));
@@ -123,22 +143,22 @@
 	animation: scch-panel-in .22s ease both;
 }
 
-.scch-pos-right .scch-panel { right: 0; }
-.scch-pos-left  .scch-panel { left: 0; }
+#scch-root.scch-pos-right .scch-panel{ right: 0; }
+#scch-root.scch-pos-left  .scch-panel{ left: 0; }
 
 @keyframes scch-panel-in {
 	from { opacity: 0; transform: translateY(12px) scale(.98); }
 	to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.scch-panel-header {
+#scch-root .scch-panel-header{
 	position: relative;
 	padding: var(--scch-heading-pad-y, 22px) calc(var(--scch-heading-pad-x, 22px) + 30px) calc(var(--scch-heading-pad-y, 22px) * .7) var(--scch-heading-pad-x, 22px);
 	background: var(--scch-heading-bg, var(--scch-gradient, linear-gradient(135deg, var(--scch-primary, #2563eb), var(--scch-secondary, #7c3aed))));
 	color: var(--scch-heading-text, #fff);
 }
 
-.scch-panel-title {
+#scch-root .scch-panel-title{
 	margin: 0 0 4px;
 	font-family: var(--scch-font-heading, var(--scch-font, inherit));
 	font-size: var(--scch-title-size, 18px);
@@ -147,7 +167,7 @@
 	color: var(--scch-heading-text, #fff);
 }
 
-.scch-panel-intro {
+#scch-root .scch-panel-intro{
 	margin: 0;
 	font-size: var(--scch-intro-size, 13px);
 	color: var(--scch-intro-color, inherit);
@@ -157,7 +177,7 @@
 	opacity: var(--scch-intro-opacity, .9);
 }
 
-.scch-close {
+#scch-root .scch-close{
 	position: absolute;
 	top: 14px;
 	right: 14px;
@@ -173,14 +193,14 @@
 	cursor: pointer;
 	transition: background .15s ease;
 }
-.scch-close svg { width: 50%; height: 50%; }
-.scch-close:hover { background: var(--scch-close-hover-bg, rgba(255, 255, 255, .3)); }
+#scch-root .scch-close svg{ width: 50%; height: 50%; }
+#scch-root .scch-close:hover{ background: var(--scch-close-hover-bg, rgba(255, 255, 255, .3)); }
 
-.scch-view { padding: var(--scch-view-pad-y, 18px) var(--scch-view-pad-x, 22px) calc(var(--scch-view-pad-y, 18px) + 4px); }
+#scch-root .scch-view{ padding: var(--scch-view-pad-y, 18px) var(--scch-view-pad-x, 22px) calc(var(--scch-view-pad-y, 18px) + 4px); }
 
 /* ---------- Channel buttons ---------- */
 
-.scch-channel {
+#scch-root .scch-channel{
 	display: flex;
 	align-items: center;
 	gap: 14px;
@@ -199,14 +219,13 @@
 	box-sizing: border-box;
 }
 
-.scch-channel:last-child { margin-bottom: 0; }
+#scch-root .scch-channel:last-child{ margin-bottom: 0; }
 
 /*
  * Every hover color falls back to the resting one, so leaving a hover color
  * empty means "do not change on hover" rather than "reset to the default".
  */
-.scch-channel:hover,
-.scch-channel:focus-visible {
+#scch-root .scch-channel:hover, #scch-root .scch-channel:focus-visible{
 	background: var(--scch-channel-hover-bg, var(--scch-channel-bg, var(--scch-surface)));
 	border-color: var(--scch-channel-hover-bc, var(--scch-primary, #2563eb));
 	color: var(--scch-channel-hover-text, var(--scch-channel-text, var(--scch-text)));
@@ -214,18 +233,16 @@
 	box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
 }
 
-.scch-channel:hover .scch-channel-desc,
-.scch-channel:focus-visible .scch-channel-desc {
+#scch-root .scch-channel:hover .scch-channel-desc, #scch-root .scch-channel:focus-visible .scch-channel-desc{
 	color: var(--scch-channel-hover-desc-color, var(--scch-channel-desc-color, var(--scch-muted)));
 }
 
-.scch-channel:hover .scch-channel-icon,
-.scch-channel:focus-visible .scch-channel-icon {
+#scch-root .scch-channel:hover .scch-channel-icon, #scch-root .scch-channel:focus-visible .scch-channel-icon{
 	background: var(--scch-cicon-hover-bg, var(--scch-cicon-bg, var(--scch-gradient, linear-gradient(135deg, var(--scch-primary, #2563eb), var(--scch-secondary, #7c3aed)))));
 	color: var(--scch-cicon-hover-color, var(--scch-cicon-color, #fff));
 }
 
-.scch-channel-icon {
+#scch-root .scch-channel-icon{
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -237,11 +254,10 @@
 	color: var(--scch-cicon-color, #fff);
 	transition: background .15s ease, color .15s ease;
 }
-.scch-channel-icon svg,
-.scch-channel-icon .scch-custom-icon { width: var(--scch-cicon-size, 20px); height: var(--scch-cicon-size, 20px); }
+#scch-root .scch-channel-icon svg, #scch-root .scch-channel-icon .scch-custom-icon{ width: var(--scch-cicon-size, 20px); height: var(--scch-cicon-size, 20px); }
 
 /* Label plus its optional second line. */
-.scch-channel-text {
+#scch-root .scch-channel-text{
 	display: flex;
 	flex-direction: column;
 	gap: 2px;
@@ -249,7 +265,7 @@
 	text-align: left;
 }
 
-.scch-channel-desc {
+#scch-root .scch-channel-desc{
 	font-size: var(--scch-channel-desc-fs, 12px);
 	font-weight: 400;
 	line-height: 1.35;
@@ -259,7 +275,7 @@
 
 /* ---------- Form ---------- */
 
-.scch-back {
+#scch-root .scch-back{
 	background: none;
 	border: 0;
 	padding: 0 0 10px;
@@ -269,7 +285,7 @@
 	cursor: pointer;
 }
 
-.scch-form-title {
+#scch-root .scch-form-title{
 	margin: 0 0 14px;
 	font-family: var(--scch-font-heading, var(--scch-font, inherit));
 	font-size: var(--scch-form-title-size, 16px);
@@ -277,9 +293,9 @@
 	color: var(--scch-text);
 }
 
-.scch-field { margin-bottom: var(--scch-field-gap, 14px); }
+#scch-root .scch-field{ margin-bottom: var(--scch-field-gap, 14px); }
 
-.scch-field label {
+#scch-root .scch-field label{
 	display: block;
 	margin-bottom: 5px;
 	font-size: var(--scch-label-size, 13px);
@@ -287,11 +303,9 @@
 	color: var(--scch-label-color, var(--scch-text));
 }
 
-.scch-req { color: var(--scch-error); margin-left: 2px; }
+#scch-root .scch-req{ color: var(--scch-error); margin-left: 2px; }
 
-.scch-field input,
-.scch-field select,
-.scch-field textarea {
+#scch-root .scch-field input, #scch-root .scch-field select, #scch-root .scch-field textarea{
 	width: 100%;
 	box-sizing: border-box;
 	padding: var(--scch-input-pad-y, 10px) var(--scch-input-pad-x, 12px);
@@ -305,12 +319,9 @@
 	transition: border-color .15s ease, box-shadow .15s ease;
 }
 
-.scch-field input::placeholder,
-.scch-field textarea::placeholder { color: var(--scch-placeholder, var(--scch-muted)); opacity: 1; }
+#scch-root .scch-field input::placeholder, #scch-root .scch-field textarea::placeholder{ color: var(--scch-placeholder, var(--scch-muted)); opacity: 1; }
 
-.scch-field input:focus,
-.scch-field select:focus,
-.scch-field textarea:focus {
+#scch-root .scch-field input:focus, #scch-root .scch-field select:focus, #scch-root .scch-field textarea:focus{
 	border-color: var(--scch-focus, var(--scch-primary, #2563eb));
 	/* Static ring first so browsers without color-mix() still show one. */
 	box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
@@ -318,11 +329,9 @@
 	outline: none;
 }
 
-.scch-field.scch-invalid input,
-.scch-field.scch-invalid select,
-.scch-field.scch-invalid textarea { border-color: var(--scch-error); }
+#scch-root .scch-field.scch-invalid input, #scch-root .scch-field.scch-invalid select, #scch-root .scch-field.scch-invalid textarea{ border-color: var(--scch-error); }
 
-.scch-field-error {
+#scch-root .scch-field-error{
 	margin: 5px 0 0;
 	font-size: 12px;
 	color: var(--scch-error);
@@ -332,17 +341,17 @@
  * Half-width fields sit side by side. The form is a wrapping flex row so a
  * field can opt into half a line; everything else keeps a full one.
  */
-#scch-form { display: flex; flex-wrap: wrap; gap: 0 var(--scch-field-gap, 14px); }
-#scch-form > * { flex: 1 1 100%; min-width: 0; }
+#scch-root #scch-form{ display: flex; flex-wrap: wrap; gap: 0 var(--scch-field-gap, 14px); }
+#scch-root #scch-form > *{ flex: 1 1 100%; min-width: 0; }
 /* Matches the id specificity of the rule above so the override lands. */
-#scch-form > .scch-field--half { flex: 1 1 calc(50% - (var(--scch-field-gap, 14px) / 2)); }
+#scch-root #scch-form > .scch-field--half{ flex: 1 1 calc(50% - (var(--scch-field-gap, 14px) / 2)); }
 
 @media (max-width: 400px) {
-	#scch-form > .scch-field--half { flex-basis: 100%; }
+	#scch-root #scch-form > .scch-field--half{ flex-basis: 100%; }
 }
 
 /* Group label for radio/checkbox sets, styled to match a real label. */
-.scch-field-legend {
+#scch-root .scch-field-legend{
 	display: block;
 	margin-bottom: 5px;
 	font-size: var(--scch-label-size, 13px);
@@ -350,11 +359,10 @@
 	color: var(--scch-label-color, var(--scch-text));
 }
 
-.scch-choices { display: flex; flex-direction: column; gap: 6px; }
+#scch-root .scch-choices{ display: flex; flex-direction: column; gap: 6px; }
 
 /* Scoped to .scch-field so it outranks the block label rule above. */
-.scch-field .scch-choice,
-.scch-field .scch-consent {
+#scch-root .scch-field .scch-choice, #scch-root .scch-field .scch-consent{
 	display: flex;
 	align-items: flex-start;
 	gap: 8px;
@@ -366,8 +374,7 @@
 }
 
 /* Tick boxes are not text inputs: undo the full-width input styling. */
-.scch-field input[type="checkbox"],
-.scch-field input[type="radio"] {
+#scch-root .scch-field input[type="checkbox"], #scch-root .scch-field input[type="radio"]{
 	width: auto;
 	flex: 0 0 auto;
 	margin: 2px 0 0;
@@ -377,15 +384,15 @@
 	accent-color: var(--scch-primary, #2563eb);
 }
 
-.scch-field-help {
+#scch-root .scch-field-help{
 	margin: 5px 0 0;
 	font-size: 12px;
 	color: var(--scch-muted);
 }
 
 /* CAPTCHA */
-.scch-captcha-row { display: flex; align-items: center; gap: 10px; }
-.scch-captcha-question {
+#scch-root .scch-captcha-row{ display: flex; align-items: center; gap: 10px; }
+#scch-root .scch-captcha-question{
 	flex: 0 0 auto;
 	padding: var(--scch-input-pad-y, 10px) calc(var(--scch-input-pad-x, 12px) + 2px);
 	background: var(--scch-captcha-bg, var(--scch-line));
@@ -394,8 +401,8 @@
 	font-weight: 700;
 	font-variant-numeric: tabular-nums;
 }
-.scch-captcha-row input { flex: 1 1 auto; width: auto; }
-.scch-captcha-refresh {
+#scch-root .scch-captcha-row input{ flex: 1 1 auto; width: auto; }
+#scch-root .scch-captcha-refresh{
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -408,14 +415,14 @@
 	color: var(--scch-muted);
 	cursor: pointer;
 }
-.scch-captcha-refresh svg { width: 16px; height: 16px; }
-.scch-captcha-refresh:hover {
+#scch-root .scch-captcha-refresh svg{ width: 16px; height: 16px; }
+#scch-root .scch-captcha-refresh:hover{
 	color: var(--scch-focus, var(--scch-primary));
 	border-color: var(--scch-focus, var(--scch-primary));
 }
 
 /* Honeypot: pulled off-screen, not display:none, to look real to bots. */
-.scch-hp {
+#scch-root .scch-hp{
 	position: absolute !important;
 	left: -9999px !important;
 	width: 1px;
@@ -423,9 +430,9 @@
 	overflow: hidden;
 }
 
-.scch-form-feedback { font-size: 13px; margin: 0 0 10px; color: var(--scch-error); }
+#scch-root .scch-form-feedback{ font-size: 13px; margin: 0 0 10px; color: var(--scch-error); }
 
-.scch-submit {
+#scch-root .scch-submit{
 	width: 100%;
 	padding: var(--scch-submit-pad, 13px);
 	border: var(--scch-submit-bw, 0) solid var(--scch-submit-bc, transparent);
@@ -440,12 +447,12 @@
 	   rather than snapping; filter covers the default brightness lift. */
 	transition: filter .15s ease, transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
 }
-.scch-submit:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
-.scch-submit:disabled { opacity: .65; cursor: wait; }
+#scch-root .scch-submit:hover:not(:disabled){ filter: brightness(1.08); transform: translateY(-1px); }
+#scch-root .scch-submit:disabled{ opacity: .65; cursor: wait; }
 
 /* Success */
-.scch-view-success { text-align: center; padding: 40px 24px; }
-.scch-success-icon {
+#scch-root .scch-view-success{ text-align: center; padding: 40px 24px; }
+#scch-root .scch-success-icon{
 	width: var(--scch-success-box, 56px);
 	height: var(--scch-success-box, 56px);
 	margin: 0 auto 14px;
@@ -458,12 +465,12 @@
 	font-size: calc(var(--scch-success-box, 56px) * .46);
 	font-weight: 700;
 }
-.scch-success-message { font-size: var(--scch-success-fs, 15px); color: var(--scch-text); }
+#scch-root .scch-success-message{ font-size: var(--scch-success-fs, 15px); color: var(--scch-text); }
 
 /* ---------- Dark mode ---------- */
 
 @media (prefers-color-scheme: dark) {
-	.scch-root:not([data-forced-light]) {
+	#scch-root:not([data-forced-light]){
 		--scch-surface: #1f2937;
 		--scch-text: #f9fafb;
 		--scch-muted: #9ca3af;
@@ -474,7 +481,7 @@
 /* ---------- Mobile ---------- */
 
 @media (max-width: 480px) {
-	.scch-panel {
+	#scch-root .scch-panel{
 		position: fixed;
 		left: 16px !important;
 		right: 16px !important;
@@ -486,14 +493,11 @@
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-	.scch-launcher,
-	.scch-panel,
-	.scch-channel,
-	.scch-submit { animation: none !important; transition: none !important; }
+	#scch-root .scch-launcher, #scch-root .scch-panel, #scch-root .scch-channel, #scch-root .scch-submit{ animation: none !important; transition: none !important; }
 }
 
 /* Hidden field labels: removed visually, kept for screen readers. */
-.scch-label-hidden {
+#scch-root .scch-label-hidden{
 	position: absolute !important;
 	width: 1px;
 	height: 1px;
@@ -506,4 +510,4 @@
 }
 
 /* Dialog container receives focus on external-trigger open; no visible ring. */
-.scch-panel:focus { outline: none; }
+#scch-root .scch-panel:focus{ outline: none; }

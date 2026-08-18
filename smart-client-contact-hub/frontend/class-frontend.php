@@ -138,6 +138,10 @@ class Frontend {
 	/**
 	 * Build CSS custom properties from Appearance settings.
 	 *
+	 * Selectors are keyed on the #scch-root id, matching the stylesheet. A
+	 * class alone loses to the button and input rules themes ship, which is
+	 * how a chosen submit color used to end up ignored on the front end.
+	 *
 	 * Emission is driven by the Design_Tokens schema: any field carrying a
 	 * 'css' key becomes a custom property. Optional colors left empty emit
 	 * nothing at all, so the fallback baked into the stylesheet's var() call
@@ -200,10 +204,10 @@ class Frontend {
 			$light[] = '--scch-intro-opacity:1';
 		}
 
-		$css = '.scch-root{' . implode( ';', $light ) . ';}';
+		$css = '#scch-root{' . implode( ';', $light ) . ';}';
 
 		if ( empty( $a['overlay'] ) ) {
-			$css .= '.scch-root .scch-overlay{backdrop-filter:none;}';
+			$css .= '#scch-root .scch-overlay{backdrop-filter:none;}';
 		}
 
 		// Submit hover: emitted only when set, so the default brightness
@@ -215,7 +219,7 @@ class Frontend {
 			$rules  = '' !== $hover_bg ? 'background:' . $hover_bg . ';filter:none;' : '';
 			$rules .= '' !== $hover_text ? 'color:' . $hover_text . ';' : '';
 			$rules .= '' !== $hover_border ? 'border-color:' . $hover_border . ';' : '';
-			$css   .= '.scch-root .scch-submit:hover:not(:disabled){' . $rules . '}';
+			$css   .= '#scch-root .scch-submit:hover:not(:disabled){' . $rules . '}';
 		}
 
 		// Dark palette. "Always dark" applies it unconditionally; "follow
@@ -224,11 +228,11 @@ class Frontend {
 		$dark_css = $dark ? implode( ';', $dark ) . ';' : '';
 
 		if ( 'dark' === $a['dark_mode'] ) {
-			$css .= '.scch-root{color-scheme:dark;' . $dark_css . '}';
+			$css .= '#scch-root{color-scheme:dark;' . $dark_css . '}';
 		} else {
-			$css .= '.scch-root{color-scheme:' . ( 'light' === $a['dark_mode'] ? 'light' : 'light dark' ) . ';}';
+			$css .= '#scch-root{color-scheme:' . ( 'light' === $a['dark_mode'] ? 'light' : 'light dark' ) . ';}';
 			if ( '' !== $dark_css && 'light' !== $a['dark_mode'] ) {
-				$css .= '@media (prefers-color-scheme: dark){.scch-root:not([data-forced-light]){' . $dark_css . '}}';
+				$css .= '@media (prefers-color-scheme: dark){#scch-root:not([data-forced-light]){' . $dark_css . '}}';
 			}
 		}
 

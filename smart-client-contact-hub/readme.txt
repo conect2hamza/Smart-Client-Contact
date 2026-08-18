@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,14 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.2.3 =
+This release fixes colors you chose in Appearance being ignored on the front end.
+
+* Fix: **your theme was overriding the widget.** Every widget rule used a single CSS class, which loses to the `button`, `input` and `a` rules themes ship for page content. On those sites a submit button set to, say, black kept rendering in the theme's own color, and the same applied to the form fields and the channel buttons. Every rule the plugin writes — in its stylesheet and in the CSS generated from your Appearance settings — is now keyed on the widget's `#scch-root` id, which outranks a theme's class and element selectors. Nothing about the design changed; it just wins now.
+* Fix: a theme's uppercase buttons, letter-spacing, text shadows and underlines leaked into the widget. The few inherited properties the widget never declared itself are now reset inside it.
+* Fix: the Typography font family reached the form fields and the submit button but not the launcher, close, channel and Back buttons, which stayed on the browser's default font. All of them follow the setting now.
+* Note: a theme rule using `!important` still wins. If a color looks stuck after updating, that is the one case left — and clearing any page cache first is worth a try, since the generated CSS is printed into the page.
 
 = 1.2.2 =
 * New: border color on hover for the submit button, completing the set alongside the background, text and border colors it already had for both states.
