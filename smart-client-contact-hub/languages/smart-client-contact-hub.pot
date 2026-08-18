@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Client Contact Hub 1.0.6\n"
+"Project-Id-Version: Smart Client Contact Hub 1.1.0\n"
 "Report-Msgid-Bugs-To: https://hamzadezinr.com/smart-client-contact-hub\n"
-"POT-Creation-Date: 2026-08-17 21:48+0000\n"
+"POT-Creation-Date: 2026-08-18 06:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,242 +15,328 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: smart-client-contact-hub\n"
 
+#: admin/class-admin.php:101
+msgid "Smart Client Contact Hub"
+msgstr ""
+
 #: admin/class-admin.php:102
+#: admin/class-admin.php:123
+msgid "Contact Hub"
+msgstr ""
+
+#: admin/class-admin.php:116
 msgid "Dashboard"
 msgstr ""
 
-#: admin/class-admin.php:103
-#: admin/views/leads.php:15
+#: admin/class-admin.php:118
+msgid "CRM"
+msgstr ""
+
+#: admin/class-admin.php:119
+#: admin/views/analytics.php:87
+#: admin/views/analytics.php:99
+#: admin/views/dashboard.php:190
+#: admin/views/leads.php:17
 msgid "Leads"
 msgstr ""
 
-#: admin/class-admin.php:104
-#: admin/views/appearance.php:25
-msgid "Appearance"
+#: admin/class-admin.php:120
+#: admin/views/lead-detail.php:87
+#: admin/views/pipeline.php:31
+msgid "Pipeline"
 msgstr ""
 
-#: admin/class-admin.php:105
-#: admin/views/contact.php:17
-msgid "Contact Settings"
+#: admin/class-admin.php:121
+#: admin/views/dashboard.php:308
+#: admin/views/followups.php:38
+#: admin/views/lead-detail.php:161
+msgid "Follow-ups"
 msgstr ""
 
-#: admin/class-admin.php:106
+#: admin/class-admin.php:124
+msgid "Widget"
+msgstr ""
+
+#: admin/class-admin.php:125
+#: admin/views/dashboard.php:357
 msgid "Channels"
 msgstr ""
 
-#: admin/class-admin.php:107
-#: admin/views/form-builder.php:19
-msgid "Form Builder"
+#: admin/class-admin.php:126
+msgid "Forms"
 msgstr ""
 
-#: admin/class-admin.php:108
+#: admin/class-admin.php:127
 #: admin/views/services.php:17
 msgid "Services"
 msgstr ""
 
-#: admin/class-admin.php:109
-#: admin/views/email-templates.php:17
-msgid "Email Templates"
+#: admin/class-admin.php:128
+msgid "Triggers"
 msgstr ""
 
-#: admin/class-admin.php:110
+#: admin/class-admin.php:129
+#: admin/views/contact.php:35
+msgid "Panel Wording"
+msgstr ""
+
+#: admin/class-admin.php:131
+msgid "Analytics"
+msgstr ""
+
+#: admin/class-admin.php:132
+#: admin/views/analytics.php:35
+msgid "Reports"
+msgstr ""
+
+#: admin/class-admin.php:135
 #: admin/views/notifications.php:18
 msgid "Notifications"
 msgstr ""
 
-#: admin/class-admin.php:111
-#: admin/views/captcha.php:17
-msgid "CAPTCHA"
+#: admin/class-admin.php:136
+#: admin/views/email-templates.php:17
+msgid "Email Templates"
 msgstr ""
 
-#: admin/class-admin.php:112
-msgid "Triggers"
+#: admin/class-admin.php:137
+#: admin/views/scoring.php:27
+msgid "Lead Scoring"
 msgstr ""
 
-#: admin/class-admin.php:113
+#: admin/class-admin.php:138
+msgid "Security"
+msgstr ""
+
+#: admin/class-admin.php:139
 #: admin/views/export.php:15
 msgid "Export"
 msgstr ""
 
-#: admin/class-admin.php:114
+#: admin/class-admin.php:140
 msgid "Logs"
 msgstr ""
 
-#: admin/class-admin.php:115
+#: admin/class-admin.php:141
 #: admin/views/help.php:17
 msgid "Help"
 msgstr ""
 
-#: admin/class-admin.php:142
+#: admin/class-admin.php:197
 msgid "Leads per page"
 msgstr ""
 
-#: admin/class-admin.php:170
+#: admin/class-admin.php:226
 #: frontend/class-frontend.php:123
 msgid "Sending…"
 msgstr ""
 
-#: admin/class-admin.php:171
+#: admin/class-admin.php:227
 msgid "Email sent successfully."
 msgstr ""
 
-#: admin/class-admin.php:172
+#: admin/class-admin.php:228
 msgid "Sending failed:"
 msgstr ""
 
-#: admin/class-admin.php:173
+#: admin/class-admin.php:229
 msgid "Email re-sent."
 msgstr ""
 
-#: admin/class-admin.php:174
+#: admin/class-admin.php:230
 msgid "Remove this service?"
 msgstr ""
 
-#: admin/class-admin.php:175
+#: admin/class-admin.php:231
 msgid "Remove this channel? Switch it off instead if you only want to hide it."
 msgstr ""
 
-#: admin/class-admin.php:176
+#: admin/class-admin.php:232
 msgid "Delete this log entry? This cannot be undone."
 msgstr ""
 
-#: admin/class-admin.php:177
+#: admin/class-admin.php:233
 msgid "Deleting…"
 msgstr ""
 
-#: admin/class-admin.php:178
+#: admin/class-admin.php:234
 msgid "Delete failed:"
 msgstr ""
 
-#: admin/class-admin.php:179
+#: admin/class-admin.php:235
 #: admin/views/partials/icon-picker.php:67
 msgid "Choose image"
 msgstr ""
 
-#: admin/class-admin.php:180
+#: admin/class-admin.php:236
 msgid "Use this image"
 msgstr ""
 
-#: admin/class-admin.php:205
+#: admin/class-admin.php:261
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: admin/class-admin.php:259
+#: admin/class-admin.php:315
 msgid "Settings saved."
 msgstr ""
 
-#: admin/class-admin.php:260
+#: admin/class-admin.php:316
 msgid "Lead updated."
 msgstr ""
 
-#: admin/class-admin.php:261
+#: admin/class-admin.php:317
 msgid "Lead deleted."
 msgstr ""
 
-#: admin/class-admin.php:262
+#: admin/class-admin.php:318
 msgid "All email logs deleted."
 msgstr ""
 
-#: admin/class-admin.php:263
+#: admin/class-admin.php:319
 msgid "Appearance settings restored to their defaults."
 msgstr ""
 
-#: admin/class-admin.php:264
+#: admin/class-admin.php:320
 msgid "The request could not be completed."
 msgstr ""
 
-#: admin/class-admin.php:281
-#: admin/class-admin.php:306
-#: admin/class-admin.php:344
-#: admin/class-admin.php:361
-#: admin/class-admin.php:377
-#: admin/class-admin.php:410
-#: admin/class-admin.php:436
-#: admin/class-admin.php:457
-#: admin/class-admin.php:477
+#: admin/class-admin.php:337
+#: admin/class-admin.php:362
+#: admin/class-admin.php:400
+#: admin/class-admin.php:417
+#: admin/class-admin.php:439
+#: admin/class-admin.php:555
+#: admin/class-admin.php:571
+#: admin/class-admin.php:604
+#: admin/class-admin.php:630
+#: admin/class-admin.php:651
+#: admin/class-admin.php:671
 #: admin/class-export.php:38
-#: admin/class-leads-list-table.php:158
+#: admin/class-leads-list-table.php:169
 msgid "Insufficient permissions."
 msgstr ""
 
-#: admin/class-admin.php:415
+#: admin/class-admin.php:448
+msgid "Lead not found."
+msgstr ""
+
+#: admin/class-admin.php:456
+msgid "That stage is not valid."
+msgstr ""
+
+#: admin/class-admin.php:463
+msgid "Stage updated"
+msgstr ""
+
+#: admin/class-admin.php:472
+msgid "That user does not exist."
+msgstr ""
+
+#: admin/class-admin.php:475
+msgid "Lead assigned"
+msgstr ""
+
+#: admin/class-admin.php:482
+msgid "Write something first."
+msgstr ""
+
+#: admin/class-admin.php:485
+#: includes/class-lead-service.php:245
+msgid "Note added"
+msgstr ""
+
+#: admin/class-admin.php:494
+#: admin/class-admin.php:518
+#: admin/class-admin.php:541
+msgid "Changes saved"
+msgstr ""
+
+#: admin/class-admin.php:510
+msgid "A title and a due date are both required."
+msgstr ""
+
+#: admin/class-admin.php:513
+msgid "Follow-up created"
+msgstr ""
+
+#: admin/class-admin.php:526
+msgid "Follow-up not found."
+msgstr ""
+
+#: admin/class-admin.php:534
+msgid "That did not work. Please try again."
+msgstr ""
+
+#: admin/class-admin.php:540
+msgid "Follow-up completed"
+msgstr ""
+
+#: admin/class-admin.php:547
+msgid "Unknown action."
+msgstr ""
+
+#: admin/class-admin.php:609
 #: includes/class-ajax.php:143
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: admin/class-admin.php:425
+#: admin/class-admin.php:619
 msgid "wp_mail() returned false. Check your SMTP configuration."
 msgstr ""
 
-#: admin/class-admin.php:441
-#: admin/class-admin.php:462
+#: admin/class-admin.php:635
+#: admin/class-admin.php:656
 msgid "Log entry not found."
 msgstr ""
 
-#: admin/class-admin.php:448
+#: admin/class-admin.php:642
 msgid "Resend failed. Check the newest log entry for details."
 msgstr ""
 
-#: admin/class-admin.php:469
+#: admin/class-admin.php:663
 msgid "Could not delete this log entry."
 msgstr ""
 
-#: admin/class-admin.php:80
+#: admin/class-admin.php:89
+#: admin/class-admin.php:134
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:92
-#: admin/views/dashboard.php:19
-msgid "Smart Client Contact Hub"
-msgstr ""
-
-#: admin/class-admin.php:93
-msgid "Contact Hub"
-msgstr ""
-
 #: admin/class-export.php:56
-#: admin/class-leads-list-table.php:45
 msgid "ID"
 msgstr ""
 
 #: admin/class-export.php:57
-#: admin/views/dashboard.php:48
-#: admin/views/lead-detail.php:28
 msgid "Name"
 msgstr ""
 
 #: admin/class-export.php:58
-#: admin/class-leads-list-table.php:47
-#: admin/views/lead-detail.php:29
+#: admin/views/lead-detail.php:228
 #: includes/class-icons.php:57
 msgid "Phone"
 msgstr ""
 
 #: admin/class-export.php:59
-#: admin/class-leads-list-table.php:48
-#: admin/views/lead-detail.php:30
+#: admin/views/lead-detail.php:225
+#: includes/class-activity-service.php:39
 #: includes/class-channels.php:113
+#: includes/class-ui.php:203
 msgid "Email"
 msgstr ""
 
 #: admin/class-export.php:60
-#: admin/class-leads-list-table.php:49
-#: admin/views/dashboard.php:49
-#: admin/views/lead-detail.php:31
+#: admin/class-leads-list-table.php:52
+#: admin/views/analytics.php:23
+#: admin/views/lead-detail.php:235
 msgid "Service"
 msgstr ""
 
 #: admin/class-export.php:61
-#: admin/class-leads-list-table.php:50
-#: admin/views/lead-detail.php:32
 #: includes/class-settings.php:58
 msgid "Message"
 msgstr ""
 
 #: admin/class-export.php:62
-#: admin/class-leads-list-table.php:51
-#: admin/views/dashboard.php:50
-#: admin/views/lead-detail.php:45
 #: admin/views/logs.php:45
 msgid "Status"
 msgstr ""
@@ -260,47 +346,198 @@ msgid "Submission Date"
 msgstr ""
 
 #: admin/class-export.php:64
-#: admin/views/lead-detail.php:34
 msgid "IP Address"
 msgstr ""
 
 #: admin/class-export.php:65
-#: admin/views/lead-detail.php:35
 msgid "User Agent"
 msgstr ""
 
-#: admin/class-leads-list-table.php:194
-#: admin/views/dashboard.php:62
-msgid "View"
+#: admin/class-leads-list-table.php:104
+msgid "All"
 msgstr ""
 
-#: admin/class-leads-list-table.php:251
-msgid "No leads yet. New submissions from the floating widget will appear here."
+#: admin/class-leads-list-table.php:229
+msgid "Any score"
 msgstr ""
 
-#: admin/class-leads-list-table.php:46
-msgid "Customer Name"
+#: admin/class-leads-list-table.php:231
+msgid "Hot (70+)"
 msgstr ""
 
-#: admin/class-leads-list-table.php:52
-#: admin/views/dashboard.php:51
-#: admin/views/logs.php:46
-msgid "Date"
+#: admin/class-leads-list-table.php:232
+msgid "Warm (40–69)"
 msgstr ""
 
-#: admin/class-leads-list-table.php:78
+#: admin/class-leads-list-table.php:233
+msgid "Cold (under 40)"
+msgstr ""
+
+#: admin/class-leads-list-table.php:237
+msgid "Any time"
+msgstr ""
+
+#: admin/class-leads-list-table.php:239
+msgid "Last 7 days"
+msgstr ""
+
+#: admin/class-leads-list-table.php:240
+msgid "Last 30 days"
+msgstr ""
+
+#: admin/class-leads-list-table.php:241
+msgid "Last 90 days"
+msgstr ""
+
+#: admin/class-leads-list-table.php:245
+msgid "Any source"
+msgstr ""
+
+#: admin/class-leads-list-table.php:249
+msgid "Any service"
+msgstr ""
+
+#: admin/class-leads-list-table.php:277
+msgid "Filter"
+msgstr ""
+
+#: admin/class-leads-list-table.php:331
+msgid "Open"
+msgstr ""
+
+#: admin/class-leads-list-table.php:416
+msgid "No leads here"
+msgstr ""
+
+#: admin/class-leads-list-table.php:417
+msgid "Once visitors contact you, their leads appear here. Try clearing your filters if you expected to see some."
+msgstr ""
+
+#: admin/class-leads-list-table.php:421
+msgid "Clear filters"
+msgstr ""
+
+#: admin/class-leads-list-table.php:49
+#: admin/views/dashboard.php:273
+#: admin/views/dashboard.php:282
+#: admin/views/dashboard.php:320
+#: admin/views/dashboard.php:329
+#: admin/views/followups.php:70
+#: admin/views/followups.php:89
+#: admin/views/lead-detail.php:27
+msgid "Lead"
+msgstr ""
+
+#: admin/class-leads-list-table.php:50
+#: admin/views/dashboard.php:274
+#: admin/views/dashboard.php:286
+#: includes/class-activity-service.php:42
+msgid "Score"
+msgstr ""
+
+#: admin/class-leads-list-table.php:51
+#: admin/views/dashboard.php:275
+#: admin/views/dashboard.php:287
+#: admin/views/lead-detail.php:67
+msgid "Stage"
+msgstr ""
+
+#: admin/class-leads-list-table.php:53
+#: admin/views/analytics.php:21
+#: admin/views/lead-detail.php:241
+msgid "Source"
+msgstr ""
+
+#: admin/class-leads-list-table.php:54
+#: includes/class-activity-service.php:40
+msgid "Follow-up"
+msgstr ""
+
+#: admin/class-leads-list-table.php:55
+#: admin/views/lead-detail.php:272
+msgid "Received"
+msgstr ""
+
+#: admin/class-leads-list-table.php:56
+#: includes/class-icons.php:29
+msgid "Contact"
+msgstr ""
+
+#: admin/class-leads-list-table.php:83
 #: admin/views/logs.php:62
 #: admin/views/services.php:44
 msgid "Delete"
 msgstr ""
 
-#. translators: %s: lead status.
-#: admin/class-leads-list-table.php:81
-msgid "Mark as %s"
+#. translators: %s: pipeline stage label.
+#: admin/class-leads-list-table.php:86
+msgid "Move to %s"
 msgstr ""
 
-#: admin/class-leads-list-table.php:99
-msgid "All"
+#: admin/views/analytics.php:112
+msgid "Nothing to report yet"
+msgstr ""
+
+#: admin/views/analytics.php:113
+msgid "This report fills in as leads arrive during the selected period."
+msgstr ""
+
+#: admin/views/analytics.php:22
+#: admin/views/lead-detail.php:244
+msgid "Channel"
+msgstr ""
+
+#: admin/views/analytics.php:24
+#: admin/views/lead-detail.php:248
+msgid "Campaign"
+msgstr ""
+
+#: admin/views/analytics.php:25
+#: admin/views/lead-detail.php:268
+msgid "Device"
+msgstr ""
+
+#: admin/views/analytics.php:36
+msgid "Every figure is counted from your stored leads. The plugin does not track page views, so no visitor-level numbers are shown."
+msgstr ""
+
+#: admin/views/analytics.php:39
+#: admin/views/dashboard.php:134
+msgid "Reporting period"
+msgstr ""
+
+#: admin/views/analytics.php:46
+#: admin/views/dashboard.php:139
+msgid "Last 12 months"
+msgstr ""
+
+#. translators: %d: number of days.
+#: admin/views/analytics.php:48
+#: admin/views/dashboard.php:141
+#: admin/views/dashboard.php:211
+msgid "Last %d days"
+msgstr ""
+
+#: admin/views/analytics.php:60
+msgid "Funnel"
+msgstr ""
+
+#: admin/views/analytics.php:88
+#: admin/views/analytics.php:100
+#: admin/views/dashboard.php:194
+#: includes/class-pipeline-service.php:59
+msgid "Won"
+msgstr ""
+
+#: admin/views/analytics.php:89
+#: admin/views/analytics.php:101
+msgid "Rate"
+msgstr ""
+
+#: admin/views/analytics.php:90
+#: admin/views/analytics.php:102
+#: admin/views/dashboard.php:197
+msgid "Revenue"
 msgstr ""
 
 #: admin/views/appearance.php:121
@@ -333,12 +570,20 @@ msgstr ""
 msgid "Reset Appearance to Defaults"
 msgstr ""
 
+#: admin/views/appearance.php:25
+msgid "Appearance"
+msgstr ""
+
 #: admin/views/appearance.php:29
 msgid "Every visual detail of the widget is editable here. Colors left empty fall back to the shipped design, so you only need to set what you actually want to change."
 msgstr ""
 
 #: admin/views/appearance.php:32
 msgid "Appearance sections"
+msgstr ""
+
+#: admin/views/captcha.php:17
+msgid "CAPTCHA"
 msgstr ""
 
 #: admin/views/captcha.php:21
@@ -469,13 +714,13 @@ msgstr ""
 msgid "Icon tile color"
 msgstr ""
 
+#: admin/views/contact.php:17
+msgid "Contact Settings"
+msgstr ""
+
 #. translators: %s: Channels admin URL.
 #: admin/views/contact.php:29
 msgid "Phone numbers, WhatsApp, and every other contact button now live on the <a href=\"%s\">Channels</a> screen, where each one has its own label, destination, icon, and colors."
-msgstr ""
-
-#: admin/views/contact.php:35
-msgid "Panel Wording"
 msgstr ""
 
 #: admin/views/contact.php:38
@@ -490,37 +735,217 @@ msgstr ""
 msgid "Save Contact Settings"
 msgstr ""
 
-#: admin/views/dashboard.php:23
-msgid "Total Leads"
+#. translators: 1: greeting, 2: user display name.
+#: admin/views/dashboard.php:106
+msgid "%1$s, %2$s"
 msgstr ""
 
-#: admin/views/dashboard.php:24
-msgid "New (Unhandled)"
+#. translators: %d: number of overdue follow-ups.
+#: admin/views/dashboard.php:117
+msgid "%d follow-up is overdue. Everything else is on track."
+msgid_plural "%d follow-ups are overdue. Everything else is on track."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of follow-ups due today.
+#: admin/views/dashboard.php:123
+msgid "%d follow-up is due today."
+msgid_plural "%d follow-ups are due today."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/dashboard.php:127
+msgid "Nothing is overdue. Here is how the last period went."
 msgstr ""
 
-#: admin/views/dashboard.php:25
-msgid "Today"
+#: admin/views/dashboard.php:148
+msgid "View widget"
 msgstr ""
 
-#: admin/views/dashboard.php:26
-msgid "Last 7 Days"
+#: admin/views/dashboard.php:149
+msgid "Open leads"
 msgstr ""
 
-#. translators: %s: Contact Settings admin URL.
-#: admin/views/dashboard.php:34
-msgid "The Call Us / Text Us buttons need a phone number. Add one under <a href=\"%s\">Contact Settings</a>."
+#: admin/views/dashboard.php:158
+msgid "Finish setting up"
+msgstr ""
+
+#. translators: 1: completed steps, 2: total steps.
+#: admin/views/dashboard.php:163
+msgid "%1$d of %2$d done"
+msgstr ""
+
+#. translators: %d: percentage complete.
+#: admin/views/dashboard.php:170
+msgid "Setup %d%% complete"
+msgstr ""
+
+#: admin/views/dashboard.php:191
+#: includes/class-pipeline-service.php:34
+msgid "New"
+msgstr ""
+
+#: admin/views/dashboard.php:192
+#: admin/views/dashboard.php:265
+msgid "Hot leads"
+msgstr ""
+
+#: admin/views/dashboard.php:193
+#: includes/class-pipeline-service.php:44
+msgid "Qualified"
+msgstr ""
+
+#: admin/views/dashboard.php:195
+msgid "Conversion"
+msgstr ""
+
+#: admin/views/dashboard.php:196
+msgid "Pipeline value"
+msgstr ""
+
+#: admin/views/dashboard.php:206
+msgid "Leads over time"
+msgstr ""
+
+#: admin/views/dashboard.php:223
+msgid "No leads in this period"
+msgstr ""
+
+#: admin/views/dashboard.php:224
+msgid "Once visitors start contacting you, their leads will chart here."
+msgstr ""
+
+#: admin/views/dashboard.php:232
+msgid "Where leads come from"
+msgstr ""
+
+#: admin/views/dashboard.php:233
+msgid "All reports"
+msgstr ""
+
+#: admin/views/dashboard.php:253
+msgid "No sources yet"
+msgstr ""
+
+#: admin/views/dashboard.php:254
+msgid "Source, referrer and UTM campaign are recorded on every new lead from now on."
+msgstr ""
+
+#: admin/views/dashboard.php:266
+#: admin/views/dashboard.php:309
+msgid "See all"
+msgstr ""
+
+#: admin/views/dashboard.php:276
+#: admin/views/dashboard.php:288
+#: admin/views/followups.php:74
+#: admin/views/followups.php:106
+#: admin/views/logs.php:48
+#: admin/views/services.php:30
+msgid "Actions"
+msgstr ""
+
+#: admin/views/dashboard.php:298
+msgid "No hot leads right now"
+msgstr ""
+
+#: admin/views/dashboard.php:299
+msgid "Leads scoring 70 or above appear here so you can call them first."
+msgstr ""
+
+#: admin/views/dashboard.php:300
+msgid "Tune scoring"
+msgstr ""
+
+#: admin/views/dashboard.php:319
+#: admin/views/dashboard.php:328
+#: admin/views/followups.php:69
+#: admin/views/followups.php:83
+#: admin/views/lead-detail.php:166
+msgid "Task"
+msgstr ""
+
+#: admin/views/dashboard.php:321
+#: admin/views/dashboard.php:332
+#: admin/views/followups.php:71
+#: admin/views/followups.php:96
+#: admin/views/lead-detail.php:170
+msgid "Due"
+msgstr ""
+
+#: admin/views/dashboard.php:330
+msgid "(deleted)"
+msgstr ""
+
+#: admin/views/dashboard.php:334
+#: admin/views/lead-detail.php:195
+#: includes/class-ui.php:322
+msgid "Done"
+msgstr ""
+
+#: admin/views/dashboard.php:345
+#: admin/views/followups.php:50
+msgid "You're all caught up"
+msgstr ""
+
+#: admin/views/dashboard.php:346
+msgid "No follow-ups are due today."
+msgstr ""
+
+#: admin/views/dashboard.php:374
+msgid "Only the lead form records a channel today. Click-through channels such as WhatsApp open the visitor's own app, which the plugin cannot observe."
+msgstr ""
+
+#: admin/views/dashboard.php:380
+msgid "No channel data yet"
+msgstr ""
+
+#: admin/views/dashboard.php:381
+msgid "Leads are grouped by the channel they arrived through."
+msgstr ""
+
+#: admin/views/dashboard.php:389
+msgid "Recent activity"
+msgstr ""
+
+#: admin/views/dashboard.php:40
+msgid "Good morning"
 msgstr ""
 
 #: admin/views/dashboard.php:41
-msgid "Latest Leads"
+msgid "Good afternoon"
 msgstr ""
 
-#: admin/views/dashboard.php:43
-msgid "No leads yet. Once a visitor submits the widget form, the lead will show up here."
+#: admin/views/dashboard.php:41
+msgid "Good evening"
 msgstr ""
 
-#: admin/views/dashboard.php:67
-msgid "View all leads"
+#: admin/views/dashboard.php:414
+msgid "Nothing has happened yet"
+msgstr ""
+
+#: admin/views/dashboard.php:415
+msgid "Lead arrivals, stage changes, notes and follow-ups all show up here."
+msgstr ""
+
+#: admin/views/dashboard.php:46
+msgid "Add a contact channel"
+msgstr ""
+
+#: admin/views/dashboard.php:51
+msgid "Set your notification recipient"
+msgstr ""
+
+#: admin/views/dashboard.php:56
+msgid "Define your services"
+msgstr ""
+
+#: admin/views/dashboard.php:61
+msgid "Style the widget"
+msgstr ""
+
+#: admin/views/dashboard.php:66
+msgid "Receive your first lead"
 msgstr ""
 
 #: admin/views/email-templates.php:106
@@ -603,6 +1028,7 @@ msgid "Download leads as a CSV file (UTF-8, Excel-compatible). Cells are protect
 msgstr ""
 
 #: admin/views/export.php:23
+#: admin/views/lead-detail.php:55
 msgid "All leads"
 msgstr ""
 
@@ -614,6 +1040,60 @@ msgstr ""
 #. translators: %s: lead status.
 #: admin/views/export.php:31
 msgid "Leads with status: %s"
+msgstr ""
+
+#: admin/views/followups.php:104
+#: admin/views/lead-detail.php:76
+#: admin/views/lead-detail.php:239
+msgid "Unassigned"
+msgstr ""
+
+#: admin/views/followups.php:107
+msgid "Complete"
+msgstr ""
+
+#: admin/views/followups.php:19
+#: includes/class-ui.php:334
+msgid "Overdue"
+msgstr ""
+
+#: admin/views/followups.php:23
+msgid "Due today"
+msgstr ""
+
+#: admin/views/followups.php:27
+msgid "Upcoming"
+msgstr ""
+
+#: admin/views/followups.php:39
+msgid "Open tasks against your leads. Schedule a follow-up from any lead's page."
+msgstr ""
+
+#: admin/views/followups.php:51
+msgid "No follow-ups are open. Open a lead and schedule one to keep the conversation moving."
+msgstr ""
+
+#: admin/views/followups.php:52
+msgid "Go to leads"
+msgstr ""
+
+#: admin/views/followups.php:72
+#: admin/views/followups.php:100
+#: admin/views/lead-detail.php:174
+msgid "Priority"
+msgstr ""
+
+#: admin/views/followups.php:73
+#: admin/views/followups.php:103
+msgid "Assigned"
+msgstr ""
+
+#: admin/views/followups.php:93
+msgid "(lead deleted)"
+msgstr ""
+
+#: admin/views/form-builder.php:19
+msgid "Form Builder"
 msgstr ""
 
 #: admin/views/form-builder.php:27
@@ -758,43 +1238,142 @@ msgstr ""
 msgid "Save Uninstall Options"
 msgstr ""
 
-#: admin/views/lead-detail.php:16
-msgid "Lead Detail"
+#: admin/views/lead-detail.php:100
+#: includes/class-activity-service.php:38
+msgid "Note"
 msgstr ""
 
-#: admin/views/lead-detail.php:17
-msgid "Back to Leads"
+#: admin/views/lead-detail.php:101
+msgid "What happened? Kept here for you and your team."
 msgstr ""
 
-#: admin/views/lead-detail.php:22
-msgid "Lead not found. It may have been deleted."
+#: admin/views/lead-detail.php:102
+msgid "Save note"
 msgstr ""
 
-#: admin/views/lead-detail.php:27
-msgid "Lead ID"
+#: admin/views/lead-detail.php:108
+msgid "Activity"
 msgstr ""
 
-#: admin/views/lead-detail.php:33
-msgid "Submitted"
+#: admin/views/lead-detail.php:140
+msgid "No activity yet"
 msgstr ""
 
-#: admin/views/lead-detail.php:51
-msgid "Update Status"
+#: admin/views/lead-detail.php:141
+msgid "Notes, stage changes and follow-ups appear here as you work the lead."
 msgstr ""
 
-#: admin/views/lead-detail.php:54
-msgid "Delete this lead permanently?"
+#: admin/views/lead-detail.php:148
+msgid "Their message"
 msgstr ""
 
-#: admin/views/lead-detail.php:59
-msgid "Delete Lead"
+#: admin/views/lead-detail.php:152
+msgid "They did not leave a message."
 msgstr ""
 
-#: admin/views/leads.php:16
+#: admin/views/lead-detail.php:167
+msgid "Call to discuss the quote"
+msgstr ""
+
+#: admin/views/lead-detail.php:181
+msgid "Schedule"
+msgstr ""
+
+#: admin/views/lead-detail.php:202
+msgid "Nothing scheduled."
+msgstr ""
+
+#: admin/views/lead-detail.php:207
+#: includes/class-activity-service.php:43
+msgid "Value"
+msgstr ""
+
+#: admin/views/lead-detail.php:210
+msgid "Estimated value"
+msgstr ""
+
+#: admin/views/lead-detail.php:214
+msgid "Actual revenue"
+msgstr ""
+
+#: admin/views/lead-detail.php:217
+msgid "Save value"
+msgstr ""
+
+#: admin/views/lead-detail.php:218
+msgid "Optional. Leave blank if you do not track deal values."
+msgstr ""
+
+#: admin/views/lead-detail.php:223
+msgid "Lead details"
+msgstr ""
+
+#: admin/views/lead-detail.php:253
+msgid "Medium"
+msgstr ""
+
+#: admin/views/lead-detail.php:258
+msgid "Landing page"
+msgstr ""
+
+#: admin/views/lead-detail.php:263
+msgid "Referrer"
+msgstr ""
+
+#: admin/views/lead-detail.php:275
+msgid "IP address"
+msgstr ""
+
+#: admin/views/lead-detail.php:280
+msgid "Recalculate score"
+msgstr ""
+
+#: admin/views/lead-detail.php:285
+msgid "Danger zone"
+msgstr ""
+
+#: admin/views/lead-detail.php:287
+msgid "Delete this lead permanently, with its notes and follow-ups?"
+msgstr ""
+
+#: admin/views/lead-detail.php:292
+msgid "Delete lead"
+msgstr ""
+
+#: admin/views/lead-detail.php:34
+msgid "Lead not found"
+msgstr ""
+
+#: admin/views/lead-detail.php:35
+msgid "It may have been deleted."
+msgstr ""
+
+#: admin/views/lead-detail.php:36
+msgid "Back to leads"
+msgstr ""
+
+#: admin/views/lead-detail.php:74
+#: admin/views/lead-detail.php:238
+msgid "Assigned to"
+msgstr ""
+
+#: admin/views/lead-detail.php:97
+msgid "Add a note"
+msgstr ""
+
+#: admin/views/leads.php:18
+msgid "Everyone who has contacted you. Filter by score, source or stage, then open a lead to work it."
+msgstr ""
+
+#: admin/views/leads.php:21
+msgid "Pipeline view"
+msgstr ""
+
+#: admin/views/leads.php:22
 msgid "Export CSV"
 msgstr ""
 
-#: admin/views/leads.php:28
+#: admin/views/leads.php:45
 msgid "Search leads"
 msgstr ""
 
@@ -826,13 +1405,12 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: admin/views/logs.php:47
-msgid "Error"
+#: admin/views/logs.php:46
+msgid "Date"
 msgstr ""
 
-#: admin/views/logs.php:48
-#: admin/views/services.php:30
-msgid "Actions"
+#: admin/views/logs.php:47
+msgid "Error"
 msgstr ""
 
 #: admin/views/logs.php:61
@@ -933,6 +1511,99 @@ msgstr ""
 msgid "SVG or PNG. A square image around 64×64 works best."
 msgstr ""
 
+#. translators: %s: lead name.
+#: admin/views/pipeline.php:107
+msgid "Move %s to another stage"
+msgstr ""
+
+#. translators: %d: number of additional leads.
+#: admin/views/pipeline.php:125
+msgid "+%d more — open the list view"
+msgstr ""
+
+#: admin/views/pipeline.php:133
+msgid "Nothing here"
+msgstr ""
+
+#: admin/views/pipeline.php:32
+msgid "Drag a card to move a lead, or use the stage menu on the card. Every move is recorded on the lead's timeline."
+msgstr ""
+
+#: admin/views/pipeline.php:35
+msgid "List view"
+msgstr ""
+
+#: admin/views/pipeline.php:46
+msgid "No leads yet"
+msgstr ""
+
+#: admin/views/pipeline.php:47
+msgid "Once visitors contact you, their leads appear here and you can move them through your stages."
+msgstr ""
+
+#: admin/views/pipeline.php:48
+msgid "Preview the widget"
+msgstr ""
+
+#: admin/views/scoring.php:104
+msgid "All changes saved"
+msgstr ""
+
+#: admin/views/scoring.php:105
+msgid "Save scoring rules"
+msgstr ""
+
+#: admin/views/scoring.php:110
+msgid "Changing the rules affects new leads immediately. Existing leads keep their score until you recalculate one from its page."
+msgstr ""
+
+#: admin/views/scoring.php:29
+msgid "Each rule a lead satisfies adds its weight. The total is capped at 100, so you can weight rules freely without breaking the bands."
+msgstr ""
+
+#: admin/views/scoring.php:39
+#: includes/class-lead-scoring-service.php:264
+msgid "Cold"
+msgstr ""
+
+#: admin/views/scoring.php:40
+#: includes/class-lead-scoring-service.php:263
+msgid "Warm"
+msgstr ""
+
+#: admin/views/scoring.php:41
+#: includes/class-lead-scoring-service.php:262
+msgid "Hot"
+msgstr ""
+
+#: admin/views/scoring.php:42
+msgid "Your maximum"
+msgstr ""
+
+#: admin/views/scoring.php:50
+msgid "With the current weights no lead can reach 70, so nothing will ever be marked Hot. Raise a weight or enable more rules."
+msgstr ""
+
+#: admin/views/scoring.php:64
+#: admin/views/scoring.php:72
+msgid "Rule"
+msgstr ""
+
+#: admin/views/scoring.php:65
+#: admin/views/scoring.php:76
+msgid "Active"
+msgstr ""
+
+#: admin/views/scoring.php:66
+#: admin/views/scoring.php:83
+msgid "Points"
+msgstr ""
+
+#. translators: %s: rule label.
+#: admin/views/scoring.php:88
+msgid "Points for: %s"
+msgstr ""
+
 #: admin/views/services.php:19
 msgid "These options populate the \"Select Service\" dropdown on the lead form. Reorder with the arrows; the saved order is the display order."
 msgstr ""
@@ -1017,20 +1688,32 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: includes/class-activator.php:92
+#: includes/class-activator.php:158
 msgid "SEO & Content Strategy"
 msgstr ""
 
-#: includes/class-activator.php:93
+#: includes/class-activator.php:159
 msgid "Web Design & Development"
 msgstr ""
 
-#: includes/class-activator.php:94
+#: includes/class-activator.php:160
 msgid "Paid Advertising (PPC)"
 msgstr ""
 
-#: includes/class-activator.php:95
+#: includes/class-activator.php:161
 msgid "Something Else"
+msgstr ""
+
+#: includes/class-activity-service.php:36
+msgid "Lead created"
+msgstr ""
+
+#: includes/class-activity-service.php:37
+msgid "Stage changed"
+msgstr ""
+
+#: includes/class-activity-service.php:41
+msgid "Assignment"
 msgstr ""
 
 #: includes/class-ajax.php:118
@@ -1070,8 +1753,13 @@ msgstr ""
 msgid "Incorrect answer. Please try the new question."
 msgstr ""
 
-#: includes/class-ajax.php:202
+#: includes/class-ajax.php:220
 msgid "We could not save your request. Please try again."
+msgstr ""
+
+#. translators: %s: source label.
+#: includes/class-ajax.php:238
+msgid "Lead captured from %s"
 msgstr ""
 
 #: includes/class-ajax.php:61
@@ -1081,6 +1769,19 @@ msgstr ""
 
 #: includes/class-ajax.php:86
 msgid "This form is not accepting submissions."
+msgstr ""
+
+#: includes/class-analytics-service.php:261
+#: includes/class-attribution.php:154
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-attribution.php:139
+msgid "Direct"
+msgstr ""
+
+#: includes/class-attribution.php:150
+msgid "Referral"
 msgstr ""
 
 #: includes/class-channels.php:102
@@ -1166,6 +1867,7 @@ msgid "Opens the messaging app with sms:."
 msgstr ""
 
 #: includes/class-channels.php:77
+#: includes/class-ui.php:202
 msgid "WhatsApp"
 msgstr ""
 
@@ -1814,6 +2516,28 @@ msgstr ""
 msgid "Channel button background"
 msgstr ""
 
+#. translators: %s: follow-up title.
+#: includes/class-followup-service.php:138
+msgid "Follow-up completed: %s"
+msgstr ""
+
+#: includes/class-followup-service.php:36
+msgid "Low"
+msgstr ""
+
+#: includes/class-followup-service.php:37
+msgid "Normal"
+msgstr ""
+
+#: includes/class-followup-service.php:38
+msgid "High"
+msgstr ""
+
+#. translators: %s: follow-up title.
+#: includes/class-followup-service.php:88
+msgid "Follow-up scheduled: %s"
+msgstr ""
+
 #: includes/class-icons.php:102
 msgid "Link"
 msgstr ""
@@ -1894,10 +2618,6 @@ msgstr ""
 msgid "Document"
 msgstr ""
 
-#: includes/class-icons.php:29
-msgid "Contact"
-msgstr ""
-
 #: includes/class-icons.php:30
 msgid "General"
 msgstr ""
@@ -1944,6 +2664,128 @@ msgstr ""
 
 #: includes/class-icons.php:97
 msgid "Globe"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:47
+msgid "Phone number provided"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:48
+msgid "A reachable phone number is the strongest signal of intent."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:52
+msgid "Business email address"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:53
+msgid "Not a free consumer domain such as gmail.com."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:57
+msgid "Service selected"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:58
+msgid "They told you what they want."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:62
+msgid "Detailed message"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:63
+msgid "Longer than 120 characters."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:67
+msgid "Any message written"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:68
+msgid "Awarded for a message of any length."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:72
+msgid "Reached out on a direct channel"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:73
+msgid "WhatsApp, phone, or SMS rather than the form."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:77
+msgid "Came from a tracked campaign"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:78
+msgid "A UTM campaign was present on the landing page."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:82
+msgid "Returning visitor"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:83
+msgid "Had visited before submitting, per a first-party cookie."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:87
+msgid "Has contacted you before"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:88
+msgid "An earlier lead exists with the same email address."
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:92
+msgid "Estimated value recorded"
+msgstr ""
+
+#: includes/class-lead-scoring-service.php:93
+msgid "Someone put a number against the opportunity."
+msgstr ""
+
+#: includes/class-lead-service.php:117
+msgid "nobody"
+msgstr ""
+
+#. translators: %s: user display name.
+#: includes/class-lead-service.php:123
+msgid "Assigned to %s"
+msgstr ""
+
+#: includes/class-lead-service.php:174
+msgid "Value updated"
+msgstr ""
+
+#. translators: 1: previous stage, 2: new stage.
+#: includes/class-lead-service.php:59
+msgid "Stage changed from %1$s to %2$s"
+msgstr ""
+
+#: includes/class-pipeline-service.php:39
+msgid "Contacted"
+msgstr ""
+
+#: includes/class-pipeline-service.php:49
+msgid "Proposal Sent"
+msgstr ""
+
+#: includes/class-pipeline-service.php:54
+msgid "Negotiation"
+msgstr ""
+
+#: includes/class-pipeline-service.php:64
+msgid "Lost"
+msgstr ""
+
+#: includes/class-pipeline-service.php:69
+msgid "Spam"
+msgstr ""
+
+#: includes/class-pipeline-service.php:84
+msgid "Closed (legacy)"
 msgstr ""
 
 #: includes/class-settings.php:40
@@ -2079,6 +2921,56 @@ msgstr ""
 
 #: includes/class-settings.php:93
 msgid "View Lead"
+msgstr ""
+
+#: includes/class-ui.php:112
+msgid "No earlier data"
+msgstr ""
+
+#: includes/class-ui.php:116
+msgid "No change"
+msgstr ""
+
+#. translators: %s: percentage change, already signed.
+#: includes/class-ui.php:130
+msgid "%s vs previous period"
+msgstr ""
+
+#: includes/class-ui.php:201
+msgid "Call"
+msgstr ""
+
+#: includes/class-ui.php:204
+msgid "Text"
+msgstr ""
+
+#. translators: %s: stage label.
+#: includes/class-ui.php:262
+msgid "This lead is marked %s."
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. "3 hours".
+#: includes/class-ui.php:303
+msgid "%s ago"
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. "2 days".
+#: includes/class-ui.php:308
+msgid "in %s"
+msgstr ""
+
+#: includes/class-ui.php:338
+msgid "Today"
+msgstr ""
+
+#. translators: 1: number of days, 2: total leads.
+#: includes/class-ui.php:383
+msgid "Leads per day over the last %1$d days, %2$d in total"
+msgstr ""
+
+#. translators: %d: score out of 100.
+#: includes/class-ui.php:95
+msgid "Lead score %d out of 100"
 msgstr ""
 
 #: templates/widget.php:116

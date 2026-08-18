@@ -15,6 +15,65 @@
 	var challengeAt = 0;
 	var CHALLENGE_TTL = 10 * 60 * 1000;
 
+	/* ---------- Attribution ---------- */
+
+	/**
+	 * Where this visitor came from, read at submit time from the page they
+	 * are on. Nothing is tracked across pages and nothing is sent anywhere
+	 * except with the lead itself.
+	 *
+	 * The UTM values and referrer are remembered in sessionStorage on first
+	 * load so they survive the visitor browsing to another page before
+	 * submitting — still first-party, still cleared when the tab closes.
+	 */
+	var UTM_KEYS = [ 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' ];
+	var STORE_KEY = 'scch_attr';
+
+	function readStore() {
+		try {
+			return JSON.parse( window.sessionStorage.getItem( STORE_KEY ) ) || null;
+		} catch ( e ) { return null; }
+	}
+
+	function captureAttribution() {
+		var stored = readStore();
+		if ( stored ) { return stored; }
+
+		var params = {};
+		try {
+			var search = new URLSearchParams( window.location.search );
+			UTM_KEYS.forEach( function ( key ) {
+				var value = search.get( key );
+				if ( value ) { params[ key ] = value.slice( 0, 100 ); }
+			} );
+		} catch ( e ) { /* No URLSearchParams: skip UTM capture. */ }
+
+		var attr = {
+			landing_page: window.location.href.slice( 0, 255 ),
+			referrer: ( document.referrer || '' ).slice( 0, 255 ),
+			device: deviceType(),
+			returning: 0
+		};
+
+		UTM_KEYS.forEach( function ( key ) { attr[ key ] = params[ key ] || ''; } );
+
+		try {
+			// A marker from an earlier visit means this is a return visitor.
+			attr.returning = window.localStorage.getItem( STORE_KEY + '_seen' ) ? 1 : 0;
+			window.localStorage.setItem( STORE_KEY + '_seen', '1' );
+			window.sessionStorage.setItem( STORE_KEY, JSON.stringify( attr ) );
+		} catch ( e ) { /* Storage blocked: attribution still works for this page. */ }
+
+		return attr;
+	}
+
+	function deviceType() {
+		var w = window.innerWidth || document.documentElement.clientWidth || 0;
+		if ( w > 0 && w < 768 ) { return 'mobile'; }
+		if ( w >= 768 && w < 1024 ) { return 'tablet'; }
+		return 'desktop';
+	}
+
 	function qs( sel, ctx ) { return ( ctx || document ).querySelector( sel ); }
 	function qsa( sel, ctx ) { return Array.prototype.slice.call( ( ctx || document ).querySelectorAll( sel ) ); }
 
@@ -54,6 +113,7 @@
 		}
 
 		initExternalTriggers();
+		captureAttribution();
 	}
 
 	/* ---------- External Trigger System ---------- */
@@ -282,6 +342,11 @@
 		var body = new FormData( form );
 		body.append( 'action', 'scch_submit_lead' );
 		body.append( 'nonce', config.nonce );
+
+		var attr = captureAttribution();
+		Object.keys( attr ).forEach( function ( key ) {
+			body.append( key, attr[ key ] );
+		} );
 
 		submitBtn.disabled = true;
 		var original = submitBtn.textContent;

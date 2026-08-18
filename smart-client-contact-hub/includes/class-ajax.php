@@ -195,6 +195,24 @@ class Ajax {
 			? substr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 0, 255 )
 			: '';
 
+		// Where this lead came from. Read once, from the page they submitted
+		// on; the plugin does not track visitors across the site.
+		$lead = array_merge( $lead, Attribution::from_request( wp_unslash( $_POST ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized field by field in Attribution.
+
+		$lead['channel'] = 'form';
+
+		// Score before insert so the stored row is complete from the start.
+		$scoring       = Lead_Scoring_Service::evaluate(
+			array_merge(
+				$lead,
+				array(
+					'returning'     => ! empty( $_POST['returning'] ),
+					'known_contact' => Lead_Service::has_earlier_lead( $lead['email'] ),
+				)
+			)
+		);
+		$lead['score'] = $scoring['score'];
+
 		$lead_id = Lead_Repository::insert( $lead );
 
 		if ( ! $lead_id ) {
@@ -211,6 +229,29 @@ class Ajax {
 		 * @param array $lead    Lead data.
 		 */
 		do_action( 'scch_lead_created', $lead_id, $lead );
+
+		Activity_Service::log(
+			$lead_id,
+			'created',
+			sprintf(
+				/* translators: %s: source label. */
+				__( 'Lead captured from %s', 'smart-client-contact-hub' ),
+				Attribution::label( $lead['source'] )
+			),
+			'',
+			array(
+				'score'   => $scoring['score'],
+				'band'    => $scoring['band'],
+				'matched' => $scoring['matched'],
+			)
+		);
+
+		if ( $scoring['matched'] ) {
+			/** This action is documented in includes/class-lead-service.php */
+			do_action( 'scch_lead_scored', $lead_id, $scoring['score'], $scoring['matched'] );
+		}
+
+		Analytics_Service::flush();
 
 		( new Email_Manager() )->send_lead_notifications( $lead_id, $lead );
 

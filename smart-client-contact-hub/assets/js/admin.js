@@ -120,6 +120,244 @@
 			$( this ).closest( '.scch-channel-row' ).toggleClass( 'is-off', ! this.checked );
 		} );
 
+		/* ---------- Toasts ---------- */
+
+		var toastHost = null;
+
+		function toast( message, isError ) {
+			if ( ! toastHost ) {
+				toastHost = $( '<div class="scch-toasts" role="status" aria-live="polite"></div>' ).appendTo( document.body );
+			}
+
+			var el = $( '<div class="scch-toast"></div>' )
+				.toggleClass( 'scch-toast--error', !! isError )
+				.append( $( '<span class="scch-toast__mark" aria-hidden="true"></span>' ).text( isError ? '!' : '✓' ) )
+				.append( $( '<span></span>' ).text( message ) )
+				.appendTo( toastHost );
+
+			window.setTimeout( function () {
+				el.fadeOut( 180, function () { el.remove(); } );
+			}, isError ? 6000 : 3200 );
+		}
+
+		/**
+		 * Call the single CRM endpoint. Every task goes through one nonce and
+		 * one capability check on the server.
+		 */
+		function crm( task, data ) {
+			return $.post( scchAdmin.ajaxUrl, $.extend( {
+				action: 'scch_crm_action',
+				nonce: scchAdmin.nonce,
+				task: task
+			}, data ) );
+		}
+
+		function crmFail( xhr ) {
+			var msg = xhr && xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message
+				? xhr.responseJSON.data.message
+				: scchAdmin.i18n.genericError;
+			toast( msg, true );
+		}
+
+		/* ---------- Lead actions ---------- */
+
+		$( document ).on( 'change', '.scch-stage-select', function () {
+			var select = $( this );
+			var lead = select.data( 'lead' );
+			var stage = select.val();
+
+			select.prop( 'disabled', true );
+
+			crm( 'status', { lead_id: lead, status: stage } )
+				.done( function ( res ) {
+					toast( ( res.data && res.data.message ) || scchAdmin.i18n.stageChanged );
+
+					// On the board, move the card into its new column.
+					var card = select.closest( '.ui-lead-card' );
+					var target = $( '.ui-col[data-stage="' + stage + '"] .ui-col__body' );
+					if ( card.length && target.length ) {
+						card.appendTo( target );
+						refreshCounts();
+					}
+				} )
+				.fail( crmFail )
+				.always( function () { select.prop( 'disabled', false ); } );
+		} );
+
+		$( document ).on( 'change', '.scch-assign-select', function () {
+			var select = $( this );
+			crm( 'assign', { lead_id: select.data( 'lead' ), user_id: select.val() } )
+				.done( function () { toast( scchAdmin.i18n.assigned ); } )
+				.fail( crmFail );
+		} );
+
+		$( document ).on( 'submit', '.scch-note-form', function ( e ) {
+			e.preventDefault();
+			var form = $( this );
+			var field = form.find( 'textarea' );
+
+			if ( ! $.trim( field.val() ) ) { return; }
+
+			form.find( 'button' ).prop( 'disabled', true );
+
+			crm( 'note', { lead_id: form.data( 'lead' ), note: field.val() } )
+				.done( function () {
+					toast( scchAdmin.i18n.noteAdded );
+					window.location.reload();
+				} )
+				.fail( function ( xhr ) {
+					crmFail( xhr );
+					form.find( 'button' ).prop( 'disabled', false );
+				} );
+		} );
+
+		$( document ).on( 'submit', '.scch-followup-form', function ( e ) {
+			e.preventDefault();
+			var form = $( this );
+
+			crm( 'followup', {
+				lead_id: form.data( 'lead' ),
+				title: form.find( '[name="title"]' ).val(),
+				due_at: form.find( '[name="due_at"]' ).val(),
+				priority: form.find( '[name="priority"]' ).val(),
+				notes: form.find( '[name="notes"]' ).val() || ''
+			} )
+				.done( function () {
+					toast( scchAdmin.i18n.followupSet );
+					window.location.reload();
+				} )
+				.fail( crmFail );
+		} );
+
+		$( document ).on( 'submit', '.scch-value-form', function ( e ) {
+			e.preventDefault();
+			var form = $( this );
+
+			crm( 'value', {
+				lead_id: form.data( 'lead' ),
+				estimated_value: form.find( '[name="estimated_value"]' ).val() || 0,
+				actual_revenue: form.find( '[name="actual_revenue"]' ).val() || 0
+			} )
+				.done( function () { toast( scchAdmin.i18n.saved ); } )
+				.fail( crmFail );
+		} );
+
+		$( document ).on( 'click', '.scch-rescore', function () {
+			var btn = $( this );
+			btn.prop( 'disabled', true );
+
+			crm( 'rescore', { lead_id: btn.data( 'lead' ) } )
+				.done( function () {
+					toast( scchAdmin.i18n.saved );
+					window.location.reload();
+				} )
+				.fail( function ( xhr ) {
+					crmFail( xhr );
+					btn.prop( 'disabled', false );
+				} );
+		} );
+
+		$( document ).on( 'click', '.scch-followup-done', function () {
+			var btn = $( this );
+			var id = btn.data( 'followup' );
+			btn.prop( 'disabled', true );
+
+			crm( 'followup_done', { followup_id: id } )
+				.done( function () {
+					toast( scchAdmin.i18n.followupDone );
+					$( '[data-followup-row="' + id + '"], tr[data-followup="' + id + '"]' )
+						.fadeOut( 180, function () { $( this ).remove(); } );
+				} )
+				.fail( function ( xhr ) {
+					crmFail( xhr );
+					btn.prop( 'disabled', false );
+				} );
+		} );
+
+		/* ---------- Pipeline drag and drop ---------- */
+
+		// Dragging is an enhancement; each card also carries a stage select,
+		// so the board is fully operable from the keyboard without this.
+		var dragged = null;
+
+		$( document ).on( 'dragstart', '.ui-lead-card', function ( e ) {
+			dragged = this;
+			$( this ).addClass( 'is-dragging' );
+			if ( e.originalEvent.dataTransfer ) {
+				e.originalEvent.dataTransfer.effectAllowed = 'move';
+				e.originalEvent.dataTransfer.setData( 'text/plain', String( $( this ).data( 'lead' ) ) );
+			}
+		} );
+
+		$( document ).on( 'dragend', '.ui-lead-card', function () {
+			$( this ).removeClass( 'is-dragging' );
+			$( '.ui-col' ).removeClass( 'is-over' );
+			dragged = null;
+		} );
+
+		$( document ).on( 'dragover', '.ui-col', function ( e ) {
+			if ( ! dragged ) { return; }
+			e.preventDefault();
+			$( this ).addClass( 'is-over' );
+		} );
+
+		$( document ).on( 'dragleave', '.ui-col', function () {
+			$( this ).removeClass( 'is-over' );
+		} );
+
+		$( document ).on( 'drop', '.ui-col', function ( e ) {
+			if ( ! dragged ) { return; }
+			e.preventDefault();
+
+			var col = $( this );
+			var card = $( dragged );
+			var stage = col.data( 'stage' );
+
+			col.removeClass( 'is-over' );
+
+			if ( card.closest( '.ui-col' ).data( 'stage' ) === stage ) { return; }
+
+			card.appendTo( col.find( '.ui-col__body' ) );
+			card.find( '.scch-stage-select' ).val( stage );
+			refreshCounts();
+
+			crm( 'status', { lead_id: card.data( 'lead' ), status: stage } )
+				.done( function ( res ) { toast( ( res.data && res.data.message ) || scchAdmin.i18n.stageChanged ); } )
+				.fail( function ( xhr ) {
+					crmFail( xhr );
+					window.location.reload();
+				} );
+		} );
+
+		function refreshCounts() {
+			$( '.ui-col' ).each( function () {
+				var col = $( this );
+				col.find( '.ui-col__count' ).text( col.find( '.ui-lead-card' ).length );
+			} );
+		}
+
+		/* ---------- Sticky save bar ---------- */
+
+		$( '.scch-dirty-watch' ).each( function () {
+			var form = $( this );
+			var bar = form.find( '.scch-savebar' );
+			var note = bar.find( '.scch-savebar__note' );
+			var dirty = false;
+
+			form.on( 'change input', 'input, select, textarea', function () {
+				if ( dirty ) { return; }
+				dirty = true;
+				bar.removeClass( 'is-clean' );
+				note.text( scchAdmin.i18n.unsaved );
+			} );
+
+			form.on( 'submit', function () { dirty = false; } );
+
+			$( window ).on( 'beforeunload', function () {
+				if ( dirty ) { return scchAdmin.i18n.leaveWarning; }
+			} );
+		} );
+
 		// Test email.
 		$( '#scch-send-test' ).on( 'click', function () {
 			var btn = $( this );

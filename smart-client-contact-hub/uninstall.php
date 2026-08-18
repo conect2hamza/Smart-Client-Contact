@@ -19,8 +19,10 @@ $scch_uninstall = is_array( $scch_uninstall ) ? $scch_uninstall : array();
 global $wpdb;
 
 if ( ! empty( $scch_uninstall['delete_leads'] ) ) {
-	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}client_leads" );           // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}client_leads_email_log" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}client_leads" );            // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}client_leads_email_log" );  // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}client_lead_activity" );    // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}client_lead_followups" );   // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 }
 
 if ( ! empty( $scch_uninstall['delete_settings'] ) ) {
@@ -35,6 +37,8 @@ if ( ! empty( $scch_uninstall['delete_settings'] ) ) {
 		'scch_uninstall',
 		'scch_services',
 		'scch_channel_items',
+		'scch_pipeline_stages',
+		'scch_scoring_rules',
 		'scch_version',
 		'scch_flush_needed', // Retired in 1.0.3; removed here for older installs.
 	);

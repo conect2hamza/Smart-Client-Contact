@@ -14,7 +14,20 @@ defined( 'ABSPATH' ) || exit;
  */
 class Lead_Repository {
 
+	/**
+	 * Statuses as of 1.0. Retained so any third-party code referencing the
+	 * constant keeps working; the live list comes from statuses().
+	 */
 	public const STATUSES = array( 'new', 'contacted', 'qualified', 'closed', 'spam' );
+
+	/**
+	 * Every status a lead may currently hold, from the pipeline definition.
+	 *
+	 * @return string[]
+	 */
+	public static function statuses(): array {
+		return Pipeline_Service::valid_statuses();
+	}
 
 	/**
 	 * Fully-qualified table name.
@@ -33,20 +46,37 @@ class Lead_Repository {
 	public static function insert( array $data ): int {
 		global $wpdb;
 
+		$now = current_time( 'mysql' );
+
 		$inserted = $wpdb->insert(
 			self::table(),
 			array(
-				'name'            => $data['name'],
-				'phone'           => $data['phone'],
-				'email'           => $data['email'],
-				'service'         => $data['service'],
-				'message'         => $data['message'],
-				'status'          => 'new',
-				'submission_date' => current_time( 'mysql' ),
-				'ip_address'      => $data['ip_address'],
-				'user_agent'      => $data['user_agent'],
+				'name'             => $data['name'],
+				'phone'            => $data['phone'],
+				'email'            => $data['email'],
+				'service'          => $data['service'],
+				'message'          => $data['message'],
+				'status'           => 'new',
+				'submission_date'  => $now,
+				'ip_address'       => $data['ip_address'],
+				'user_agent'       => $data['user_agent'],
+				'score'            => (int) ( $data['score'] ?? 0 ),
+				'channel'          => (string) ( $data['channel'] ?? 'form' ),
+				'source'           => (string) ( $data['source'] ?? '' ),
+				'referrer'         => (string) ( $data['referrer'] ?? '' ),
+				'landing_page'     => (string) ( $data['landing_page'] ?? '' ),
+				'utm_source'       => (string) ( $data['utm_source'] ?? '' ),
+				'utm_medium'       => (string) ( $data['utm_medium'] ?? '' ),
+				'utm_campaign'     => (string) ( $data['utm_campaign'] ?? '' ),
+				'utm_term'         => (string) ( $data['utm_term'] ?? '' ),
+				'utm_content'      => (string) ( $data['utm_content'] ?? '' ),
+				'device'           => (string) ( $data['device'] ?? '' ),
+				'last_activity_at' => $now,
 			),
-			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
+			array(
+				'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
+				'%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
+			)
 		);
 
 		return $inserted ? (int) $wpdb->insert_id : 0;
@@ -74,16 +104,22 @@ class Lead_Repository {
 		global $wpdb;
 
 		$defaults = array(
-			'search'   => '',
-			'status'   => '',
-			'orderby'  => 'submission_date',
-			'order'    => 'DESC',
-			'per_page' => 20,
-			'paged'    => 1,
+			'search'        => '',
+			'status'        => '',
+			'service'       => '',
+			'source'        => '',
+			'channel'       => '',
+			'assigned_user' => '',
+			'band'          => '',
+			'since'         => '',
+			'orderby'       => 'submission_date',
+			'order'         => 'DESC',
+			'per_page'      => 20,
+			'paged'         => 1,
 		);
 		$args     = wp_parse_args( $args, $defaults );
 
-		$allowed_orderby = array( 'id', 'name', 'email', 'service', 'status', 'submission_date' );
+		$allowed_orderby = array( 'id', 'name', 'email', 'service', 'status', 'submission_date', 'score', 'source', 'channel', 'next_followup_at', 'last_activity_at', 'estimated_value' );
 		$orderby         = in_array( $args['orderby'], $allowed_orderby, true ) ? $args['orderby'] : 'submission_date';
 		$order           = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
 		$per_page        = max( 1, min( 200, (int) $args['per_page'] ) );
@@ -101,9 +137,35 @@ class Lead_Repository {
 			$params[] = $like;
 		}
 
-		if ( '' !== $args['status'] && in_array( $args['status'], self::STATUSES, true ) ) {
+		if ( '' !== $args['status'] && Pipeline_Service::is_valid( $args['status'] ) ) {
 			$where[]  = 'status = %s';
 			$params[] = $args['status'];
+		}
+
+		foreach ( array( 'service', 'source', 'channel' ) as $exact ) {
+			if ( '' !== (string) $args[ $exact ] ) {
+				$where[]  = $exact . ' = %s';
+				$params[] = (string) $args[ $exact ];
+			}
+		}
+
+		if ( '' !== (string) $args['assigned_user'] ) {
+			$where[]  = 'assigned_user = %d';
+			$params[] = absint( $args['assigned_user'] );
+		}
+
+		// Score bands mirror Lead_Scoring_Service::band().
+		if ( 'hot' === $args['band'] ) {
+			$where[] = 'score >= 70';
+		} elseif ( 'warm' === $args['band'] ) {
+			$where[] = 'score >= 40 AND score < 70';
+		} elseif ( 'cold' === $args['band'] ) {
+			$where[] = 'score < 40';
+		}
+
+		if ( '' !== (string) $args['since'] ) {
+			$where[]  = 'submission_date >= %s';
+			$params[] = (string) $args['since'];
 		}
 
 		$table     = self::table();
@@ -147,7 +209,7 @@ class Lead_Repository {
 	public static function update_status( array $ids, string $status ): int {
 		global $wpdb;
 		$ids = array_filter( array_map( 'absint', $ids ) );
-		if ( ! $ids || ! in_array( $status, self::STATUSES, true ) ) {
+		if ( ! $ids || ! Pipeline_Service::is_valid( $status ) ) {
 			return 0;
 		}
 		$table        = self::table();

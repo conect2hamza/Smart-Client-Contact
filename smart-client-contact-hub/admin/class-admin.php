@@ -7,13 +7,20 @@
 
 namespace SCCH\Admin;
 
+use SCCH\Activity_Service;
+use SCCH\Analytics_Service;
 use SCCH\Channels;
 use SCCH\Design_Tokens;
 use SCCH\Icons;
 use SCCH\Email_Log_Repository;
 use SCCH\Email_Manager;
+use SCCH\Followup_Service;
 use SCCH\Lead_Repository;
+use SCCH\Lead_Scoring_Service;
+use SCCH\Lead_Service;
+use SCCH\Pipeline_Service;
 use SCCH\Settings;
+use SCCH\UI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -64,6 +71,8 @@ class Admin {
 		add_action( 'wp_ajax_scch_test_email', array( $this, 'ajax_test_email' ) );
 		add_action( 'wp_ajax_scch_resend_email', array( $this, 'ajax_resend_email' ) );
 		add_action( 'wp_ajax_scch_delete_email_log', array( $this, 'ajax_delete_email_log' ) );
+		add_action( 'wp_ajax_scch_crm_action', array( $this, 'ajax_crm_action' ) );
+		add_action( 'admin_post_scch_save_scoring', array( $this, 'save_scoring' ) );
 		add_action( 'admin_post_scch_clear_logs', array( $this, 'clear_logs' ) );
 		add_filter( 'plugin_action_links_' . SCCH_BASENAME, array( $this, 'action_links' ) );
 	}
@@ -98,24 +107,47 @@ class Admin {
 			58
 		);
 
+		/*
+		 * Grouped into the product's five areas rather than one flat list of
+		 * screens. Separators are non-linking headings, so the grouping reads
+		 * without WordPress needing nested menus.
+		 */
 		$pages = array(
 			array( self::MENU, __( 'Dashboard', 'smart-client-contact-hub' ), array( $this, 'render_dashboard' ) ),
+
+			array( '', __( 'CRM', 'smart-client-contact-hub' ), null ),
 			array( 'scch-leads', __( 'Leads', 'smart-client-contact-hub' ), array( $this, 'render_leads' ) ),
-			array( 'scch-appearance', __( 'Appearance', 'smart-client-contact-hub' ), $this->view_renderer( 'appearance' ) ),
-			array( 'scch-contact', __( 'Contact Settings', 'smart-client-contact-hub' ), $this->view_renderer( 'contact' ) ),
+			array( 'scch-pipeline', __( 'Pipeline', 'smart-client-contact-hub' ), $this->view_renderer( 'pipeline' ) ),
+			array( 'scch-followups', __( 'Follow-ups', 'smart-client-contact-hub' ), $this->view_renderer( 'followups' ) ),
+
+			array( '', __( 'Contact Hub', 'smart-client-contact-hub' ), null ),
+			array( 'scch-appearance', __( 'Widget', 'smart-client-contact-hub' ), $this->view_renderer( 'appearance' ) ),
 			array( 'scch-channels', __( 'Channels', 'smart-client-contact-hub' ), $this->view_renderer( 'channels' ) ),
-			array( 'scch-form-builder', __( 'Form Builder', 'smart-client-contact-hub' ), $this->view_renderer( 'form-builder' ) ),
+			array( 'scch-form-builder', __( 'Forms', 'smart-client-contact-hub' ), $this->view_renderer( 'form-builder' ) ),
 			array( 'scch-services', __( 'Services', 'smart-client-contact-hub' ), $this->view_renderer( 'services' ) ),
-			array( 'scch-email-templates', __( 'Email Templates', 'smart-client-contact-hub' ), $this->view_renderer( 'email-templates' ) ),
-			array( 'scch-notifications', __( 'Notifications', 'smart-client-contact-hub' ), $this->view_renderer( 'notifications' ) ),
-			array( 'scch-captcha', __( 'CAPTCHA', 'smart-client-contact-hub' ), $this->view_renderer( 'captcha' ) ),
 			array( 'scch-triggers', __( 'Triggers', 'smart-client-contact-hub' ), $this->view_renderer( 'triggers' ) ),
+			array( 'scch-contact', __( 'Panel Wording', 'smart-client-contact-hub' ), $this->view_renderer( 'contact' ) ),
+
+			array( '', __( 'Analytics', 'smart-client-contact-hub' ), null ),
+			array( 'scch-analytics', __( 'Reports', 'smart-client-contact-hub' ), $this->view_renderer( 'analytics' ) ),
+
+			array( '', __( 'Settings', 'smart-client-contact-hub' ), null ),
+			array( 'scch-notifications', __( 'Notifications', 'smart-client-contact-hub' ), $this->view_renderer( 'notifications' ) ),
+			array( 'scch-email-templates', __( 'Email Templates', 'smart-client-contact-hub' ), $this->view_renderer( 'email-templates' ) ),
+			array( 'scch-scoring', __( 'Lead Scoring', 'smart-client-contact-hub' ), $this->view_renderer( 'scoring' ) ),
+			array( 'scch-captcha', __( 'Security', 'smart-client-contact-hub' ), $this->view_renderer( 'captcha' ) ),
 			array( 'scch-export', __( 'Export', 'smart-client-contact-hub' ), $this->view_renderer( 'export' ) ),
 			array( 'scch-logs', __( 'Logs', 'smart-client-contact-hub' ), $this->view_renderer( 'logs' ) ),
 			array( 'scch-help', __( 'Help', 'smart-client-contact-hub' ), $this->view_renderer( 'help' ) ),
 		);
 
 		foreach ( $pages as $page ) {
+			// A separator: a disabled heading that groups the entries under it.
+			if ( '' === $page[0] ) {
+				$this->separator( $page[1] );
+				continue;
+			}
+
 			$hook = add_submenu_page( self::MENU, $page[1] . ' — Smart Client Contact Hub', $page[1], self::CAP, $page[0], $page[2] );
 			if ( ! $hook ) {
 				continue;
@@ -130,6 +162,29 @@ class Admin {
 		if ( '' !== $this->leads_hook ) {
 			add_action( 'load-' . $this->leads_hook, array( $this, 'leads_screen_options' ) );
 		}
+	}
+
+	/**
+	 * Add a non-linking heading to the submenu.
+	 *
+	 * WordPress has no first-class separator, so this registers an item with
+	 * an impossible capability: it renders as a dimmed label and can never be
+	 * clicked or reached directly.
+	 *
+	 * @param string $label Heading text.
+	 */
+	private function separator( string $label ): void {
+		global $submenu;
+
+		if ( ! current_user_can( self::CAP ) ) {
+			return;
+		}
+
+		$submenu[ self::MENU ][] = array( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			'<span class="scch-menu-sep">' . esc_html( $label ) . '</span>',
+			'do_not_allow',
+			'#scch-sep-' . sanitize_key( $label ),
+		);
 	}
 
 	/**
@@ -158,7 +213,8 @@ class Admin {
 
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_media();
-		wp_enqueue_style( 'scch-admin', SCCH_URL . 'assets/css/admin.css', array(), SCCH_VERSION );
+		wp_enqueue_style( 'scch-admin-ui', SCCH_URL . 'assets/css/admin-ui.css', array(), SCCH_VERSION );
+		wp_enqueue_style( 'scch-admin', SCCH_URL . 'assets/css/admin.css', array( 'scch-admin-ui' ), SCCH_VERSION );
 		wp_enqueue_script( 'scch-admin', SCCH_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), SCCH_VERSION, true );
 		wp_localize_script(
 			'scch-admin',
@@ -354,6 +410,144 @@ class Admin {
 	}
 
 	/**
+	 * Persist lead scoring rules.
+	 */
+	public function save_scoring(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Insufficient permissions.', 'smart-client-contact-hub' ) );
+		}
+		check_admin_referer( 'scch_save_scoring' );
+
+		$rules = isset( $_POST['rules'] ) && is_array( $_POST['rules'] ) ? wp_unslash( $_POST['rules'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized in the service.
+
+		Lead_Scoring_Service::save( $rules );
+		Analytics_Service::flush();
+
+		$this->redirect_back( 'saved' );
+	}
+
+	/**
+	 * Every CRM mutation, behind one capability check and one nonce.
+	 *
+	 * Routing by a whitelisted task keeps the surface small: an unknown task
+	 * is refused rather than falling through to anything.
+	 */
+	public function ajax_crm_action(): void {
+		check_ajax_referer( 'scch_admin', 'nonce' );
+
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'smart-client-contact-hub' ) ), 403 );
+		}
+
+		$task    = isset( $_POST['task'] ) ? sanitize_key( wp_unslash( $_POST['task'] ) ) : '';
+		$lead_id = isset( $_POST['lead_id'] ) ? absint( $_POST['lead_id'] ) : 0;
+
+		$lead_tasks = array( 'status', 'assign', 'note', 'value', 'followup', 'rescore' );
+
+		if ( in_array( $task, $lead_tasks, true ) && ! Lead_Repository::find( $lead_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Lead not found.', 'smart-client-contact-hub' ) ), 404 );
+		}
+
+		switch ( $task ) {
+			case 'status':
+				$status = isset( $_POST['status'] ) ? sanitize_key( wp_unslash( $_POST['status'] ) ) : '';
+
+				if ( ! Lead_Service::change_status( $lead_id, $status ) ) {
+					wp_send_json_error( array( 'message' => __( 'That stage is not valid.', 'smart-client-contact-hub' ) ), 400 );
+				}
+
+				wp_send_json_success(
+					array(
+						'badge'   => UI::stage_badge( $status ),
+						'stage'   => $status,
+						'message' => __( 'Stage updated', 'smart-client-contact-hub' ),
+					)
+				);
+				break;
+
+			case 'assign':
+				$user_id = isset( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
+
+				if ( ! Lead_Service::assign( $lead_id, $user_id ) ) {
+					wp_send_json_error( array( 'message' => __( 'That user does not exist.', 'smart-client-contact-hub' ) ), 400 );
+				}
+
+				wp_send_json_success( array( 'message' => __( 'Lead assigned', 'smart-client-contact-hub' ) ) );
+				break;
+
+			case 'note':
+				$note = isset( $_POST['note'] ) ? wp_unslash( $_POST['note'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized in the service.
+
+				if ( ! Lead_Service::add_note( $lead_id, $note ) ) {
+					wp_send_json_error( array( 'message' => __( 'Write something first.', 'smart-client-contact-hub' ) ), 400 );
+				}
+
+				wp_send_json_success( array( 'message' => __( 'Note added', 'smart-client-contact-hub' ), 'reload' => true ) );
+				break;
+
+			case 'value':
+				$estimated = isset( $_POST['estimated_value'] ) ? (float) wp_unslash( $_POST['estimated_value'] ) : null;
+				$revenue   = isset( $_POST['actual_revenue'] ) ? (float) wp_unslash( $_POST['actual_revenue'] ) : null;
+
+				Lead_Service::set_value( $lead_id, $estimated, $revenue );
+
+				wp_send_json_success( array( 'message' => __( 'Changes saved', 'smart-client-contact-hub' ) ) );
+				break;
+
+			case 'followup':
+				$id = Followup_Service::create(
+					array(
+						'lead_id'       => $lead_id,
+						'title'         => isset( $_POST['title'] ) ? wp_unslash( $_POST['title'] ) : '', // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized in the service.
+						'notes'         => isset( $_POST['notes'] ) ? wp_unslash( $_POST['notes'] ) : '', // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized in the service.
+						'due_at'        => isset( $_POST['due_at'] ) ? sanitize_text_field( wp_unslash( $_POST['due_at'] ) ) : '',
+						'priority'      => isset( $_POST['priority'] ) ? sanitize_key( wp_unslash( $_POST['priority'] ) ) : 'normal',
+						'assigned_user' => isset( $_POST['assigned_user'] ) ? absint( $_POST['assigned_user'] ) : 0,
+					)
+				);
+
+				if ( ! $id ) {
+					wp_send_json_error( array( 'message' => __( 'A title and a due date are both required.', 'smart-client-contact-hub' ) ), 400 );
+				}
+
+				wp_send_json_success( array( 'message' => __( 'Follow-up created', 'smart-client-contact-hub' ), 'reload' => true ) );
+				break;
+
+			case 'rescore':
+				$score = Lead_Service::rescore( $lead_id );
+				wp_send_json_success( array( 'message' => __( 'Changes saved', 'smart-client-contact-hub' ), 'score' => $score, 'reload' => true ) );
+				break;
+
+			case 'followup_done':
+			case 'followup_delete':
+				$followup_id = isset( $_POST['followup_id'] ) ? absint( $_POST['followup_id'] ) : 0;
+
+				if ( ! Followup_Service::find( $followup_id ) ) {
+					wp_send_json_error( array( 'message' => __( 'Follow-up not found.', 'smart-client-contact-hub' ) ), 404 );
+				}
+
+				$done = 'followup_done' === $task
+					? Followup_Service::set_complete( $followup_id, true )
+					: Followup_Service::delete( $followup_id );
+
+				if ( ! $done ) {
+					wp_send_json_error( array( 'message' => __( 'That did not work. Please try again.', 'smart-client-contact-hub' ) ), 500 );
+				}
+
+				wp_send_json_success(
+					array(
+						'message' => 'followup_done' === $task
+							? __( 'Follow-up completed', 'smart-client-contact-hub' )
+							: __( 'Changes saved', 'smart-client-contact-hub' ),
+					)
+				);
+				break;
+		}
+
+		wp_send_json_error( array( 'message' => __( 'Unknown action.', 'smart-client-contact-hub' ) ), 400 );
+	}
+
+	/**
 	 * Restore every Appearance value to its shipped default.
 	 */
 	public function reset_appearance(): void {
@@ -386,14 +580,14 @@ class Admin {
 		}
 
 		if ( 'delete' === $task ) {
-			Lead_Repository::delete( array( $lead_id ) );
+			Lead_Service::delete( array( $lead_id ) );
 			wp_safe_redirect( add_query_arg( 'scch_notice', 'lead_deleted', admin_url( 'admin.php?page=scch-leads' ) ) );
 			exit;
 		}
 
 		if ( 'status' === $task ) {
 			$status = isset( $_POST['status'] ) ? sanitize_key( wp_unslash( $_POST['status'] ) ) : '';
-			Lead_Repository::update_status( array( $lead_id ), $status );
+			Lead_Service::change_status( $lead_id, $status );
 			wp_safe_redirect( add_query_arg( array( 'page' => 'scch-leads', 'lead' => $lead_id, 'scch_notice' => 'lead_updated' ), admin_url( 'admin.php' ) ) );
 			exit;
 		}
@@ -642,11 +836,27 @@ class Admin {
 				return $clean;
 
 			case 'scch_general':
-				return array(
-					'rate_limit_max'    => min( 100, max( 1, absint( $raw['rate_limit_max'] ?? 5 ) ) ),
-					'rate_limit_window' => min( 1440, max( 1, absint( $raw['rate_limit_window'] ?? 10 ) ) ),
-					'log_enabled'       => empty( $raw['log_enabled'] ) ? 0 : 1,
-				);
+				// Merged per key: this group is edited from more than one
+				// screen, so an absent key keeps its stored value.
+				$clean = $current;
+
+				foreach ( array( 'rate_limit_max' => array( 1, 100, 5 ), 'rate_limit_window' => array( 1, 1440, 10 ) ) as $key => $range ) {
+					if ( array_key_exists( $key, $raw ) ) {
+						$clean[ $key ] = min( $range[1], max( $range[0], absint( $raw[ $key ] ) ) );
+					}
+				}
+
+				foreach ( array( 'log_enabled', 'crm_enabled' ) as $flag ) {
+					if ( array_key_exists( $flag, $raw ) ) {
+						$clean[ $flag ] = empty( $raw[ $flag ] ) ? 0 : 1;
+					}
+				}
+
+				if ( array_key_exists( 'currency_symbol', $raw ) ) {
+					$clean['currency_symbol'] = mb_substr( sanitize_text_field( $raw['currency_symbol'] ), 0, 5 );
+				}
+
+				return $clean;
 
 			case 'scch_uninstall':
 				return array(

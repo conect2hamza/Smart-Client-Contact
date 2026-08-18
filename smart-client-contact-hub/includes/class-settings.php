@@ -96,6 +96,8 @@ class Settings {
 				'rate_limit_max'    => 5,
 				'rate_limit_window' => 10, // Minutes.
 				'log_enabled'       => 1,
+				'currency_symbol'   => '$',
+				'crm_enabled'       => 1,
 			),
 			'scch_uninstall'  => array(
 				'delete_settings' => 0,

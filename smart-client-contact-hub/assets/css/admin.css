@@ -222,3 +222,25 @@
 /* Icon picker inside a channel card spans the whole grid. */
 .scch-channel-row .scch-f--wide { grid-column: 1 / -1; margin: 12px 0; }
 .scch-channel-row .scch-f__label { display: block; margin-bottom: 4px; font-weight: 600; }
+
+/* ---------- Grouped submenu headings ---------- */
+
+#adminmenu .wp-submenu a[href*="#scch-sep-"] {
+	pointer-events: none;
+	cursor: default;
+	padding-top: 12px;
+	padding-bottom: 2px;
+}
+
+#adminmenu .wp-submenu .scch-menu-sep {
+	display: block;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	opacity: .55;
+}
+
+/* Lead list filters sit in the WP tablenav. */
+.scch-lead-filters select { margin-right: 4px; max-width: 170px; }
+.scch-lead-filters { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }

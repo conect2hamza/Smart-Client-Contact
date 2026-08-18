@@ -4,11 +4,11 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.0.6
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Premium floating contact widget with lead capture, built-in math CAPTCHA, lead management, and email notifications. 100% standalone.
+Lead capture, CRM and conversion hub for WordPress. Capture. Qualify. Follow up. Convert. 100% standalone.
 
 == Description ==
 
@@ -38,11 +38,18 @@ Every submission is validated client- and server-side, stored in a custom databa
 * No icon-font CDNs — icons are inline SVG, with custom SVG/PNG upload supported.
 * Emails go through wp_mail(), so any SMTP setup you already have (Gmail, Brevo, Mailgun, Amazon SES, SendGrid, Outlook, Postmark) works automatically.
 
-= Lead management =
+= CRM =
 
-* Native WordPress list table with search, status filter, sortable columns, pagination.
-* Bulk delete and bulk status updates (new / contacted / qualified / closed / spam).
-* CSV export (UTF-8 BOM, formula-injection safe), optionally filtered by status.
+Leads do not just pile up in an inbox — you work them.
+
+* **Dashboard** — leads, new, hot, qualified, won, conversion rate, pipeline value and revenue, each against the previous period, plus a lead trend chart, source and channel breakdowns, your hottest leads, follow-ups due, and a recent-activity feed.
+* **Pipeline** — a Kanban board across New, Contacted, Qualified, Proposal Sent, Negotiation, Won, Lost and Spam. Drag a card to move a lead, or use the stage menu on the card if you prefer the keyboard. Stages are customizable.
+* **Lead workspace** — quick call / WhatsApp / email / SMS actions, stage and assignee menus, a pipeline progress rail, an activity timeline, timestamped notes, follow-up scheduling, and optional deal value.
+* **Follow-ups** — a dedicated screen grouping every open task into Overdue, Due today and Upcoming, with one-click completion.
+* **Lead scoring** — a configurable rule engine scoring every lead 0–100 and banding it Cold, Warm or Hot. Ten rules ship enabled with sensible weights and every weight is editable. No AI and no external service.
+* **Source tracking** — referrer, landing page, UTM source/medium/campaign/term/content and device are recorded on each lead, and the source is resolved to a readable name.
+* **Reports** — leads, won and conversion rate broken down by source, channel, service, campaign and device, plus a stage funnel.
+* Search and filter by score band, source, service, stage, assignee and date. Bulk actions and CSV export are unchanged.
 
 = Email system =
 
@@ -89,6 +96,9 @@ Fully compatible. The submission nonce and the CAPTCHA challenge are issued per 
 * `scch_render_widget` filter — hide the widget on specific pages.
 * `scch_channels` filter — register extra channels in code; they are appended after the ones configured in the admin.
 * `scch_lead_created` action — integrate with CRMs or automation after a lead is stored.
+* `scch_lead_updated`, `scch_lead_status_changed`, `scch_lead_assigned`, `scch_lead_scored`, `scch_lead_won` actions.
+* `scch_followup_created`, `scch_followup_completed` actions.
+* `scch_lead_score` filter — adjust a computed score before it is stored.
 
 == Installation ==
 
@@ -117,6 +127,24 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.1.0 =
+This release turns the lead inbox into a working CRM. Everything from 1.0 keeps working and no stored data is touched.
+
+* New: **Dashboard** — eight KPIs each compared against the previous period, a lead trend chart, source and channel breakdowns, hot leads, follow-ups due, recent activity, and a setup checklist that disappears once you are done.
+* New: **Pipeline** — a Kanban board with eight stages. Drag cards between columns, or use the stage menu on each card. Every move is logged.
+* New: **Lead workspace** — the lead page is now a work surface: quick contact actions, stage and assignee menus, a pipeline rail, activity timeline, notes, follow-up scheduling, deal value, and the full attribution record.
+* New: **Follow-ups** — tasks against leads with due date, priority and assignee, grouped into Overdue, Due today and Upcoming.
+* New: **Lead scoring** — ten configurable rules score each lead 0–100 and band it Cold, Warm or Hot. Weights are editable and the screen warns you if your weights make Hot unreachable.
+* New: **Source tracking** — referrer, landing page, UTM parameters and device are captured with each submission and resolved to a readable source. Read once, from the page the visitor submitted on; the plugin does not track visitors across your site.
+* New: **Reports** — breakdowns by source, channel, service, campaign and device, with a stage funnel. Every figure is counted from stored leads; nothing is estimated.
+* New: **Revenue** — optional estimated value and actual revenue per lead, feeding pipeline value and revenue metrics. Never mandatory.
+* New: admin navigation is grouped into Dashboard, CRM, Contact Hub, Analytics and Settings instead of one flat list.
+* New: a shared admin design system — tokens, cards, badges, tables that become cards on mobile, empty states on every screen, toast notifications for AJAX actions, and a sticky save bar with unsaved-change warnings.
+* New: hooks — `scch_lead_updated`, `scch_lead_status_changed`, `scch_lead_assigned`, `scch_lead_scored`, `scch_lead_won`, `scch_followup_created`, `scch_followup_completed`, and a `scch_lead_score` filter.
+* Change: the leads list now shows score, stage, source and next follow-up, with filters for score band, source, service and date range.
+* Change: deleting a lead now also removes its timeline and follow-ups, instead of leaving them orphaned.
+* Upgrade: new columns are appended to the leads table and two new tables are added. Existing rows, statuses and settings are untouched; the pre-1.1 statuses stay valid and legacy "closed" leads count as Won.
 
 = 1.0.6 =
 * New: a 43-icon built-in library, up from six. Grouped as Contact (message bubbles, phone, SMS, envelopes, paper plane, headset, life ring, map pin, globe, link), General (rocket, lightning, star, heart, sparkles, calendar, clock, person, team, briefcase, cart, gift, question, info, check, bell, video, wrench, document) and Apps & social (WhatsApp, Telegram, Messenger, Facebook, Instagram, X, LinkedIn, YouTube, TikTok, Viber, Skype, Discord).
