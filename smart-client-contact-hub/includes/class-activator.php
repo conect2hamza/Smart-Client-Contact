@@ -71,6 +71,7 @@ class Activator {
 			assigned_user BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
 			last_activity_at DATETIME NULL,
 			next_followup_at DATETIME NULL,
+			extra_fields LONGTEXT NULL,
 			PRIMARY KEY  (id),
 			KEY status (status),
 			KEY email (email(100)),

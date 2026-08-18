@@ -11,6 +11,7 @@ use SCCH\Activity_Service;
 use SCCH\Admin\Admin;
 use SCCH\Attribution;
 use SCCH\Followup_Service;
+use SCCH\Form_Fields;
 use SCCH\Icons;
 use SCCH\Lead_Scoring_Service;
 use SCCH\Pipeline_Service;
@@ -48,6 +49,14 @@ $scch_leads_url = admin_url( 'admin.php?page=scch-leads' );
 	$scch_types    = Activity_Service::types();
 	$scch_owner    = $lead->assigned_user ? get_userdata( (int) $lead->assigned_user ) : null;
 	$scch_users    = get_users( array( 'capability' => Admin::CAP, 'fields' => array( 'ID', 'display_name' ), 'number' => 100 ) );
+
+	/*
+	 * Answers to custom fields. The stored keys are the source of truth, so a
+	 * field deleted from the form still shows the answers it collected; the
+	 * current definition is used for the label when there is one.
+	 */
+	$scch_answers = Form_Fields::decode( $lead->extra_fields ?? null );
+	$scch_defs    = Form_Fields::custom();
 	?>
 
 	<div class="ui-head">
@@ -152,6 +161,24 @@ $scch_leads_url = admin_url( 'admin.php?page=scch-leads' );
 					<p class="ui-meta"><?php esc_html_e( 'They did not leave a message.', 'smart-client-contact-hub' ); ?></p>
 				<?php endif; ?>
 			</div>
+
+			<?php if ( $scch_answers ) : ?>
+				<div class="ui-card">
+					<div class="ui-card__head"><h2 class="ui-card-title"><?php esc_html_e( 'Their answers', 'smart-client-contact-hub' ); ?></h2></div>
+					<dl class="ui-dl">
+						<?php
+						foreach ( $scch_answers as $scch_key => $scch_value ) :
+							$scch_def = $scch_defs[ $scch_key ] ?? array( 'type' => 'text', 'options' => '', 'label' => '' );
+							?>
+							<dt><?php echo esc_html( '' !== (string) ( $scch_def['label'] ?? '' ) ? $scch_def['label'] : $scch_key ); ?></dt>
+							<dd><?php echo esc_html( Form_Fields::display( $scch_def, $scch_value ) ?: '—' ); ?></dd>
+						<?php endforeach; ?>
+					</dl>
+					<?php if ( array_diff_key( $scch_answers, $scch_defs ) ) : ?>
+						<p class="ui-meta"><?php esc_html_e( 'Some of these fields are no longer on the form. Their answers are kept here so nothing is lost.', 'smart-client-contact-hub' ); ?></p>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="ui-stack">

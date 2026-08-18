@@ -170,6 +170,28 @@ class Ajax {
 			}
 		}
 
+		// Custom fields. Core keys are handled above; everything else is
+		// validated by its declared type and stored together as JSON.
+		$extra = array();
+
+		foreach ( $fields as $key => $field ) {
+			if ( Form_Fields::is_core( (string) $key ) ) {
+				continue;
+			}
+
+			$raw_value = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized per type in Form_Fields::validate().
+			$result    = Form_Fields::validate( $field, $raw_value );
+
+			if ( '' !== $result['error'] ) {
+				$errors[ $key ] = $result['error'];
+				continue;
+			}
+
+			if ( '' !== $result['value'] && array() !== $result['value'] ) {
+				$extra[ $key ] = $result['value'];
+			}
+		}
+
 		// CAPTCHA — always regenerate on failure.
 		if ( Captcha::enabled() ) {
 			$token  = isset( $_POST['captcha_token'] ) ? sanitize_text_field( wp_unslash( $_POST['captcha_token'] ) ) : '';
@@ -199,7 +221,8 @@ class Ajax {
 		// on; the plugin does not track visitors across the site.
 		$lead = array_merge( $lead, Attribution::from_request( wp_unslash( $_POST ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized field by field in Attribution.
 
-		$lead['channel'] = 'form';
+		$lead['channel']      = 'form';
+		$lead['extra_fields'] = $extra;
 
 		// Score before insert so the stored row is complete from the start.
 		$scoring       = Lead_Scoring_Service::evaluate(

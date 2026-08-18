@@ -310,6 +310,61 @@
 	color: var(--scch-error);
 }
 
+/*
+ * Half-width fields sit side by side. The form is a wrapping flex row so a
+ * field can opt into half a line; everything else keeps a full one.
+ */
+#scch-form { display: flex; flex-wrap: wrap; gap: 0 var(--scch-field-gap, 14px); }
+#scch-form > * { flex: 1 1 100%; min-width: 0; }
+/* Matches the id specificity of the rule above so the override lands. */
+#scch-form > .scch-field--half { flex: 1 1 calc(50% - (var(--scch-field-gap, 14px) / 2)); }
+
+@media (max-width: 400px) {
+	#scch-form > .scch-field--half { flex-basis: 100%; }
+}
+
+/* Group label for radio/checkbox sets, styled to match a real label. */
+.scch-field-legend {
+	display: block;
+	margin-bottom: 5px;
+	font-size: var(--scch-label-size, 13px);
+	font-weight: var(--scch-label-weight, 600);
+	color: var(--scch-label-color, var(--scch-text));
+}
+
+.scch-choices { display: flex; flex-direction: column; gap: 6px; }
+
+/* Scoped to .scch-field so it outranks the block label rule above. */
+.scch-field .scch-choice,
+.scch-field .scch-consent {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin-bottom: 0;
+	font-size: var(--scch-input-fs, 14px);
+	font-weight: 400;
+	color: var(--scch-text);
+	cursor: pointer;
+}
+
+/* Tick boxes are not text inputs: undo the full-width input styling. */
+.scch-field input[type="checkbox"],
+.scch-field input[type="radio"] {
+	width: auto;
+	flex: 0 0 auto;
+	margin: 2px 0 0;
+	padding: 0;
+	background: none;
+	border-radius: 0;
+	accent-color: var(--scch-primary, #2563eb);
+}
+
+.scch-field-help {
+	margin: 5px 0 0;
+	font-size: 12px;
+	color: var(--scch-muted);
+}
+
 /* CAPTCHA */
 .scch-captcha-row { display: flex; align-items: center; gap: 10px; }
 .scch-captcha-question {

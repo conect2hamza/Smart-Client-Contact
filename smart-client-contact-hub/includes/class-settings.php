@@ -51,11 +51,11 @@ class Settings {
 				'redirect_url'    => '',
 				'submit_label'    => __( 'Send My Request', 'smart-client-contact-hub' ),
 				'fields'          => array(
-					'name'    => array( 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Full Name', 'smart-client-contact-hub' ), 'placeholder' => __( 'Jane Smith', 'smart-client-contact-hub' ), 'order' => 1 ),
-					'phone'   => array( 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Mobile Number', 'smart-client-contact-hub' ), 'placeholder' => __( '+1 555 000 1234', 'smart-client-contact-hub' ), 'order' => 2 ),
-					'email'   => array( 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Email Address', 'smart-client-contact-hub' ), 'placeholder' => __( 'you@company.com', 'smart-client-contact-hub' ), 'order' => 3 ),
-					'service' => array( 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Select Service', 'smart-client-contact-hub' ), 'placeholder' => __( 'Choose a service…', 'smart-client-contact-hub' ), 'order' => 4 ),
-					'message' => array( 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Message', 'smart-client-contact-hub' ), 'placeholder' => __( 'Tell us about your project…', 'smart-client-contact-hub' ), 'order' => 5 ),
+					'name'    => array( 'key' => 'name', 'type' => 'text', 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Full Name', 'smart-client-contact-hub' ), 'placeholder' => __( 'Jane Smith', 'smart-client-contact-hub' ), 'help' => '', 'options' => '', 'width' => 'full', 'order' => 1 ),
+					'phone'   => array( 'key' => 'phone', 'type' => 'tel', 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Mobile Number', 'smart-client-contact-hub' ), 'placeholder' => __( '+1 555 000 1234', 'smart-client-contact-hub' ), 'help' => '', 'options' => '', 'width' => 'full', 'order' => 2 ),
+					'email'   => array( 'key' => 'email', 'type' => 'email', 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Email Address', 'smart-client-contact-hub' ), 'placeholder' => __( 'you@company.com', 'smart-client-contact-hub' ), 'help' => '', 'options' => '', 'width' => 'full', 'order' => 3 ),
+					'service' => array( 'key' => 'service', 'type' => 'select', 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Select Service', 'smart-client-contact-hub' ), 'placeholder' => __( 'Choose a service…', 'smart-client-contact-hub' ), 'help' => '', 'options' => '', 'width' => 'full', 'order' => 4 ),
+					'message' => array( 'key' => 'message', 'type' => 'textarea', 'enabled' => 1, 'required' => 1, 'hide_label' => 0, 'label' => __( 'Message', 'smart-client-contact-hub' ), 'placeholder' => __( 'Tell us about your project…', 'smart-client-contact-hub' ), 'help' => '', 'options' => '', 'width' => 'full', 'order' => 5 ),
 				),
 			),
 			'scch_captcha'    => array(
@@ -140,9 +140,7 @@ class Settings {
 	 * @return array<string,array>
 	 */
 	public static function form_fields(): array {
-		$fields = self::get( 'scch_form', 'fields', array() );
-		uasort( $fields, static fn( $a, $b ) => (int) ( $a['order'] ?? 0 ) <=> (int) ( $b['order'] ?? 0 ) );
-		return array_filter( $fields, static fn( $f ) => ! empty( $f['enabled'] ) );
+		return Form_Fields::enabled();
 	}
 
 	/**

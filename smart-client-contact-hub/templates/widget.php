@@ -117,38 +117,123 @@ foreach ( $channels as $scch_row ) {
 			<h3 class="scch-form-title"><?php echo esc_html( $form['form_title'] ); ?></h3>
 
 			<form id="scch-form" novalidate>
-				<?php foreach ( $fields as $key => $field ) : ?>
-					<?php
+				<?php
+				$scch_types = \SCCH\Form_Fields::types();
+
+				foreach ( $fields as $key => $field ) :
+					$scch_type     = (string) $field['type'];
 					$scch_id       = 'scch-field-' . $key;
 					$scch_required = ! empty( $field['required'] );
+					$scch_core     = \SCCH\Form_Fields::is_core( (string) $key );
+					$scch_choices  = \SCCH\Form_Fields::options( (string) $field['options'] );
+					$scch_help_id  = '' !== (string) $field['help'] ? $scch_id . '-help' : '';
+					$scch_describe = '' !== $scch_help_id ? ' aria-describedby="' . esc_attr( $scch_help_id ) . '"' : '';
+					$scch_req_attr = $scch_required ? ' required aria-required="true"' : '';
+					$scch_group    = in_array( $scch_type, array( 'radio', 'checkbox' ), true );
+
+					// A hidden field has nothing to show; it just rides along.
+					if ( 'hidden' === $scch_type && ! $scch_core ) :
+						?>
+						<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $field['placeholder'] ); ?>" />
+						<?php
+						continue;
+					endif;
 					?>
-					<div class="scch-field" data-field="<?php echo esc_attr( $key ); ?>">
-						<label for="<?php echo esc_attr( $scch_id ); ?>"<?php echo ! empty( $field['hide_label'] ) ? ' class="scch-label-hidden"' : ''; ?>>
-							<?php echo esc_html( $field['label'] ); ?>
-							<?php if ( $scch_required ) : ?><span class="scch-req" aria-hidden="true">*</span><?php endif; ?>
-						</label>
+					<div class="scch-field<?php echo 'half' === $field['width'] ? ' scch-field--half' : ''; ?>" data-field="<?php echo esc_attr( $key ); ?>">
+						<?php if ( 'consent' !== $scch_type ) : ?>
+							<?php if ( $scch_group ) : ?>
+								<span class="scch-field-legend<?php echo ! empty( $field['hide_label'] ) ? ' scch-label-hidden' : ''; ?>" id="<?php echo esc_attr( $scch_id ); ?>-legend">
+									<?php echo esc_html( $field['label'] ); ?>
+									<?php if ( $scch_required ) : ?><span class="scch-req" aria-hidden="true">*</span><?php endif; ?>
+								</span>
+							<?php else : ?>
+								<label for="<?php echo esc_attr( $scch_id ); ?>"<?php echo ! empty( $field['hide_label'] ) ? ' class="scch-label-hidden"' : ''; ?>>
+									<?php echo esc_html( $field['label'] ); ?>
+									<?php if ( $scch_required ) : ?><span class="scch-req" aria-hidden="true">*</span><?php endif; ?>
+								</label>
+							<?php endif; ?>
+						<?php endif; ?>
 
 						<?php if ( 'service' === $key ) : ?>
-							<select id="<?php echo esc_attr( $scch_id ); ?>" name="service" <?php echo $scch_required ? 'required aria-required="true"' : ''; ?>>
+							<?php // The service list is shared with the rest of the plugin. ?>
+							<select id="<?php echo esc_attr( $scch_id ); ?>" name="service"<?php echo $scch_req_attr . $scch_describe; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>>
 								<option value=""><?php echo esc_html( $field['placeholder'] ); ?></option>
 								<?php foreach ( $services as $service ) : ?>
 									<option value="<?php echo esc_attr( $service['id'] ); ?>"><?php echo esc_html( $service['label'] ); ?></option>
 								<?php endforeach; ?>
 							</select>
-						<?php elseif ( 'message' === $key ) : ?>
-							<textarea id="<?php echo esc_attr( $scch_id ); ?>" name="message" rows="4" maxlength="1000"
-								placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>"
-								<?php echo $scch_required ? 'required aria-required="true"' : ''; ?>></textarea>
+
+						<?php elseif ( 'select' === $scch_type ) : ?>
+							<select id="<?php echo esc_attr( $scch_id ); ?>" name="<?php echo esc_attr( $key ); ?>"<?php echo $scch_req_attr . $scch_describe; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>>
+								<option value=""><?php echo esc_html( '' !== (string) $field['placeholder'] ? $field['placeholder'] : __( 'Choose…', 'smart-client-contact-hub' ) ); ?></option>
+								<?php foreach ( $scch_choices as $scch_val => $scch_label ) : ?>
+									<option value="<?php echo esc_attr( $scch_val ); ?>"><?php echo esc_html( $scch_label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+
+						<?php elseif ( $scch_group ) : ?>
+							<div class="scch-choices" role="group" aria-labelledby="<?php echo esc_attr( $scch_id ); ?>-legend">
+								<?php
+								$scch_n = 0;
+								foreach ( $scch_choices as $scch_val => $scch_label ) :
+									$scch_cid = $scch_id . '-' . $scch_n++;
+									?>
+									<label class="scch-choice" for="<?php echo esc_attr( $scch_cid ); ?>">
+										<input type="<?php echo 'checkbox' === $scch_type ? 'checkbox' : 'radio'; ?>"
+											id="<?php echo esc_attr( $scch_cid ); ?>"
+											name="<?php echo esc_attr( $key . ( 'checkbox' === $scch_type ? '[]' : '' ) ); ?>"
+											value="<?php echo esc_attr( $scch_val ); ?>"
+											<?php echo $scch_required ? 'data-scch-required="1"' : ''; ?> />
+										<span><?php echo esc_html( $scch_label ); ?></span>
+									</label>
+								<?php endforeach; ?>
+							</div>
+
+						<?php elseif ( 'consent' === $scch_type ) : ?>
+							<label class="scch-consent" for="<?php echo esc_attr( $scch_id ); ?>">
+								<input type="checkbox" id="<?php echo esc_attr( $scch_id ); ?>" name="<?php echo esc_attr( $key ); ?>" value="1"<?php echo $scch_req_attr . $scch_describe; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?> />
+								<span>
+									<?php echo esc_html( $field['label'] ); ?>
+									<?php if ( $scch_required ) : ?><span class="scch-req" aria-hidden="true">*</span><?php endif; ?>
+								</span>
+							</label>
+
+						<?php elseif ( 'textarea' === $scch_type ) : ?>
+							<textarea id="<?php echo esc_attr( $scch_id ); ?>" name="<?php echo esc_attr( $key ); ?>" rows="4"
+								maxlength="<?php echo esc_attr( 'message' === $key ? '1000' : '2000' ); ?>"
+								placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>"<?php echo $scch_req_attr . $scch_describe; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?>></textarea>
+
 						<?php else : ?>
 							<?php
-							$scch_type = 'email' === $key ? 'email' : ( 'phone' === $key ? 'tel' : 'text' );
-							$scch_attr = 'name' === $key ? 'minlength="3" maxlength="80"' : '';
+							// Core fields carry the extra constraints their own
+							// columns impose; custom fields use the shared cap.
+							// A length cap is only meaningful on text-like types.
+							if ( 'name' === $key ) {
+								$scch_attr = ' minlength="3" maxlength="80"';
+							} elseif ( ! $scch_core && in_array( $scch_type, array( 'text', 'tel', 'url', 'email' ), true ) ) {
+								$scch_attr = ' maxlength="2000"';
+							} else {
+								$scch_attr = '';
+							}
+
+							if ( ! empty( $scch_types[ $scch_type ]['placeholder'] ) ) {
+								$scch_attr .= ' placeholder="' . esc_attr( $field['placeholder'] ) . '"';
+							}
+
+							$scch_autocomplete = array(
+								'name'  => 'name',
+								'phone' => 'tel',
+								'email' => 'email',
+							);
+							$scch_ac           = $scch_autocomplete[ $key ] ?? ( 'email' === $scch_type ? 'email' : ( 'tel' === $scch_type ? 'tel' : 'off' ) );
 							?>
 							<input type="<?php echo esc_attr( $scch_type ); ?>" id="<?php echo esc_attr( $scch_id ); ?>"
-								name="<?php echo esc_attr( $key ); ?>" <?php echo $scch_attr; // phpcs:ignore WordPress.Security.EscapeOutput -- static attribute string. ?>
-								placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>"
-								autocomplete="<?php echo esc_attr( 'email' === $key ? 'email' : ( 'phone' === $key ? 'tel' : 'name' ) ); ?>"
-								<?php echo $scch_required ? 'required aria-required="true"' : ''; ?> />
+								name="<?php echo esc_attr( $key ); ?>"<?php echo $scch_attr; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped as it is built. ?>
+								autocomplete="<?php echo esc_attr( $scch_ac ); ?>"<?php echo $scch_req_attr . $scch_describe; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above. ?> />
+						<?php endif; ?>
+
+						<?php if ( '' !== $scch_help_id ) : ?>
+							<p class="scch-field-help" id="<?php echo esc_attr( $scch_help_id ); ?>"><?php echo esc_html( $field['help'] ); ?></p>
 						<?php endif; ?>
 
 						<p class="scch-field-error" role="alert" hidden></p>

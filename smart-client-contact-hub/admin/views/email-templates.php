@@ -7,6 +7,7 @@
  */
 
 use SCCH\Admin\Admin;
+use SCCH\Form_Fields;
 use SCCH\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -19,8 +20,20 @@ $scch_e = Settings::group( 'scch_email' );
 
 	<div class="notice notice-info inline"><p>
 		<?php esc_html_e( 'Available placeholders:', 'smart-client-contact-hub' ); ?>
-		<code>{customer_name}</code> <code>{customer_email}</code> <code>{customer_phone}</code> <code>{service}</code> <code>{message}</code> <code>{submission_date}</code> <code>{website_name}</code> <code>{business_name}</code> <code>{business_contact}</code> <code>{response_time}</code> <code>{view_lead_link}</code>
+		<code>{customer_name}</code> <code>{customer_email}</code> <code>{customer_phone}</code> <code>{service}</code> <code>{message}</code> <code>{submission_date}</code> <code>{website_name}</code> <code>{business_name}</code> <code>{business_contact}</code> <code>{response_time}</code> <code>{view_lead_link}</code> <code>{all_answers}</code>
 	</p></div>
+
+	<?php $scch_custom = Form_Fields::custom(); ?>
+	<?php if ( $scch_custom ) : ?>
+		<div class="notice notice-info inline"><p>
+			<?php esc_html_e( 'From your custom fields:', 'smart-client-contact-hub' ); ?>
+			<?php foreach ( array_keys( $scch_custom ) as $scch_ck ) : ?>
+				<code><?php echo esc_html( '{' . $scch_ck . '}' ); ?></code>
+			<?php endforeach; ?>
+			<br />
+			<span class="description"><?php esc_html_e( 'Or use {all_answers} to print every custom answer at once, so the template keeps working as you add fields.', 'smart-client-contact-hub' ); ?></span>
+		</p></div>
+	<?php endif; ?>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>

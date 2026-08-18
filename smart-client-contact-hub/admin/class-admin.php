@@ -15,6 +15,7 @@ use SCCH\Icons;
 use SCCH\Email_Log_Repository;
 use SCCH\Email_Manager;
 use SCCH\Followup_Service;
+use SCCH\Form_Fields;
 use SCCH\Lead_Repository;
 use SCCH\Lead_Scoring_Service;
 use SCCH\Lead_Service;
@@ -230,6 +231,8 @@ class Admin {
 					'confirmDel'   => __( 'Remove this service?', 'smart-client-contact-hub' ),
 					'confirmDeleteChannel' => __( 'Remove this channel? Switch it off instead if you only want to hide it.', 'smart-client-contact-hub' ),
 					'confirmDeleteLog' => __( 'Delete this log entry? This cannot be undone.', 'smart-client-contact-hub' ),
+					'confirmDeleteField' => __( 'Delete this field? Answers already collected stay on their leads, but the field stops appearing on the form.', 'smart-client-contact-hub' ),
+					'untitledField' => __( 'Untitled field', 'smart-client-contact-hub' ),
 					'deleting'     => __( 'Deleting…', 'smart-client-contact-hub' ),
 					'deleteFailed' => __( 'Delete failed:', 'smart-client-contact-hub' ),
 					'chooseImage'  => __( 'Choose image', 'smart-client-contact-hub' ),
@@ -731,36 +734,7 @@ class Admin {
 				return $clean;
 
 			case 'scch_form':
-				$fields = array();
-				$order  = 1;
-				$keys   = array( 'name', 'phone', 'email', 'service', 'message' );
 				$posted = is_array( $raw['fields'] ?? null ) ? $raw['fields'] : array();
-
-				// Preserve the submitted row order as the display order.
-				foreach ( array_keys( $posted ) as $key ) {
-					if ( ! in_array( $key, $keys, true ) ) {
-						continue;
-					}
-					$row            = $posted[ $key ];
-					$fields[ $key ] = array(
-						'enabled'     => empty( $row['enabled'] ) ? 0 : 1,
-						'required'    => empty( $row['required'] ) ? 0 : 1,
-						'hide_label'  => empty( $row['hide_label'] ) ? 0 : 1,
-						'label'       => sanitize_text_field( $row['label'] ?? '' ),
-						'placeholder' => sanitize_text_field( $row['placeholder'] ?? '' ),
-						'order'       => $order++,
-					);
-				}
-				// Any field missing from the post keeps its stored config.
-				foreach ( $keys as $key ) {
-					if ( ! isset( $fields[ $key ] ) ) {
-						$fields[ $key ]          = $current['fields'][ $key ];
-						$fields[ $key ]['order'] = $order++;
-					}
-				}
-				// Email stays enabled+required: confirmations and reply-to depend on it.
-				$fields['email']['enabled']  = 1;
-				$fields['email']['required'] = 1;
 
 				return array(
 					'form_title'      => sanitize_text_field( $raw['form_title'] ?? $current['form_title'] ),
@@ -768,7 +742,7 @@ class Admin {
 					'error_message'   => sanitize_text_field( $raw['error_message'] ?? $current['error_message'] ),
 					'redirect_url'    => esc_url_raw( $raw['redirect_url'] ?? '' ),
 					'submit_label'    => sanitize_text_field( $raw['submit_label'] ?? $current['submit_label'] ),
-					'fields'          => $fields,
+					'fields'          => Form_Fields::sanitize( $posted, (array) ( $current['fields'] ?? array() ) ),
 				);
 
 			case 'scch_captcha':

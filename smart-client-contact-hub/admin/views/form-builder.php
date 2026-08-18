@@ -1,23 +1,166 @@
 <?php
 /**
- * Form builder view: enable/label/placeholder/required/reorder per field.
+ * Form builder: add, edit, delete, reorder and configure every form field.
  *
  * @package SCCH
  * @var \SCCH\Admin\Admin $admin
  */
 
 use SCCH\Admin\Admin;
+use SCCH\Form_Fields;
 use SCCH\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
 $scch_form   = Settings::group( 'scch_form' );
-$scch_fields = $scch_form['fields'];
-uasort( $scch_fields, static fn( $a, $b ) => (int) ( $a['order'] ?? 0 ) <=> (int) ( $b['order'] ?? 0 ) );
+$scch_fields = Form_Fields::all();
+$scch_types  = Form_Fields::types();
+
+/**
+ * Render one field card.
+ *
+ * The same closure renders the stored fields and, with a placeholder index,
+ * the hidden templates the "Add field" button clones — so the markup for a
+ * field exists in exactly one place.
+ *
+ * @param array  $field Field definition.
+ * @param string $index Array index used in the input names.
+ */
+$scch_render_field = static function ( array $field, string $index ) use ( $scch_types ): void {
+	$type    = (string) $field['type'];
+	$def     = $scch_types[ $type ] ?? $scch_types['text'];
+	$is_core = ! empty( $field['core'] );
+	$key     = (string) $field['key'];
+	$name    = 'scch_form[fields][' . $index . ']';
+	$uid     = 'scch-fld-' . preg_replace( '/[^a-zA-Z0-9]/', '', $index );
+	$locked  = 'email' === $key; // Confirmations and Reply-To depend on it.
+	?>
+	<div class="scch-fieldrow<?php echo empty( $field['enabled'] ) ? ' is-off' : ''; ?>" data-type="<?php echo esc_attr( $type ); ?>" data-core="<?php echo $is_core ? '1' : '0'; ?>">
+		<div class="scch-fieldrow__bar">
+			<span class="scch-fieldrow__handle">
+				<button type="button" class="button button-small scch-move-up" aria-label="<?php esc_attr_e( 'Move up', 'smart-client-contact-hub' ); ?>">&uarr;</button>
+				<button type="button" class="button button-small scch-move-down" aria-label="<?php esc_attr_e( 'Move down', 'smart-client-contact-hub' ); ?>">&darr;</button>
+			</span>
+
+			<strong class="scch-fieldrow__title"><?php echo esc_html( '' !== (string) $field['label'] ? $field['label'] : __( 'Untitled field', 'smart-client-contact-hub' ) ); ?></strong>
+
+			<?php if ( $is_core ) : ?>
+				<span class="scch-badge scch-badge--core"><?php esc_html_e( 'Built in', 'smart-client-contact-hub' ); ?></span>
+			<?php endif; ?>
+
+			<code class="scch-fieldrow__key"><?php echo esc_html( '' !== $key ? $key : __( 'new', 'smart-client-contact-hub' ) ); ?></code>
+
+			<label class="scch-fieldrow__toggle">
+				<?php if ( $locked ) : ?>
+					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[enabled]" value="1" />
+					<input type="checkbox" checked disabled />
+				<?php else : ?>
+					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[enabled]" value="0" />
+					<input type="checkbox" class="scch-field-enabled" name="<?php echo esc_attr( $name ); ?>[enabled]" value="1" <?php checked( (int) $field['enabled'], 1 ); ?> />
+				<?php endif; ?>
+				<span><?php esc_html_e( 'Show this field', 'smart-client-contact-hub' ); ?></span>
+			</label>
+
+			<?php if ( ! $is_core ) : ?>
+				<button type="button" class="button-link delete scch-remove-field"><?php esc_html_e( 'Delete', 'smart-client-contact-hub' ); ?></button>
+			<?php endif; ?>
+		</div>
+
+		<?php if ( $is_core ) : ?>
+			<input type="hidden" name="<?php echo esc_attr( $name ); ?>[type]" value="<?php echo esc_attr( $type ); ?>" />
+		<?php else : ?>
+			<input type="hidden" class="scch-field-key" name="<?php echo esc_attr( $name ); ?>[key]" value="<?php echo esc_attr( $key ); ?>" />
+		<?php endif; ?>
+
+		<div class="scch-fieldrow__grid">
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-label"><?php esc_html_e( 'Label', 'smart-client-contact-hub' ); ?></label>
+				<input type="text" class="scch-field-label" id="<?php echo esc_attr( $uid ); ?>-label" name="<?php echo esc_attr( $name ); ?>[label]" value="<?php echo esc_attr( $field['label'] ); ?>" />
+			</p>
+
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-type"><?php esc_html_e( 'Field type', 'smart-client-contact-hub' ); ?></label>
+				<?php if ( $is_core ) : ?>
+					<input type="text" id="<?php echo esc_attr( $uid ); ?>-type" value="<?php echo esc_attr( $def['label'] ); ?>" readonly disabled />
+				<?php else : ?>
+					<select class="scch-field-type" id="<?php echo esc_attr( $uid ); ?>-type" name="<?php echo esc_attr( $name ); ?>[type]">
+						<?php foreach ( $scch_types as $scch_tv => $scch_td ) : ?>
+							<option value="<?php echo esc_attr( $scch_tv ); ?>" <?php selected( $scch_tv, $type ); ?>
+								data-options="<?php echo empty( $scch_td['options'] ) ? '0' : '1'; ?>"
+								data-placeholder="<?php echo empty( $scch_td['placeholder'] ) ? '0' : '1'; ?>">
+								<?php echo esc_html( $scch_td['label'] ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				<?php endif; ?>
+			</p>
+
+			<p class="scch-f" data-when="placeholder"<?php echo empty( $def['placeholder'] ) ? ' hidden' : ''; ?>>
+				<label for="<?php echo esc_attr( $uid ); ?>-ph"><?php esc_html_e( 'Placeholder', 'smart-client-contact-hub' ); ?></label>
+				<input type="text" id="<?php echo esc_attr( $uid ); ?>-ph" name="<?php echo esc_attr( $name ); ?>[placeholder]" value="<?php echo esc_attr( $field['placeholder'] ); ?>" />
+				<span class="description scch-f__hint" data-when="hidden"<?php echo 'hidden' === $type ? '' : ' hidden'; ?>><?php esc_html_e( 'For a hidden field this is the value that gets submitted.', 'smart-client-contact-hub' ); ?></span>
+			</p>
+
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-help"><?php esc_html_e( 'Help text under the field', 'smart-client-contact-hub' ); ?></label>
+				<input type="text" id="<?php echo esc_attr( $uid ); ?>-help" name="<?php echo esc_attr( $name ); ?>[help]" value="<?php echo esc_attr( $field['help'] ); ?>" />
+			</p>
+
+			<p class="scch-f">
+				<label for="<?php echo esc_attr( $uid ); ?>-width"><?php esc_html_e( 'Width', 'smart-client-contact-hub' ); ?></label>
+				<select id="<?php echo esc_attr( $uid ); ?>-width" name="<?php echo esc_attr( $name ); ?>[width]">
+					<option value="full" <?php selected( 'full', $field['width'] ); ?>><?php esc_html_e( 'Full width', 'smart-client-contact-hub' ); ?></option>
+					<option value="half" <?php selected( 'half', $field['width'] ); ?>><?php esc_html_e( 'Half width (side by side)', 'smart-client-contact-hub' ); ?></option>
+				</select>
+			</p>
+
+			<p class="scch-f scch-f--check">
+				<label>
+					<?php if ( $locked ) : ?>
+						<input type="hidden" name="<?php echo esc_attr( $name ); ?>[required]" value="1" />
+						<input type="checkbox" checked disabled />
+					<?php else : ?>
+						<input type="hidden" name="<?php echo esc_attr( $name ); ?>[required]" value="0" />
+						<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[required]" value="1" <?php checked( (int) $field['required'], 1 ); ?> />
+					<?php endif; ?>
+					<?php esc_html_e( 'Required', 'smart-client-contact-hub' ); ?>
+				</label>
+			</p>
+
+			<p class="scch-f scch-f--check">
+				<label>
+					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[hide_label]" value="0" />
+					<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[hide_label]" value="1" <?php checked( (int) $field['hide_label'], 1 ); ?> />
+					<?php esc_html_e( 'Hide the label on the form', 'smart-client-contact-hub' ); ?>
+				</label>
+			</p>
+
+			<?php if ( 'service' === $key ) : ?>
+				<div class="scch-f scch-f--wide">
+					<p class="description">
+						<?php esc_html_e( 'The choices in this dropdown come from the Services screen, so the same list stays in step across the site.', 'smart-client-contact-hub' ); ?>
+					</p>
+					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[options]" value="" />
+				</div>
+			<?php else : ?>
+				<div class="scch-f scch-f--wide" data-when="options"<?php echo empty( $def['options'] ) ? ' hidden' : ''; ?>>
+					<label for="<?php echo esc_attr( $uid ); ?>-options"><?php esc_html_e( 'Choices', 'smart-client-contact-hub' ); ?></label>
+					<textarea id="<?php echo esc_attr( $uid ); ?>-options" name="<?php echo esc_attr( $name ); ?>[options]" rows="4" placeholder="<?php echo esc_attr( __( "London\nManchester\nother|Somewhere else", 'smart-client-contact-hub' ) ); ?>"><?php echo esc_textarea( $field['options'] ); ?></textarea>
+					<span class="description"><?php esc_html_e( 'One choice per line. Write value|Label to store a short value but show a longer label.', 'smart-client-contact-hub' ); ?></span>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+	<?php
+};
 ?>
-<div class="wrap scch-wrap">
+<div class="wrap scch-wrap scch-formbuilder">
 	<h1><?php esc_html_e( 'Form Builder', 'smart-client-contact-hub' ); ?></h1>
 	<?php Admin::maybe_notice(); ?>
+
+	<p class="description scch-formbuilder__intro">
+		<?php esc_html_e( 'Build the form visitors fill in. Add as many fields as you need, rename any of them, switch one off without losing it, and use the arrows to reorder. The five built-in fields have their own database columns, so they can be relabelled and reordered but not deleted; the email field always stays on because confirmations and Reply-To depend on it.', 'smart-client-contact-hub' ); ?>
+	</p>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>
@@ -25,43 +168,24 @@ uasort( $scch_fields, static fn( $a, $b ) => (int) ( $a['order'] ?? 0 ) <=> (int
 		<input type="hidden" name="scch_group" value="scch_form" />
 
 		<h2><?php esc_html_e( 'Fields', 'smart-client-contact-hub' ); ?></h2>
-		<p class="description"><?php esc_html_e( 'Use the arrows to reorder. The email field always stays enabled and required because confirmations and Reply-To depend on it.', 'smart-client-contact-hub' ); ?></p>
 
-		<table class="widefat striped scch-table" id="scch-fields-table">
-			<thead>
-				<tr>
-					<th class="scch-col-order"><?php esc_html_e( 'Order', 'smart-client-contact-hub' ); ?></th>
-					<th><?php esc_html_e( 'Field', 'smart-client-contact-hub' ); ?></th>
-					<th><?php esc_html_e( 'Enabled', 'smart-client-contact-hub' ); ?></th>
-					<th><?php esc_html_e( 'Required', 'smart-client-contact-hub' ); ?></th>
-					<th><?php esc_html_e( 'Label', 'smart-client-contact-hub' ); ?></th>
-					<th><?php esc_html_e( 'Hide Label', 'smart-client-contact-hub' ); ?></th>
-					<th><?php esc_html_e( 'Placeholder', 'smart-client-contact-hub' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php foreach ( $scch_fields as $scch_key => $scch_field ) : ?>
-					<tr>
-						<td class="scch-col-order">
-							<button type="button" class="button button-small scch-move-up" aria-label="<?php esc_attr_e( 'Move up', 'smart-client-contact-hub' ); ?>">↑</button>
-							<button type="button" class="button button-small scch-move-down" aria-label="<?php esc_attr_e( 'Move down', 'smart-client-contact-hub' ); ?>">↓</button>
-						</td>
-						<td><strong><?php echo esc_html( ucfirst( $scch_key ) ); ?></strong></td>
-						<td><input type="checkbox" name="scch_form[fields][<?php echo esc_attr( $scch_key ); ?>][enabled]" value="1" <?php checked( $scch_field['enabled'], 1 ); ?> <?php disabled( 'email' === $scch_key ); ?> />
-							<?php if ( 'email' === $scch_key ) : ?><input type="hidden" name="scch_form[fields][email][enabled]" value="1" /><?php endif; ?>
-						</td>
-						<td><input type="checkbox" name="scch_form[fields][<?php echo esc_attr( $scch_key ); ?>][required]" value="1" <?php checked( $scch_field['required'], 1 ); ?> <?php disabled( 'email' === $scch_key ); ?> />
-							<?php if ( 'email' === $scch_key ) : ?><input type="hidden" name="scch_form[fields][email][required]" value="1" /><?php endif; ?>
-						</td>
-						<td><input type="text" name="scch_form[fields][<?php echo esc_attr( $scch_key ); ?>][label]" value="<?php echo esc_attr( $scch_field['label'] ); ?>" /></td>
-						<td><input type="checkbox" name="scch_form[fields][<?php echo esc_attr( $scch_key ); ?>][hide_label]" value="1" <?php checked( ! empty( $scch_field['hide_label'] ) ); ?> aria-label="<?php esc_attr_e( 'Hide this label on the frontend form', 'smart-client-contact-hub' ); ?>" /></td>
-						<td><input type="text" name="scch_form[fields][<?php echo esc_attr( $scch_key ); ?>][placeholder]" value="<?php echo esc_attr( $scch_field['placeholder'] ); ?>" /></td>
-					</tr>
+		<div id="scch-field-list">
+			<?php foreach ( $scch_fields as $scch_key => $scch_field ) : ?>
+				<?php $scch_render_field( $scch_field, (string) $scch_key ); ?>
+			<?php endforeach; ?>
+		</div>
+
+		<p class="scch-formbuilder__add">
+			<label class="screen-reader-text" for="scch-new-field-type"><?php esc_html_e( 'Field type to add', 'smart-client-contact-hub' ); ?></label>
+			<select id="scch-new-field-type">
+				<?php foreach ( $scch_types as $scch_tv => $scch_td ) : ?>
+					<option value="<?php echo esc_attr( $scch_tv ); ?>"><?php echo esc_html( $scch_td['label'] ); ?></option>
 				<?php endforeach; ?>
-			</tbody>
-		</table>
+			</select>
+			<button type="button" class="button" id="scch-add-field"><?php esc_html_e( '+ Add field', 'smart-client-contact-hub' ); ?></button>
+		</p>
 
-		<h2><?php esc_html_e( 'Form Text & Behavior', 'smart-client-contact-hub' ); ?></h2>
+		<h2><?php esc_html_e( 'Form Text &amp; Behavior', 'smart-client-contact-hub' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
 				<th scope="row"><label for="scch-form-title"><?php esc_html_e( 'Form title', 'smart-client-contact-hub' ); ?></label></th>
@@ -90,4 +214,13 @@ uasort( $scch_fields, static fn( $a, $b ) => (int) ( $a['order'] ?? 0 ) <=> (int
 
 		<?php submit_button( __( 'Save Form', 'smart-client-contact-hub' ) ); ?>
 	</form>
+
+	<?php
+	// One hidden template per type, cloned by the Add button.
+	foreach ( $scch_types as $scch_tv => $scch_td ) :
+		?>
+		<script type="text/html" class="scch-field-template" data-type="<?php echo esc_attr( $scch_tv ); ?>">
+			<?php $scch_render_field( Form_Fields::blank( $scch_tv ), '__INDEX__' ); ?>
+		</script>
+	<?php endforeach; ?>
 </div>

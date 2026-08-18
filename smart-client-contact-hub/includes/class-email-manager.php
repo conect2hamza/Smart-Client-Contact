@@ -133,6 +133,7 @@ class Email_Manager {
 			'service' => $lead_row->service,
 			'message' => $lead_row->message,
 			'date'    => $lead_row->submission_date,
+			'extra_fields' => Form_Fields::decode( $lead_row->extra_fields ?? null ),
 		);
 
 		$email = Settings::group( 'scch_email' );
@@ -178,7 +179,36 @@ class Email_Manager {
 			? admin_url( 'admin.php?page=scch-leads&lead=' . $lead_id )
 			: admin_url( 'admin.php?page=scch-leads' );
 
-		return array(
+		/*
+		 * Custom answers get a placeholder each, named after the field key, so
+		 * a template can say {select_city} the same way it says {service}.
+		 * {all_answers} prints whatever the form collected, which keeps a
+		 * template working after fields are added without editing it.
+		 */
+		$answers = is_array( $lead['extra_fields'] ?? null ) ? $lead['extra_fields'] : array();
+		$defs    = Form_Fields::custom();
+		$custom  = array();
+		$lines   = array();
+
+		foreach ( $defs as $key => $field ) {
+			$value            = Form_Fields::display( $field, $answers[ $key ] ?? '' );
+			$custom[ '{' . $key . '}' ] = $value;
+
+			if ( '' !== $value ) {
+				$lines[] = ( '' !== (string) $field['label'] ? $field['label'] : $key ) . ': ' . $value;
+			}
+		}
+
+		// Answers to fields since removed from the form still resolve.
+		foreach ( $answers as $key => $value ) {
+			if ( ! isset( $custom[ '{' . $key . '}' ] ) ) {
+				$custom[ '{' . $key . '}' ] = Form_Fields::display( array( 'type' => 'text', 'options' => '' ), $value );
+			}
+		}
+
+		return array_merge(
+			$custom,
+			array(
 			'{customer_name}'   => $lead['name'] ?? '',
 			'{customer_email}'  => $lead['email'] ?? '',
 			'{customer_phone}'  => $lead['phone'] ?? '',
@@ -190,6 +220,8 @@ class Email_Manager {
 			'{business_contact}' => $email['business_contact'],
 			'{response_time}'   => $email['response_time'],
 			'{view_lead_link}'  => $view_link,
+			'{all_answers}'     => implode( "\n", $lines ),
+			)
 		);
 	}
 

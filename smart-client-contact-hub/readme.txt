@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Smart Client Contact Hub adds a customizable floating contact button to every pa
 
 Build the popup from as many buttons as you need on the Channels screen:
 
-* **Lead form** — name, phone, email, service, message, protected by a built-in math CAPTCHA.
+* **Lead form** — built from whatever fields you want, protected by a built-in math CAPTCHA.
 * **Phone call** — launches a call with tel:.
 * **SMS** — opens the messaging app, optionally with your message pre-filled.
 * **WhatsApp** — opens wa.me, optionally with your message pre-filled.
@@ -28,6 +28,17 @@ Build the popup from as many buttons as you need on the Channels screen:
 * **Custom link** — anything else: Viber, Skype, Calendly, a booking page. Pair it with your own uploaded icon.
 
 Every button has its own editable text, an optional line of small print under it, its own icon chosen from a 43-icon library, and its own icon color, icon tile color, and text color. Any button can be switched off without deleting it, and the order is yours to set. Add the same type more than once — two WhatsApp numbers for two departments works fine.
+
+= Form builder =
+
+The form is yours to build. Add, edit, delete and reorder fields on the Form Builder screen.
+
+* **Thirteen field types** — text, paragraph, email address, phone number, website address, number, date, time, dropdown, radio buttons, checkboxes, consent checkbox, and hidden value.
+* **Your own choices** for dropdowns, radios and checkboxes: one per line, or `value|Label` to store a short value but show a longer label.
+* Per field: label, placeholder, help text, required, hide label, and full or half width so two short fields sit side by side.
+* Any field can be switched off without deleting it, and the order is set with the arrows.
+* Five fields are built in — name, phone, email, service and message. They have their own database columns, so they can be relabelled, reordered and switched off, but not deleted. The email field stays on because confirmations and Reply-To depend on it.
+* Custom answers show on the lead page, get their own CSV export columns, and are available in email templates.
 
 Every submission is validated client- and server-side, stored in a custom database table, and triggers a branded notification email to the administrator plus a confirmation email to the customer.
 
@@ -54,7 +65,7 @@ Leads do not just pile up in an inbox — you work them.
 = Email system =
 
 * Template builder for subject, heading, body, footer, logo, signature, button, and brand color.
-* Placeholders: {customer_name}, {customer_email}, {customer_phone}, {service}, {message}, {submission_date}, {website_name}, {business_name}, {business_contact}, {response_time}, {view_lead_link}.
+* Placeholders: {customer_name}, {customer_email}, {customer_phone}, {service}, {message}, {submission_date}, {website_name}, {business_name}, {business_contact}, {response_time}, {view_lead_link}, plus one per custom field and {all_answers} for the lot.
 * Multiple recipients, CC, BCC, Reply-To customer, custom sender.
 * Email log with status, error detail, one-click resend, per-entry delete, and a Clear All Logs option. Test email button.
 
@@ -78,7 +89,7 @@ Any color left empty falls back to the shipped design, so you only set what you 
 
 Other customization:
 
-* Form builder: enable/disable fields, labels, placeholders, required flags, field order, success/error messages, optional thank-you redirect.
+* Form builder: add, edit, delete and reorder fields across thirteen types, with labels, placeholders, help text, required flags, widths, choices, success/error messages, and an optional thank-you redirect.
 * Services manager: create, edit, delete, and sort the service dropdown.
 
 = Security =
@@ -127,6 +138,20 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.2.0 =
+The form is no longer a fixed set of five fields. Everything from earlier releases keeps working and no stored data is touched.
+
+* New: **Form Builder is a real field manager.** Add, edit, delete and reorder fields. Each field is a card with its own settings instead of a row in a fixed table.
+* New: **thirteen field types** — text, paragraph, email address, phone number, website address, number, date, time, dropdown, radio buttons, checkboxes, consent checkbox, and hidden value.
+* New: **choices you write yourself.** Dropdowns, radios and checkboxes take one choice per line, optionally as `value|Label` so you can store a short value but show a longer label.
+* New: per-field **help text**, **placeholder**, **required**, **hide label**, and **half width** so two short fields can sit side by side.
+* New: custom answers appear on the lead page under "Their answers", get their own columns in the CSV export, and can be used in email templates as `{your_field_key}` or all at once as `{all_answers}`.
+* Change: the five built-in fields (name, phone, email, service, message) keep their own database columns and can be relabelled, reordered and switched off — but not deleted or retyped, because reports and exports depend on them. Email stays on because confirmations and Reply-To need it.
+* Change: the service dropdown still takes its choices from the Services screen, so that one list stays in step across the site.
+* Change: client-side validation now follows each field's type, so a custom email or website field is checked the same way a built-in one is. Radio and checkbox groups are validated as groups.
+* Note: a custom field can never shadow a built-in column or a reserved form name — those keys are prefixed automatically. Up to 40 custom fields per form, 2000 characters per answer.
+* Upgrade: one column is appended to the leads table for the custom answers. Existing rows, fields and settings are untouched.
 
 = 1.1.0 =
 This release turns the lead inbox into a working CRM. Everything from 1.0 keeps working and no stored data is touched.

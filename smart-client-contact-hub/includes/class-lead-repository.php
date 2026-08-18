@@ -72,10 +72,11 @@ class Lead_Repository {
 				'utm_content'      => (string) ( $data['utm_content'] ?? '' ),
 				'device'           => (string) ( $data['device'] ?? '' ),
 				'last_activity_at' => $now,
+				'extra_fields'     => empty( $data['extra_fields'] ) ? null : wp_json_encode( $data['extra_fields'] ),
 			),
 			array(
 				'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
-				'%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
+				'%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
 			)
 		);
 

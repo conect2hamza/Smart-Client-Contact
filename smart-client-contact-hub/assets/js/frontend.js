@@ -6,6 +6,21 @@
 	'use strict';
 
 	var config = window.scchConfig || {};
+
+	// Fallbacks so validation still speaks if the localized strings never
+	// arrive — a stripped script, a stale cached page.
+	config.i18n = Object.assign( {
+		sending: 'Sending…',
+		netError: 'Network error. Please try again.',
+		expired: 'Your session expired. Please try sending again.',
+		required: 'This field is required.',
+		nameLength: 'Name must be between 3 and 80 characters.',
+		messageLength: 'Message must be 1000 characters or fewer.',
+		invalidEmail: 'Please enter a valid email address.',
+		invalidUrl: 'Please enter a valid web address.',
+		invalidNumber: 'Please enter a number.',
+		numberOnly: 'Answer must be a number.'
+	}, config.i18n || {} );
 	var root, launcher, panel, overlay, form, feedback, submitBtn;
 	var lastFocused = null;
 
@@ -256,32 +271,67 @@
 		var ok = true;
 
 		qsa( '.scch-field', form ).forEach( function ( field ) {
-			var key   = field.getAttribute( 'data-field' );
+			var key = field.getAttribute( 'data-field' );
+
+			// Radio and checkbox sets have no single input to read; they pass
+			// when at least one box in the group is ticked.
+			var group = qsa( 'input[data-scch-required="1"]', field );
+			if ( group.length ) {
+				var picked = group.some( function ( box ) { return box.checked; } );
+				if ( ! picked ) {
+					setFieldError( key, config.i18n.required );
+					ok = false;
+				}
+				return;
+			}
+
 			var input = qs( 'input, select, textarea', field );
 			if ( ! input ) { return; }
 
-			var value    = input.value.trim();
 			var required = input.hasAttribute( 'required' );
 
+			if ( 'checkbox' === input.type ) {
+				if ( required && ! input.checked ) {
+					setFieldError( key, config.i18n.required );
+					ok = false;
+				}
+				return;
+			}
+
+			var value = input.value.trim();
+
 			if ( required && '' === value ) {
-				setFieldError( key, input.validationMessage || 'This field is required.' );
+				setFieldError( key, input.validationMessage || config.i18n.required );
 				ok = false;
 				return;
 			}
-			if ( 'name' === key && value && ( value.length < 3 || value.length > 80 ) ) {
-				setFieldError( key, 'Name must be between 3 and 80 characters.' );
-				ok = false;
-			}
-			if ( 'email' === key && value && ! /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test( value ) ) {
-				setFieldError( key, 'Please enter a valid email address.' );
+			if ( '' === value ) { return; }
+
+			if ( 'name' === key && ( value.length < 3 || value.length > 80 ) ) {
+				setFieldError( key, config.i18n.nameLength );
 				ok = false;
 			}
 			if ( 'message' === key && value.length > 1000 ) {
-				setFieldError( key, 'Message must be 1000 characters or fewer.' );
+				setFieldError( key, config.i18n.messageLength );
 				ok = false;
 			}
-			if ( 'captcha' === key && value && ! /^[0-9]+$/.test( value ) ) {
-				setFieldError( key, 'Answer must be a number.' );
+			if ( 'captcha' === key && ! /^[0-9]+$/.test( value ) ) {
+				setFieldError( key, config.i18n.numberOnly );
+				ok = false;
+			}
+
+			// Everything else is checked by the input's own type, so a custom
+			// email or website field validates the same way a core one does.
+			if ( 'email' === input.type && ! /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test( value ) ) {
+				setFieldError( key, config.i18n.invalidEmail );
+				ok = false;
+			}
+			if ( 'url' === input.type && ! /^(https?:\/\/)?[^\s.]+\.[^\s]{2,}$/.test( value ) ) {
+				setFieldError( key, config.i18n.invalidUrl );
+				ok = false;
+			}
+			if ( 'number' === input.type && isNaN( Number( value ) ) ) {
+				setFieldError( key, config.i18n.invalidNumber );
 				ok = false;
 			}
 		} );

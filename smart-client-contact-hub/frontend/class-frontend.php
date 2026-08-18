@@ -120,9 +120,16 @@ class Frontend {
 				'nonce'          => wp_create_nonce( 'scch_frontend' ),
 				'captchaEnabled' => Captcha::enabled(),
 				'i18n'           => array(
-					'sending'  => __( 'Sending…', 'smart-client-contact-hub' ),
-					'netError' => __( 'Network error. Please try again.', 'smart-client-contact-hub' ),
-					'expired'  => __( 'Your session expired. Please try sending again.', 'smart-client-contact-hub' ),
+					'sending'       => __( 'Sending…', 'smart-client-contact-hub' ),
+					'netError'      => __( 'Network error. Please try again.', 'smart-client-contact-hub' ),
+					'expired'       => __( 'Your session expired. Please try sending again.', 'smart-client-contact-hub' ),
+					'required'      => __( 'This field is required.', 'smart-client-contact-hub' ),
+					'nameLength'    => __( 'Name must be between 3 and 80 characters.', 'smart-client-contact-hub' ),
+					'messageLength' => __( 'Message must be 1000 characters or fewer.', 'smart-client-contact-hub' ),
+					'invalidEmail'  => __( 'Please enter a valid email address.', 'smart-client-contact-hub' ),
+					'invalidUrl'    => __( 'Please enter a valid web address.', 'smart-client-contact-hub' ),
+					'invalidNumber' => __( 'Please enter a number.', 'smart-client-contact-hub' ),
+					'numberOnly'    => __( 'Answer must be a number.', 'smart-client-contact-hub' ),
 				),
 			)
 		);

@@ -1,8 +1,8 @@
 /**
  * Smart Client Contact Hub — admin behavior.
  *
- * Color pickers, media library pickers, service repeater rows,
- * field/service reordering, AJAX test email, log resend, and log delete.
+ * Color pickers, media library pickers, service/channel/form-field repeaters,
+ * row reordering, AJAX test email, log resend, and log delete.
  */
 ( function ( $ ) {
 	'use strict';
@@ -28,11 +28,11 @@
 		} );
 
 		// Row reordering (form fields + services).
-		$( document ).on( 'click', '.scch-move-up', function () {
+		$( document ).on( 'click', 'tr .scch-move-up', function () {
 			var row = $( this ).closest( 'tr' );
 			row.prev( 'tr' ).before( row );
 		} );
-		$( document ).on( 'click', '.scch-move-down', function () {
+		$( document ).on( 'click', 'tr .scch-move-down', function () {
 			var row = $( this ).closest( 'tr' );
 			row.next( 'tr' ).after( row );
 		} );
@@ -94,6 +94,76 @@
 		$( document ).on( 'click', '.scch-channel-row .scch-move-down', function () {
 			var row = $( this ).closest( '.scch-channel-row' );
 			row.next( '.scch-channel-row' ).after( row );
+		} );
+
+		// Form field repeater.
+		var fieldIndex = $( '#scch-field-list .scch-fieldrow' ).length;
+
+		/**
+		 * Show only the settings that make sense for a card's current type.
+		 * The flags ride on the type <option>s so the server stays the single
+		 * source of truth for what each type supports.
+		 */
+		function syncFieldType( row ) {
+			var select = row.find( '.scch-field-type' );
+			var type = select.length ? select.val() : row.data( 'type' );
+			var opt = select.length ? select.find( 'option:selected' ) : null;
+			var hasOptions = opt ? '1' === String( opt.data( 'options' ) ) : false;
+			var hasPlaceholder = opt ? '1' === String( opt.data( 'placeholder' ) ) : true;
+
+			row.attr( 'data-type', type );
+
+			// A built-in field has no type select; its panels are already
+			// rendered correctly and must not be hidden here.
+			if ( ! select.length ) { return; }
+
+			row.find( '[data-when="options"]' ).prop( 'hidden', ! hasOptions );
+			row.find( '[data-when="placeholder"]' ).prop( 'hidden', ! hasPlaceholder );
+			row.find( '[data-when="hidden"]' ).prop( 'hidden', 'hidden' !== type );
+		}
+
+		$( '#scch-add-field' ).on( 'click', function () {
+			var type = $( '#scch-new-field-type' ).val();
+			var tpl = $( '.scch-field-template[data-type="' + type + '"]' ).html();
+			if ( ! tpl ) { return; }
+
+			var row = $( tpl.replace( /__INDEX__/g, 'new-' + fieldIndex++ ) );
+			$( '#scch-field-list' ).append( row );
+			syncFieldType( row );
+			row.find( '.scch-field-label' ).trigger( 'focus' );
+			row.get( 0 ).scrollIntoView( { behavior: 'smooth', block: 'center' } );
+		} );
+
+		$( document ).on( 'click', '.scch-remove-field', function () {
+			if ( window.confirm( scchAdmin.i18n.confirmDeleteField ) ) {
+				$( this ).closest( '.scch-fieldrow' ).remove();
+			}
+		} );
+
+		$( document ).on( 'change', '.scch-field-type', function () {
+			syncFieldType( $( this ).closest( '.scch-fieldrow' ) );
+		} );
+
+		// Keep the card heading in step with the label as it is typed, so a
+		// long list of collapsed cards stays readable.
+		$( document ).on( 'input', '.scch-field-label', function () {
+			var row = $( this ).closest( '.scch-fieldrow' );
+			row.find( '.scch-fieldrow__title' ).text( $( this ).val() || scchAdmin.i18n.untitledField );
+		} );
+
+		$( document ).on( 'change', '.scch-field-enabled', function () {
+			$( this ).closest( '.scch-fieldrow' ).toggleClass( 'is-off', ! this.checked );
+		} );
+
+		// Reorder field cards. The stored order is the submitted order, so
+		// moving a card is all it takes.
+		$( document ).on( 'click', '.scch-fieldrow .scch-move-up', function () {
+			var row = $( this ).closest( '.scch-fieldrow' );
+			row.prev( '.scch-fieldrow' ).before( row );
+		} );
+		$( document ).on( 'click', '.scch-fieldrow .scch-move-down', function () {
+			var row = $( this ).closest( '.scch-fieldrow' );
+			row.next( '.scch-fieldrow' ).after( row );
 		} );
 
 		// The custom image field only matters when "your own image" is picked.
