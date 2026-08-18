@@ -33,7 +33,6 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 	$key     = (string) $field['key'];
 	$name    = 'scch_form[fields][' . $index . ']';
 	$uid     = 'scch-fld-' . preg_replace( '/[^a-zA-Z0-9]/', '', $index );
-	$locked  = 'email' === $key; // Confirmations and Reply-To depend on it.
 	?>
 	<div class="scch-fieldrow<?php echo empty( $field['enabled'] ) ? ' is-off' : ''; ?>" data-type="<?php echo esc_attr( $type ); ?>" data-core="<?php echo $is_core ? '1' : '0'; ?>">
 		<div class="scch-fieldrow__bar">
@@ -51,13 +50,8 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 			<code class="scch-fieldrow__key"><?php echo esc_html( '' !== $key ? $key : __( 'new', 'smart-client-contact-hub' ) ); ?></code>
 
 			<label class="scch-fieldrow__toggle">
-				<?php if ( $locked ) : ?>
-					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[enabled]" value="1" />
-					<input type="checkbox" checked disabled />
-				<?php else : ?>
-					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[enabled]" value="0" />
-					<input type="checkbox" class="scch-field-enabled" name="<?php echo esc_attr( $name ); ?>[enabled]" value="1" <?php checked( (int) $field['enabled'], 1 ); ?> />
-				<?php endif; ?>
+				<input type="hidden" name="<?php echo esc_attr( $name ); ?>[enabled]" value="0" />
+				<input type="checkbox" class="scch-field-enabled" name="<?php echo esc_attr( $name ); ?>[enabled]" value="1" <?php checked( (int) $field['enabled'], 1 ); ?> />
 				<span><?php esc_html_e( 'Show this field', 'smart-client-contact-hub' ); ?></span>
 			</label>
 
@@ -116,13 +110,8 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 
 			<p class="scch-f scch-f--check">
 				<label>
-					<?php if ( $locked ) : ?>
-						<input type="hidden" name="<?php echo esc_attr( $name ); ?>[required]" value="1" />
-						<input type="checkbox" checked disabled />
-					<?php else : ?>
-						<input type="hidden" name="<?php echo esc_attr( $name ); ?>[required]" value="0" />
-						<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[required]" value="1" <?php checked( (int) $field['required'], 1 ); ?> />
-					<?php endif; ?>
+					<input type="hidden" name="<?php echo esc_attr( $name ); ?>[required]" value="0" />
+					<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[required]" value="1" <?php checked( (int) $field['required'], 1 ); ?> />
 					<?php esc_html_e( 'Required', 'smart-client-contact-hub' ); ?>
 				</label>
 			</p>
@@ -134,6 +123,14 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 					<?php esc_html_e( 'Hide the label on the form', 'smart-client-contact-hub' ); ?>
 				</label>
 			</p>
+
+			<?php if ( 'email' === $key ) : ?>
+				<div class="scch-f scch-f--wide">
+					<p class="description">
+						<?php esc_html_e( 'Optional, like any other field. Without an address on a lead the plugin simply skips that lead\'s confirmation email and does not set Reply-To on your notification — everything else, including the notification itself, still works.', 'smart-client-contact-hub' ); ?>
+					</p>
+				</div>
+			<?php endif; ?>
 
 			<?php if ( 'service' === $key ) : ?>
 				<div class="scch-f scch-f--wide">
@@ -159,7 +156,7 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 	<?php Admin::maybe_notice(); ?>
 
 	<p class="description scch-formbuilder__intro">
-		<?php esc_html_e( 'Build the form visitors fill in. Add as many fields as you need, rename any of them, switch one off without losing it, and use the arrows to reorder. The five built-in fields have their own database columns, so they can be relabelled and reordered but not deleted; the email field always stays on because confirmations and Reply-To depend on it.', 'smart-client-contact-hub' ); ?>
+		<?php esc_html_e( 'Build the form visitors fill in. Add as many fields as you need, rename any of them, switch one off without losing it, and use the arrows to reorder. Every field, including the built-in five, can be made optional or switched off. The five built-in fields have their own database columns, so they can be relabelled and reordered but not deleted or retyped.', 'smart-client-contact-hub' ); ?>
 	</p>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

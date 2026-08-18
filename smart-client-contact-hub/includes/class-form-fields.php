@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
  * The lead form is built from a list of fields the administrator controls.
  *
  * Five fields are "core": name, phone, email, service and message. They map
- * onto their own database columns, so they can be relabelled, reordered and
- * (except email) switched off, but never deleted or retyped.
+ * onto their own database columns, so they can be relabelled, reordered,
+ * switched off and made optional, but never deleted or retyped.
  *
  * Everything else is a custom field. Custom answers are stored together as
  * JSON on the lead row, which keeps the schema stable no matter how many
@@ -330,10 +330,6 @@ class Form_Fields {
 				$clean[ $key ]['order'] = $order++;
 			}
 		}
-
-		// Confirmations and Reply-To depend on the email address.
-		$clean['email']['enabled']  = 1;
-		$clean['email']['required'] = 1;
 
 		return $clean;
 	}

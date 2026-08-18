@@ -37,7 +37,8 @@ The form is yours to build. Add, edit, delete and reorder fields on the Form Bui
 * **Your own choices** for dropdowns, radios and checkboxes: one per line, or `value|Label` to store a short value but show a longer label.
 * Per field: label, placeholder, help text, required, hide label, and full or half width so two short fields sit side by side.
 * Any field can be switched off without deleting it, and the order is set with the arrows.
-* Five fields are built in — name, phone, email, service and message. They have their own database columns, so they can be relabelled, reordered and switched off, but not deleted. The email field stays on because confirmations and Reply-To depend on it.
+* Five fields are built in — name, phone, email, service and message. They have their own database columns, so they can be relabelled, reordered, made optional and switched off, but not deleted or retyped.
+* Nothing is compulsory, not even the email address. A lead without one simply gets no confirmation email and no Reply-To on your notification; the notification itself, the lead record, scoring, the pipeline and exports all work as normal.
 * Custom answers show on the lead page, get their own CSV export columns, and are available in email templates.
 
 Every submission is validated client- and server-side, stored in a custom database table, and triggers a branded notification email to the administrator plus a confirmation email to the customer.
@@ -147,7 +148,8 @@ The form is no longer a fixed set of five fields. Everything from earlier releas
 * New: **choices you write yourself.** Dropdowns, radios and checkboxes take one choice per line, optionally as `value|Label` so you can store a short value but show a longer label.
 * New: per-field **help text**, **placeholder**, **required**, **hide label**, and **half width** so two short fields can sit side by side.
 * New: custom answers appear on the lead page under "Their answers", get their own columns in the CSV export, and can be used in email templates as `{your_field_key}` or all at once as `{all_answers}`.
-* Change: the five built-in fields (name, phone, email, service, message) keep their own database columns and can be relabelled, reordered and switched off — but not deleted or retyped, because reports and exports depend on them. Email stays on because confirmations and Reply-To need it.
+* Change: the five built-in fields (name, phone, email, service, message) keep their own database columns and can be relabelled, reordered, made optional and switched off — but not deleted or retyped, because reports and exports depend on them.
+* Change: no field is forced any more, including the email address. Turn it off or make it optional and the plugin simply skips the confirmation email and the Reply-To header for leads that arrive without one.
 * Change: the service dropdown still takes its choices from the Services screen, so that one list stays in step across the site.
 * Change: client-side validation now follows each field's type, so a custom email or website field is checked the same way a built-in one is. Radio and checkbox groups are validated as groups.
 * Note: a custom field can never shadow a built-in column or a reserved form name — those keys are prefixed automatically. Up to 40 custom fields per form, 2000 characters per answer.

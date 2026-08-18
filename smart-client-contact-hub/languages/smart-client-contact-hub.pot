@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Smart Client Contact Hub 1.2.0\n"
 "Report-Msgid-Bugs-To: https://hamzadezinr.com/smart-client-contact-hub\n"
-"POT-Creation-Date: 2026-08-18 13:55+0000\n"
+"POT-Creation-Date: 2026-08-18 15:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,7 +160,7 @@ msgid "Delete this field? Answers already collected stay on their leads, but the
 msgstr ""
 
 #: admin/class-admin.php:235
-#: admin/views/form-builder.php:45
+#: admin/views/form-builder.php:44
 msgid "Untitled field"
 msgstr ""
 
@@ -321,7 +321,7 @@ msgid "Name"
 msgstr ""
 
 #: admin/class-export.php:61
-#: admin/views/lead-detail.php:255
+#: admin/views/lead-detail.php:259
 #: includes/class-icons.php:57
 msgid "Phone"
 msgstr ""
@@ -337,7 +337,7 @@ msgstr ""
 #: admin/class-export.php:63
 #: admin/class-leads-list-table.php:52
 #: admin/views/analytics.php:23
-#: admin/views/lead-detail.php:262
+#: admin/views/lead-detail.php:266
 msgid "Service"
 msgstr ""
 
@@ -454,7 +454,7 @@ msgstr ""
 
 #: admin/class-leads-list-table.php:53
 #: admin/views/analytics.php:21
-#: admin/views/lead-detail.php:268
+#: admin/views/lead-detail.php:272
 msgid "Source"
 msgstr ""
 
@@ -464,7 +464,7 @@ msgid "Follow-up"
 msgstr ""
 
 #: admin/class-leads-list-table.php:55
-#: admin/views/lead-detail.php:299
+#: admin/views/lead-detail.php:303
 msgid "Received"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgid "Contact"
 msgstr ""
 
 #: admin/class-leads-list-table.php:83
-#: admin/views/form-builder.php:65
+#: admin/views/form-builder.php:59
 #: admin/views/logs.php:62
 #: admin/views/services.php:44
 msgid "Delete"
@@ -494,17 +494,17 @@ msgid "This report fills in as leads arrive during the selected period."
 msgstr ""
 
 #: admin/views/analytics.php:22
-#: admin/views/lead-detail.php:271
+#: admin/views/lead-detail.php:275
 msgid "Channel"
 msgstr ""
 
 #: admin/views/analytics.php:24
-#: admin/views/lead-detail.php:275
+#: admin/views/lead-detail.php:279
 msgid "Campaign"
 msgstr ""
 
 #: admin/views/analytics.php:25
-#: admin/views/lead-detail.php:295
+#: admin/views/lead-detail.php:299
 msgid "Device"
 msgstr ""
 
@@ -684,13 +684,13 @@ msgid "Save Channels"
 msgstr ""
 
 #: admin/views/channels.php:33
-#: admin/views/form-builder.php:41
+#: admin/views/form-builder.php:40
 #: admin/views/services.php:37
 msgid "Move up"
 msgstr ""
 
 #: admin/views/channels.php:34
-#: admin/views/form-builder.php:42
+#: admin/views/form-builder.php:41
 #: admin/views/services.php:38
 msgid "Move down"
 msgstr ""
@@ -1062,7 +1062,7 @@ msgstr ""
 
 #: admin/views/followups.php:104
 #: admin/views/lead-detail.php:85
-#: admin/views/lead-detail.php:266
+#: admin/views/lead-detail.php:270
 msgid "Unassigned"
 msgstr ""
 
@@ -1110,128 +1110,132 @@ msgstr ""
 msgid "(lead deleted)"
 msgstr ""
 
-#: admin/views/form-builder.php:101
-msgid "For a hidden field this is the value that gets submitted."
-msgstr ""
-
-#: admin/views/form-builder.php:105
-msgid "Help text under the field"
-msgstr ""
-
-#: admin/views/form-builder.php:110
+#: admin/views/form-builder.php:104
 #: includes/class-design-tokens.php:312
 msgid "Width"
 msgstr ""
 
-#: admin/views/form-builder.php:112
+#: admin/views/form-builder.php:106
 msgid "Full width"
 msgstr ""
 
-#: admin/views/form-builder.php:113
+#: admin/views/form-builder.php:107
 msgid "Half width (side by side)"
 msgstr ""
 
-#: admin/views/form-builder.php:126
+#: admin/views/form-builder.php:115
 msgid "Required"
 msgstr ""
 
-#: admin/views/form-builder.php:134
+#: admin/views/form-builder.php:123
 msgid "Hide the label on the form"
 msgstr ""
 
-#: admin/views/form-builder.php:141
+#: admin/views/form-builder.php:130
+msgid "Optional, like any other field. Without an address on a lead the plugin simply skips that lead's confirmation email and does not set Reply-To on your notification — everything else, including the notification itself, still works."
+msgstr ""
+
+#: admin/views/form-builder.php:138
 msgid "The choices in this dropdown come from the Services screen, so the same list stays in step across the site."
 msgstr ""
 
-#: admin/views/form-builder.php:147
+#: admin/views/form-builder.php:144
 msgid "Choices"
 msgstr ""
 
-#: admin/views/form-builder.php:148
+#: admin/views/form-builder.php:145
 msgid ""
 "London\n"
 "Manchester\n"
 "other|Somewhere else"
 msgstr ""
 
-#: admin/views/form-builder.php:149
+#: admin/views/form-builder.php:146
 msgid "One choice per line. Write value|Label to store a short value but show a longer label."
 msgstr ""
 
-#: admin/views/form-builder.php:158
+#: admin/views/form-builder.php:155
 msgid "Form Builder"
 msgstr ""
 
-#: admin/views/form-builder.php:162
-msgid "Build the form visitors fill in. Add as many fields as you need, rename any of them, switch one off without losing it, and use the arrows to reorder. The five built-in fields have their own database columns, so they can be relabelled and reordered but not deleted; the email field always stays on because confirmations and Reply-To depend on it."
+#: admin/views/form-builder.php:159
+msgid "Build the form visitors fill in. Add as many fields as you need, rename any of them, switch one off without losing it, and use the arrows to reorder. Every field, including the built-in five, can be made optional or switched off. The five built-in fields have their own database columns, so they can be relabelled and reordered but not deleted or retyped."
 msgstr ""
 
-#: admin/views/form-builder.php:170
+#: admin/views/form-builder.php:167
 msgid "Fields"
 msgstr ""
 
-#: admin/views/form-builder.php:179
+#: admin/views/form-builder.php:176
 msgid "Field type to add"
 msgstr ""
 
-#: admin/views/form-builder.php:185
+#: admin/views/form-builder.php:182
 msgid "+ Add field"
 msgstr ""
 
-#: admin/views/form-builder.php:188
+#: admin/views/form-builder.php:185
 msgid "Form Text &amp; Behavior"
 msgstr ""
 
-#: admin/views/form-builder.php:191
+#: admin/views/form-builder.php:188
 msgid "Form title"
 msgstr ""
 
-#: admin/views/form-builder.php:195
+#: admin/views/form-builder.php:192
 msgid "Submit button label"
 msgstr ""
 
-#: admin/views/form-builder.php:199
+#: admin/views/form-builder.php:196
 msgid "Success message"
 msgstr ""
 
-#: admin/views/form-builder.php:203
+#: admin/views/form-builder.php:200
 msgid "Error message"
 msgstr ""
 
-#: admin/views/form-builder.php:207
+#: admin/views/form-builder.php:204
 msgid "Redirect URL after success (optional)"
 msgstr ""
 
-#: admin/views/form-builder.php:210
+#: admin/views/form-builder.php:207
 msgid "Leave empty to show the success message inline instead of redirecting."
 msgstr ""
 
-#: admin/views/form-builder.php:215
+#: admin/views/form-builder.php:212
 msgid "Save Form"
 msgstr ""
 
-#: admin/views/form-builder.php:48
+#: admin/views/form-builder.php:47
 msgid "Built in"
 msgstr ""
 
-#: admin/views/form-builder.php:51
+#: admin/views/form-builder.php:50
 msgid "new"
 msgstr ""
 
-#: admin/views/form-builder.php:61
+#: admin/views/form-builder.php:55
 msgid "Show this field"
 msgstr ""
 
-#: admin/views/form-builder.php:77
+#: admin/views/form-builder.php:71
 msgid "Label"
 msgstr ""
 
-#: admin/views/form-builder.php:82
+#: admin/views/form-builder.php:76
 msgid "Field type"
 msgstr ""
 
-#: admin/views/form-builder.php:99
+#: admin/views/form-builder.php:93
 msgid "Placeholder"
+msgstr ""
+
+#: admin/views/form-builder.php:95
+msgid "For a hidden field this is the value that gets submitted."
+msgstr ""
+
+#: admin/views/form-builder.php:99
+msgid "Help text under the field"
 msgstr ""
 
 #: admin/views/help.php:20
@@ -1389,35 +1393,35 @@ msgstr ""
 msgid "Lead details"
 msgstr ""
 
-#: admin/views/lead-detail.php:280
+#: admin/views/lead-detail.php:284
 msgid "Medium"
 msgstr ""
 
-#: admin/views/lead-detail.php:285
+#: admin/views/lead-detail.php:289
 msgid "Landing page"
 msgstr ""
 
-#: admin/views/lead-detail.php:290
+#: admin/views/lead-detail.php:294
 msgid "Referrer"
 msgstr ""
 
-#: admin/views/lead-detail.php:302
+#: admin/views/lead-detail.php:306
 msgid "IP address"
 msgstr ""
 
-#: admin/views/lead-detail.php:307
+#: admin/views/lead-detail.php:311
 msgid "Recalculate score"
 msgstr ""
 
-#: admin/views/lead-detail.php:312
+#: admin/views/lead-detail.php:316
 msgid "Danger zone"
 msgstr ""
 
-#: admin/views/lead-detail.php:314
+#: admin/views/lead-detail.php:318
 msgid "Delete this lead permanently, with its notes and follow-ups?"
 msgstr ""
 
-#: admin/views/lead-detail.php:319
+#: admin/views/lead-detail.php:323
 msgid "Delete lead"
 msgstr ""
 
@@ -1434,7 +1438,7 @@ msgid "Back to leads"
 msgstr ""
 
 #: admin/views/lead-detail.php:83
-#: admin/views/lead-detail.php:265
+#: admin/views/lead-detail.php:269
 msgid "Assigned to"
 msgstr ""
 
@@ -2657,61 +2661,61 @@ msgid "Hidden value"
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:386
+#: includes/class-form-fields.php:403
 msgid "%s is required."
 msgstr ""
 
 #. translators: 1: field label, 2: maximum number of characters.
-#: includes/class-form-fields.php:419
+#: includes/class-form-fields.php:436
 msgid "%1$s must be %2$d characters or fewer."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:430
+#: includes/class-form-fields.php:447
 msgid "Please choose a valid option for %s."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:437
+#: includes/class-form-fields.php:454
 msgid "Please enter a valid email address for %s."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:446
+#: includes/class-form-fields.php:463
 msgid "Please enter a valid web address for %s."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:453
+#: includes/class-form-fields.php:470
 msgid "Please enter a number for %s."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:462
+#: includes/class-form-fields.php:479
 msgid "Please enter a valid phone number for %s."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:469
+#: includes/class-form-fields.php:486
 msgid "Please enter a valid date for %s."
 msgstr ""
 
 #. translators: %s: field label.
-#: includes/class-form-fields.php:476
+#: includes/class-form-fields.php:493
 msgid "Please enter a valid time for %s."
-msgstr ""
-
-#: includes/class-form-fields.php:505
-msgid "No"
-msgstr ""
-
-#: includes/class-form-fields.php:505
-msgid "Yes"
 msgstr ""
 
 #: includes/class-form-fields.php:52
 #: includes/class-ui.php:204
 msgid "Text"
+msgstr ""
+
+#: includes/class-form-fields.php:522
+msgid "No"
+msgstr ""
+
+#: includes/class-form-fields.php:522
+msgid "Yes"
 msgstr ""
 
 #: includes/class-form-fields.php:58

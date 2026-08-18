@@ -250,7 +250,11 @@ $scch_leads_url = admin_url( 'admin.php?page=scch-leads' );
 				<div class="ui-card__head"><h2 class="ui-card-title"><?php esc_html_e( 'Lead details', 'smart-client-contact-hub' ); ?></h2></div>
 				<dl class="ui-dl">
 					<dt><?php esc_html_e( 'Email', 'smart-client-contact-hub' ); ?></dt>
-					<dd><a href="mailto:<?php echo esc_attr( $lead->email ); ?>"><?php echo esc_html( $lead->email ); ?></a></dd>
+					<dd>
+						<?php if ( $lead->email ) : ?>
+							<a href="mailto:<?php echo esc_attr( $lead->email ); ?>"><?php echo esc_html( $lead->email ); ?></a>
+						<?php else : ?>&mdash;<?php endif; ?>
+					</dd>
 
 					<dt><?php esc_html_e( 'Phone', 'smart-client-contact-hub' ); ?></dt>
 					<dd>
