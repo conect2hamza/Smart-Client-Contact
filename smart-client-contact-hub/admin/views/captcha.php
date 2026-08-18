@@ -21,7 +21,7 @@ $scch_cap = Settings::group( 'scch_captcha' );
 		<?php esc_html_e( 'This is a built-in math CAPTCHA — no Google reCAPTCHA, Cloudflare, or any external service. Questions use two numbers between 1 and 9, answers are never negative, the answer is verified server-side, and every wrong attempt generates a brand-new question.', 'smart-client-contact-hub' ); ?>
 	</p></div>
 
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>
 		<input type="hidden" name="action" value="scch_save_settings" />
 		<input type="hidden" name="scch_group" value="scch_captcha" />
@@ -65,7 +65,7 @@ $scch_cap = Settings::group( 'scch_captcha' );
 		<?php submit_button( __( 'Save CAPTCHA Settings', 'smart-client-contact-hub' ) ); ?>
 	</form>
 
-	<form id="scch-general-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form id="scch-general-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>
 		<input type="hidden" name="action" value="scch_save_settings" />
 		<input type="hidden" name="scch_group" value="scch_general" />

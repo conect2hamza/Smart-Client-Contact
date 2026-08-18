@@ -17,7 +17,7 @@ $scch_c = Settings::group( 'scch_contact' );
 	<h1><?php esc_html_e( 'Contact Settings', 'smart-client-contact-hub' ); ?></h1>
 	<?php Admin::maybe_notice(); ?>
 
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>
 		<input type="hidden" name="action" value="scch_save_settings" />
 		<input type="hidden" name="scch_group" value="scch_contact" />
@@ -44,6 +44,9 @@ $scch_c = Settings::group( 'scch_contact' );
 			</tr>
 		</table>
 
-		<?php submit_button( __( 'Save Contact Settings', 'smart-client-contact-hub' ) ); ?>
+		<div class="scch-savebar is-clean">
+			<span class="scch-savebar__note"><?php esc_html_e( 'All changes saved', 'smart-client-contact-hub' ); ?></span>
+			<?php submit_button( __( 'Save Contact Settings', 'smart-client-contact-hub' ), 'primary', 'submit', false ); ?>
+		</div>
 	</form>
 </div>

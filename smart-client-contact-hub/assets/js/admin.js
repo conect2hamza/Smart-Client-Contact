@@ -8,8 +8,17 @@
 	'use strict';
 
 	$( function () {
-		// Color pickers.
-		$( '.scch-color' ).wpColorPicker();
+		// Color pickers. On the Appearance screen every tab is in the page so
+		// the tabs can switch without a reload, which would be a hundred-odd
+		// pickers to build up front — so a section's are built when it is
+		// first revealed instead.
+		function initPickers( scope ) {
+			$( scope ).find( '.scch-color' ).not( '.wp-color-picker' ).wpColorPicker();
+		}
+
+		$( '.scch-panel-section' ).length
+			? initPickers( '.scch-panel-section:not([hidden])' )
+			: initPickers( document );
 
 		// Media library pickers (logo / custom icon).
 		$( document ).on( 'click', '.scch-media-btn', function ( e ) {
@@ -190,6 +199,181 @@
 			$( this ).closest( '.scch-channel-row' ).toggleClass( 'is-off', ! this.checked );
 		} );
 
+		/* ---------- Appearance: search, tabs, per-control reset ---------- */
+
+		var optRows = $( '.scch-opt' );
+
+		if ( optRows.length ) {
+			var sections  = $( '.scch-panel-section' );
+			var tabs      = $( '.scch-tabs .nav-tab' );
+			var searchBox = $( '#scch-opt-search' );
+			var countEl   = $( '.scch-optbar__count' );
+			var clearBtn  = $( '.scch-optbar__clear' );
+			var noResults = $( '.scch-noresults' );
+
+			/**
+			 * The controls belonging to one row. A row holds a single control,
+			 * except the icon picker, which is a radio group.
+			 */
+			function rowInputs( row ) {
+				return row.find( 'input, select, textarea' ).not( '[type="hidden"]' );
+			}
+
+			/**
+			 * What this row is currently set to, in the same shape as the
+			 * default recorded on the row.
+			 */
+			function rowValue( row ) {
+				var radios = row.find( 'input[type="radio"]' );
+				if ( radios.length ) { return String( radios.filter( ':checked' ).val() || '' ); }
+
+				var box = row.find( 'input[type="checkbox"]' );
+				if ( box.length ) { return box.prop( 'checked' ) ? '1' : '0'; }
+
+				var field = row.find( 'input, select' ).not( '[type="hidden"]' ).first();
+				return field.length ? String( field.val() || '' ) : '';
+			}
+
+			function isChanged( row ) {
+				return rowValue( row ) !== String( row.data( 'default' ) );
+			}
+
+			/**
+			 * Mark changed rows, offer them a reset, and count them per tab so
+			 * it is obvious at a glance where this site differs from stock.
+			 */
+			function refreshChanged() {
+				optRows.each( function () {
+					var row = $( this );
+					var changed = isChanged( row );
+					row.toggleClass( 'is-changed', changed );
+					row.find( '.scch-opt__reset' ).prop( 'hidden', ! changed );
+				} );
+
+				tabs.each( function () {
+					var tab = $( this );
+					var key = tab.data( 'section' );
+					var n = $( '.scch-panel-section[data-section="' + key + '"] .scch-opt.is-changed' ).length;
+					tab.find( '.scch-tabcount' ).text( n ).prop( 'hidden', ! n );
+				} );
+			}
+
+			function showSection( key ) {
+				sections.each( function () {
+					var sec = $( this );
+					var on = sec.data( 'section' ) === key;
+					sec.prop( 'hidden', ! on );
+					if ( on ) { initPickers( sec ); }
+				} );
+
+				tabs.removeClass( 'nav-tab-active' ).removeAttr( 'aria-current' );
+				tabs.filter( '[data-section="' + key + '"]' ).addClass( 'nav-tab-active' ).attr( 'aria-current', 'page' );
+			}
+
+			// Switch in place rather than following the link: a page load here
+			// would throw away whatever the user has edited so far.
+			tabs.on( 'click', function ( e ) {
+				e.preventDefault();
+				var key = $( this ).data( 'section' );
+				searchBox.val( '' );
+				runSearch();
+				showSection( key );
+
+				// Keep the address bar honest so the tab survives a refresh.
+				// Guarded: some embeddings refuse a same-document state push.
+				try {
+					if ( window.history && window.history.replaceState ) {
+						window.history.replaceState( {}, '', this.href );
+					}
+				} catch ( err ) { /* The tab still switched; only the URL lags. */ }
+			} );
+
+			/**
+			 * Search every tab at once. Matching rows are shown with the tab
+			 * they live on, which is the part that makes a hundred settings
+			 * navigable.
+			 */
+			function runSearch() {
+				var term = String( searchBox.val() || '' ).trim().toLowerCase();
+
+				clearBtn.prop( 'hidden', '' === term );
+
+				if ( '' === term ) {
+					optRows.prop( 'hidden', false );
+					sections.removeClass( 'is-searching' );
+					countEl.text( '' );
+					noResults.prop( 'hidden', true );
+					showSection( tabs.filter( '.nav-tab-active' ).data( 'section' ) || tabs.first().data( 'section' ) );
+					return;
+				}
+
+				var words = term.split( /\s+/ );
+				var total = 0;
+
+				sections.each( function () {
+					var sec = $( this );
+					var hits = 0;
+
+					sec.find( '.scch-opt' ).each( function () {
+						var row = $( this );
+						var hay = String( row.data( 'search' ) );
+						var match = words.every( function ( w ) { return hay.indexOf( w ) !== -1; } );
+						row.prop( 'hidden', ! match );
+						if ( match ) { hits++; }
+					} );
+
+					sec.addClass( 'is-searching' ).prop( 'hidden', ! hits );
+					if ( hits ) { initPickers( sec ); }
+					total += hits;
+				} );
+
+				countEl.text( total
+					? scchAdmin.i18n.matchCount.replace( '%d', total )
+					: '' );
+				noResults.prop( 'hidden', !! total );
+			}
+
+			searchBox.on( 'input', runSearch );
+			clearBtn.on( 'click', function () { searchBox.val( '' ).trigger( 'input' ).trigger( 'focus' ); } );
+
+			// Escape clears the search rather than closing anything.
+			searchBox.on( 'keydown', function ( e ) {
+				if ( 27 === e.which ) { e.preventDefault(); $( this ).val( '' ).trigger( 'input' ); }
+			} );
+
+			$( document ).on( 'click', '.scch-opt__reset', function () {
+				var row = $( this ).closest( '.scch-opt' );
+				var def = String( row.data( 'default' ) );
+
+				var radios = row.find( 'input[type="radio"]' );
+				var box    = row.find( 'input[type="checkbox"]' );
+
+				if ( radios.length ) {
+					radios.prop( 'checked', false ).filter( '[value="' + def + '"]' ).prop( 'checked', true );
+				} else if ( box.length ) {
+					box.prop( 'checked', '1' === def );
+				} else {
+					var field = row.find( 'input, select' ).not( '[type="hidden"]' ).first();
+					field.val( def );
+
+					// A colour input is wrapped by Iris, which keeps its own
+					// copy of the value and has to be told separately.
+					if ( field.hasClass( 'wp-color-picker' ) ) {
+						try { field.wpColorPicker( 'color', def ); } catch ( err ) { /* Fall back to the raw value. */ }
+					}
+				}
+
+				rowInputs( row ).first().trigger( 'change' );
+				refreshChanged();
+			} );
+
+			$( document ).on( 'change input', '.scch-opt input, .scch-opt select', function () {
+				refreshChanged();
+			} );
+
+			refreshChanged();
+		}
+
 		/* ---------- Toasts ---------- */
 
 		var toastHost = null;
@@ -266,7 +450,7 @@
 			var form = $( this );
 			var field = form.find( 'textarea' );
 
-			if ( ! $.trim( field.val() ) ) { return; }
+			if ( ! String( field.val() || '' ).trim() ) { return; }
 
 			form.find( 'button' ).prop( 'disabled', true );
 

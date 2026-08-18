@@ -311,3 +311,69 @@
 .scch-fieldrow .scch-f input[disabled] { background: #f6f7f7; color: #50575e; }
 
 .scch-formbuilder__add { margin: 18px 0 24px; display: flex; gap: 8px; align-items: center; }
+
+/* ---------- Appearance: search across every tab ---------- */
+
+.scch-optbar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+	max-width: 720px;
+}
+
+.scch-optbar__input {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 7px 12px;
+	font-size: 14px;
+	border: 1px solid #8c8f94;
+	border-radius: 6px;
+	box-sizing: border-box;
+}
+
+.scch-optbar__input:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: none;
+}
+
+.scch-optbar__count { font-size: 12px; color: #646970; white-space: nowrap; }
+
+/* A count of the settings on a tab that differ from their default. */
+.scch-tabcount {
+	display: inline-block;
+	margin-left: 6px;
+	padding: 0 6px;
+	border-radius: 9px;
+	background: #2271b1;
+	color: #fff;
+	font-size: 11px;
+	line-height: 18px;
+	font-weight: 600;
+}
+
+.nav-tab-active .scch-tabcount { background: #1d2327; }
+
+.scch-section__title { margin-top: 1em; }
+.scch-section__intro { max-width: 70ch; margin-top: -.4em; }
+
+/* While searching, each section keeps its heading so a result reads with the
+   tab it belongs to. */
+.scch-panel-section.is-searching .scch-section__intro { display: none; }
+
+.scch-opt.is-changed > th { position: relative; }
+.scch-opt.is-changed > th::before {
+	content: "";
+	position: absolute;
+	left: -10px;
+	top: 24px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #2271b1;
+}
+
+.scch-opt__reset { display: block; margin-top: 6px; font-size: 12px; }
+
+.scch-noresults { margin: 20px 0; color: #646970; font-style: italic; }

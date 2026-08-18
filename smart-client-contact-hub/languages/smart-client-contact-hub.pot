@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later license.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Client Contact Hub 1.2.3\n"
+"Project-Id-Version: Smart Client Contact Hub 1.3.0\n"
 "Report-Msgid-Bugs-To: https://hamzadezinr.com/smart-client-contact-hub\n"
-"POT-Creation-Date: 2026-08-18 18:35+0000\n"
+"POT-Creation-Date: 2026-08-18 18:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,146 +164,153 @@ msgstr ""
 msgid "Untitled field"
 msgstr ""
 
-#: admin/class-admin.php:236
+#. translators: %d: number of matching settings.
+#: admin/class-admin.php:237
+msgid "%d matching settings"
+msgstr ""
+
+#. translators: %d: number of matching settings.
+#: admin/class-admin.php:238
 msgid "Deleting…"
 msgstr ""
 
-#: admin/class-admin.php:237
+#. translators: %d: number of matching settings.
+#: admin/class-admin.php:239
 msgid "Delete failed:"
 msgstr ""
 
-#: admin/class-admin.php:238
+#: admin/class-admin.php:240
 #: admin/views/partials/icon-picker.php:67
 msgid "Choose image"
 msgstr ""
 
-#: admin/class-admin.php:239
+#: admin/class-admin.php:241
 msgid "Use this image"
 msgstr ""
 
-#: admin/class-admin.php:264
+#: admin/class-admin.php:266
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: admin/class-admin.php:318
+#: admin/class-admin.php:320
 msgid "Settings saved."
 msgstr ""
 
-#: admin/class-admin.php:319
+#: admin/class-admin.php:321
 msgid "Lead updated."
 msgstr ""
 
-#: admin/class-admin.php:320
+#: admin/class-admin.php:322
 msgid "Lead deleted."
 msgstr ""
 
-#: admin/class-admin.php:321
+#: admin/class-admin.php:323
 msgid "All email logs deleted."
 msgstr ""
 
-#: admin/class-admin.php:322
+#: admin/class-admin.php:324
 msgid "Appearance settings restored to their defaults."
 msgstr ""
 
-#: admin/class-admin.php:323
+#: admin/class-admin.php:325
 msgid "The request could not be completed."
 msgstr ""
 
-#: admin/class-admin.php:340
-#: admin/class-admin.php:365
-#: admin/class-admin.php:403
-#: admin/class-admin.php:420
-#: admin/class-admin.php:442
-#: admin/class-admin.php:558
-#: admin/class-admin.php:574
-#: admin/class-admin.php:607
-#: admin/class-admin.php:633
-#: admin/class-admin.php:654
-#: admin/class-admin.php:674
+#: admin/class-admin.php:342
+#: admin/class-admin.php:367
+#: admin/class-admin.php:405
+#: admin/class-admin.php:422
+#: admin/class-admin.php:444
+#: admin/class-admin.php:560
+#: admin/class-admin.php:576
+#: admin/class-admin.php:609
+#: admin/class-admin.php:635
+#: admin/class-admin.php:656
+#: admin/class-admin.php:676
 #: admin/class-export.php:39
 #: admin/class-leads-list-table.php:169
 msgid "Insufficient permissions."
 msgstr ""
 
-#: admin/class-admin.php:451
+#: admin/class-admin.php:453
 msgid "Lead not found."
 msgstr ""
 
-#: admin/class-admin.php:459
+#: admin/class-admin.php:461
 msgid "That stage is not valid."
 msgstr ""
 
-#: admin/class-admin.php:466
+#: admin/class-admin.php:468
 msgid "Stage updated"
 msgstr ""
 
-#: admin/class-admin.php:475
+#: admin/class-admin.php:477
 msgid "That user does not exist."
 msgstr ""
 
-#: admin/class-admin.php:478
+#: admin/class-admin.php:480
 msgid "Lead assigned"
 msgstr ""
 
-#: admin/class-admin.php:485
+#: admin/class-admin.php:487
 msgid "Write something first."
 msgstr ""
 
-#: admin/class-admin.php:488
+#: admin/class-admin.php:490
 #: includes/class-lead-service.php:245
 msgid "Note added"
 msgstr ""
 
-#: admin/class-admin.php:497
-#: admin/class-admin.php:521
-#: admin/class-admin.php:544
+#: admin/class-admin.php:499
+#: admin/class-admin.php:523
+#: admin/class-admin.php:546
 msgid "Changes saved"
 msgstr ""
 
-#: admin/class-admin.php:513
+#: admin/class-admin.php:515
 msgid "A title and a due date are both required."
 msgstr ""
 
-#: admin/class-admin.php:516
+#: admin/class-admin.php:518
 msgid "Follow-up created"
 msgstr ""
 
-#: admin/class-admin.php:529
+#: admin/class-admin.php:531
 msgid "Follow-up not found."
 msgstr ""
 
-#: admin/class-admin.php:537
+#: admin/class-admin.php:539
 msgid "That did not work. Please try again."
 msgstr ""
 
-#: admin/class-admin.php:543
+#: admin/class-admin.php:545
 msgid "Follow-up completed"
 msgstr ""
 
-#: admin/class-admin.php:550
+#: admin/class-admin.php:552
 msgid "Unknown action."
 msgstr ""
 
-#: admin/class-admin.php:612
+#: admin/class-admin.php:614
 #: frontend/class-frontend.php:129
 #: includes/class-ajax.php:143
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: admin/class-admin.php:622
+#: admin/class-admin.php:624
 msgid "wp_mail() returned false. Check your SMTP configuration."
 msgstr ""
 
-#: admin/class-admin.php:638
-#: admin/class-admin.php:659
+#: admin/class-admin.php:640
+#: admin/class-admin.php:661
 msgid "Log entry not found."
 msgstr ""
 
-#: admin/class-admin.php:645
+#: admin/class-admin.php:647
 msgid "Resend failed. Check the newest log entry for details."
 msgstr ""
 
-#: admin/class-admin.php:666
+#: admin/class-admin.php:668
 msgid "Could not delete this log entry."
 msgstr ""
 
@@ -551,32 +558,52 @@ msgstr ""
 msgid "Revenue"
 msgstr ""
 
-#: admin/views/appearance.php:121
+#: admin/views/appearance.php:137
 msgid "Enabled"
 msgstr ""
 
-#: admin/views/appearance.php:178
+#: admin/views/appearance.php:194
 #: admin/views/email-templates.php:49
 msgid "Choose from Media Library"
 msgstr ""
 
-#: admin/views/appearance.php:202
+#: admin/views/appearance.php:214
+msgid "Reset to default"
+msgstr ""
+
+#: admin/views/appearance.php:223
+msgid "No settings match that search."
+msgstr ""
+
+#: admin/views/appearance.php:226
+#: admin/views/channels.php:172
+#: admin/views/contact.php:48
+#: admin/views/email-templates.php:120
+#: admin/views/form-builder.php:213
+#: admin/views/notifications.php:82
+#: admin/views/scoring.php:104
+#: admin/views/services.php:55
+#: admin/views/triggers.php:44
+msgid "All changes saved"
+msgstr ""
+
+#: admin/views/appearance.php:227
 msgid "Save Appearance"
 msgstr ""
 
-#: admin/views/appearance.php:207
+#: admin/views/appearance.php:233
 msgid "Start over"
 msgstr ""
 
-#: admin/views/appearance.php:208
+#: admin/views/appearance.php:234
 msgid "Restores every Appearance value on every tab to its shipped default. Other settings are untouched."
 msgstr ""
 
-#: admin/views/appearance.php:210
+#: admin/views/appearance.php:236
 msgid "Reset all Appearance settings to their defaults? This cannot be undone."
 msgstr ""
 
-#: admin/views/appearance.php:213
+#: admin/views/appearance.php:239
 msgid "Reset Appearance to Defaults"
 msgstr ""
 
@@ -588,8 +615,25 @@ msgstr ""
 msgid "Every visual detail of the widget is editable here. Colors left empty fall back to the shipped design, so you only need to set what you actually want to change."
 msgstr ""
 
-#: admin/views/appearance.php:32
+#: admin/views/appearance.php:42
+msgid "Search appearance settings"
+msgstr ""
+
+#. translators: %d: number of settings.
+#: admin/views/appearance.php:47
+msgid "Search all %d settings — try \"hover\", \"radius\", or \"submit\""
+msgstr ""
+
+#: admin/views/appearance.php:51
+msgid "Clear"
+msgstr ""
+
+#: admin/views/appearance.php:54
 msgid "Appearance sections"
+msgstr ""
+
+#: admin/views/appearance.php:62
+msgid "Settings changed from their default"
 msgstr ""
 
 #: admin/views/captcha.php:17
@@ -698,7 +742,7 @@ msgstr ""
 msgid "+ Add channel"
 msgstr ""
 
-#: admin/views/channels.php:171
+#: admin/views/channels.php:173
 msgid "Save Channels"
 msgstr ""
 
@@ -760,7 +804,7 @@ msgstr ""
 msgid "Panel intro"
 msgstr ""
 
-#: admin/views/contact.php:47
+#: admin/views/contact.php:49
 msgid "Save Contact Settings"
 msgstr ""
 
@@ -977,7 +1021,7 @@ msgstr ""
 msgid "Receive your first lead"
 msgstr ""
 
-#: admin/views/email-templates.php:119
+#: admin/views/email-templates.php:121
 msgid "Save Templates"
 msgstr ""
 
@@ -1221,7 +1265,7 @@ msgstr ""
 msgid "Leave empty to show the success message inline instead of redirecting."
 msgstr ""
 
-#: admin/views/form-builder.php:212
+#: admin/views/form-builder.php:214
 msgid "Save Form"
 msgstr ""
 
@@ -1578,15 +1622,15 @@ msgstr ""
 msgid "Automatically send a thank-you email to the customer"
 msgstr ""
 
-#: admin/views/notifications.php:81
+#: admin/views/notifications.php:83
 msgid "Save Notifications"
 msgstr ""
 
-#: admin/views/notifications.php:85
+#: admin/views/notifications.php:88
 msgid "Test Email"
 msgstr ""
 
-#: admin/views/notifications.php:88
+#: admin/views/notifications.php:91
 msgid "Send Test Email"
 msgstr ""
 
@@ -1644,10 +1688,6 @@ msgstr ""
 
 #: admin/views/pipeline.php:48
 msgid "Preview the widget"
-msgstr ""
-
-#: admin/views/scoring.php:104
-msgid "All changes saved"
 msgstr ""
 
 #: admin/views/scoring.php:105
@@ -1721,7 +1761,7 @@ msgstr ""
 msgid "+ Add Service"
 msgstr ""
 
-#: admin/views/services.php:54
+#: admin/views/services.php:56
 msgid "Save Services"
 msgstr ""
 
@@ -1749,35 +1789,35 @@ msgstr ""
 msgid "One CSS selector per line. Clicking any matching element opens the popup — no coding needed. Duplicates are removed automatically; invalid selectors are ignored safely on the frontend."
 msgstr ""
 
-#: admin/views/triggers.php:43
+#: admin/views/triggers.php:45
 msgid "Save Triggers"
 msgstr ""
 
-#: admin/views/triggers.php:46
+#: admin/views/triggers.php:49
 msgid "Ways to open the popup"
 msgstr ""
 
-#: admin/views/triggers.php:48
+#: admin/views/triggers.php:51
 msgid "1. HTML data attribute (works in any page builder)"
 msgstr ""
 
-#: admin/views/triggers.php:49
+#: admin/views/triggers.php:52
 msgid "Add the attribute below to any button, link, or element. Works with Elementor, Gutenberg, Divi, Bricks, Oxygen, WPBakery, and plain HTML — including elements added dynamically after page load."
 msgstr ""
 
-#: admin/views/triggers.php:52
+#: admin/views/triggers.php:55
 msgid "2. Shortcode"
 msgstr ""
 
-#: admin/views/triggers.php:55
+#: admin/views/triggers.php:58
 msgid "3. JavaScript API (for developers)"
 msgstr ""
 
-#: admin/views/triggers.php:61
+#: admin/views/triggers.php:64
 msgid "4. Custom browser events (for developers)"
 msgstr ""
 
-#: admin/views/triggers.php:66
+#: admin/views/triggers.php:69
 msgid "5. PHP hooks (for developers)"
 msgstr ""
 

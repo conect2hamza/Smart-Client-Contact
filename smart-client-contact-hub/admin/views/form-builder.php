@@ -159,7 +159,7 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 		<?php esc_html_e( 'Build the form visitors fill in. Add as many fields as you need, rename any of them, switch one off without losing it, and use the arrows to reorder. Every field, including the built-in five, can be made optional or switched off. The five built-in fields have their own database columns, so they can be relabelled and reordered but not deleted or retyped.', 'smart-client-contact-hub' ); ?>
 	</p>
 
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>
 		<input type="hidden" name="action" value="scch_save_settings" />
 		<input type="hidden" name="scch_group" value="scch_form" />
@@ -209,7 +209,10 @@ $scch_render_field = static function ( array $field, string $index ) use ( $scch
 			</tr>
 		</table>
 
-		<?php submit_button( __( 'Save Form', 'smart-client-contact-hub' ) ); ?>
+		<div class="scch-savebar is-clean">
+			<span class="scch-savebar__note"><?php esc_html_e( 'All changes saved', 'smart-client-contact-hub' ); ?></span>
+			<?php submit_button( __( 'Save Form', 'smart-client-contact-hub' ), 'primary', 'submit', false ); ?>
+		</div>
 	</form>
 
 	<?php

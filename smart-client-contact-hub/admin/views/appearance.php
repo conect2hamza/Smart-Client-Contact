@@ -29,32 +29,63 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 		<?php esc_html_e( 'Every visual detail of the widget is editable here. Colors left empty fall back to the shipped design, so you only need to set what you actually want to change.', 'smart-client-contact-hub' ); ?>
 	</p>
 
+	<?php
+	/*
+	 * There are well over a hundred controls across these tabs, so the search
+	 * box looks through all of them at once — label and help text alike — and
+	 * says which tab each match lives on. Without it, finding one control
+	 * means remembering which tab it is on.
+	 */
+	$scch_total = count( Design_Tokens::fields() );
+	?>
+	<div class="scch-optbar">
+		<label class="screen-reader-text" for="scch-opt-search"><?php esc_html_e( 'Search appearance settings', 'smart-client-contact-hub' ); ?></label>
+		<input type="search" id="scch-opt-search" class="scch-optbar__input"
+			autocomplete="off"
+			placeholder="<?php echo esc_attr( sprintf(
+				/* translators: %d: number of settings. */
+				__( 'Search all %d settings — try "hover", "radius", or "submit"', 'smart-client-contact-hub' ),
+				$scch_total
+			) ); ?>" />
+		<span class="scch-optbar__count" role="status" aria-live="polite"></span>
+		<button type="button" class="button-link scch-optbar__clear" hidden><?php esc_html_e( 'Clear', 'smart-client-contact-hub' ); ?></button>
+	</div>
+
 	<nav class="nav-tab-wrapper scch-tabs" aria-label="<?php esc_attr_e( 'Appearance sections', 'smart-client-contact-hub' ); ?>">
 		<?php foreach ( $scch_schema as $scch_key => $scch_group ) : ?>
+			<?php // A real link, so deep links and no-JS both work; JS switches in place to keep unsaved edits. ?>
 			<a class="nav-tab <?php echo $scch_key === $scch_section ? 'nav-tab-active' : ''; ?>"
+				data-section="<?php echo esc_attr( $scch_key ); ?>"
 				href="<?php echo esc_url( add_query_arg( 'section', $scch_key, $scch_base ) ); ?>"
 				<?php echo $scch_key === $scch_section ? 'aria-current="page"' : ''; ?>>
 				<?php echo esc_html( $scch_group['label'] ); ?>
+				<span class="scch-tabcount" title="<?php esc_attr_e( 'Settings changed from their default', 'smart-client-contact-hub' ); ?>" hidden></span>
 			</a>
 		<?php endforeach; ?>
 	</nav>
 
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_settings' ); ?>
 		<input type="hidden" name="action" value="scch_save_settings" />
 		<input type="hidden" name="scch_group" value="scch_appearance" />
 		<?php // The save redirects back via the referer, which carries the active section. ?>
 
 		<?php
+		/*
+		 * Every section renders its real controls, including the ones behind
+		 * an inactive tab. That is what lets the tabs switch without a page
+		 * load — so unsaved edits survive — and lets the search box look
+		 * across all of them at once. Colour pickers are the expensive part,
+		 * so a section's are initialised the first time it is revealed.
+		 */
 		foreach ( $scch_schema as $scch_key => $scch_group ) :
 			$scch_visible = $scch_key === $scch_section;
 			?>
-			<section class="scch-panel-section" <?php echo $scch_visible ? '' : 'hidden'; ?>>
-				<?php if ( $scch_visible ) : ?>
-					<h2><?php echo esc_html( $scch_group['label'] ); ?></h2>
-					<?php if ( ! empty( $scch_group['intro'] ) ) : ?>
-						<p class="description"><?php echo esc_html( $scch_group['intro'] ); ?></p>
-					<?php endif; ?>
+			<section class="scch-panel-section" data-section="<?php echo esc_attr( $scch_key ); ?>"
+				data-label="<?php echo esc_attr( $scch_group['label'] ); ?>" <?php echo $scch_visible ? '' : 'hidden'; ?>>
+				<h2 class="scch-section__title"><?php echo esc_html( $scch_group['label'] ); ?></h2>
+				<?php if ( ! empty( $scch_group['intro'] ) ) : ?>
+					<p class="description scch-section__intro"><?php echo esc_html( $scch_group['intro'] ); ?></p>
 				<?php endif; ?>
 
 				<table class="form-table" role="presentation">
@@ -64,36 +95,21 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 						$scch_value = $scch_a[ $scch_name ] ?? $scch_field['default'];
 						$scch_input = 'scch_appearance[' . $scch_name . ']';
 
-						/*
-						 * Fields outside the visible section still have to be
-						 * posted: the sanitizer rebuilds the whole group on
-						 * every save, so an omitted field would be reset to
-						 * its default. Hidden sections submit their current
-						 * values unchanged.
-						 */
-						// The picker renders the custom-URL input itself.
-						if ( ! empty( $scch_field['hidden'] ) && $scch_visible ) {
+						// The icon picker renders its own custom-URL input.
+						if ( ! empty( $scch_field['hidden'] ) ) {
 							continue;
 						}
 
-						if ( ! $scch_visible ) {
-							if ( 'toggle' === $scch_field['type'] ) {
-								printf(
-									'<input type="hidden" name="%s" value="%s" />',
-									esc_attr( $scch_input ),
-									esc_attr( empty( $scch_value ) ? '0' : '1' )
-								);
-							} else {
-								printf(
-									'<input type="hidden" name="%s" value="%s" />',
-									esc_attr( $scch_input ),
-									esc_attr( (string) $scch_value )
-								);
-							}
-							continue;
-						}
+						// What the search box matches on, and what "changed"
+						// is measured against.
+						$scch_haystack = strtolower( trim(
+							$scch_field['label'] . ' ' . ( $scch_field['help'] ?? '' ) . ' ' . $scch_group['label'] . ' ' . str_replace( '_', ' ', $scch_name )
+						) );
 						?>
-						<tr>
+						<tr class="scch-opt"
+							data-search="<?php echo esc_attr( $scch_haystack ); ?>"
+							data-default="<?php echo esc_attr( (string) $scch_field['default'] ); ?>"
+							data-label="<?php echo esc_attr( $scch_field['label'] ); ?>">
 							<th scope="row">
 								<?php if ( in_array( $scch_field['type'], array( 'toggle', 'icon' ), true ) ) : ?>
 									<?php echo esc_html( $scch_field['label'] ); ?>
@@ -192,6 +208,11 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 								<?php if ( ! empty( $scch_field['help'] ) ) : ?>
 									<p class="description"><?php echo esc_html( $scch_field['help'] ); ?></p>
 								<?php endif; ?>
+
+								<?php // Shown by JS only while this control differs from its default. ?>
+								<button type="button" class="button-link scch-opt__reset" hidden>
+									<?php esc_html_e( 'Reset to default', 'smart-client-contact-hub' ); ?>
+								</button>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -199,7 +220,12 @@ $scch_base    = admin_url( 'admin.php?page=scch-appearance' );
 			</section>
 		<?php endforeach; ?>
 
-		<?php submit_button( __( 'Save Appearance', 'smart-client-contact-hub' ) ); ?>
+		<p class="scch-noresults" hidden><?php esc_html_e( 'No settings match that search.', 'smart-client-contact-hub' ); ?></p>
+
+		<div class="scch-savebar is-clean">
+			<span class="scch-savebar__note"><?php esc_html_e( 'All changes saved', 'smart-client-contact-hub' ); ?></span>
+			<?php submit_button( __( 'Save Appearance', 'smart-client-contact-hub' ), 'primary', 'submit', false ); ?>
+		</div>
 	</form>
 
 	<hr />

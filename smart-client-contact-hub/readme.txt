@@ -4,7 +4,7 @@ Tags: contact, floating button, leads, click to call, sms
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.2.3
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,16 @@ In a dedicated custom table (client_leads with your site's table prefix), plus a
 The challenge is plain text (e.g. "2 + 3 = ?") with a proper label, keyboard focusable, and screen-reader friendly. Answers are verified server-side.
 
 == Changelog ==
+
+= 1.3.0 =
+An admin usability pass, aimed at the Appearance screen — its 124 controls were spread across eleven tabs with no way to find one except remembering which tab it was on.
+
+* New: **search every appearance setting at once.** Type "hover" and you get all twelve hover controls, each under the tab it belongs to. It matches labels, help text and the setting's own name, and takes more than one word — "submit background" narrows to two results.
+* New: **tabs switch without reloading the page**, so edits in progress are no longer thrown away when you look at another tab. Deep links and the browser back button still work, and the tabs remain ordinary links if JavaScript is off.
+* New: **a count on each tab of the settings you have changed** from their shipped default, and a dot beside each changed control, so it is obvious at a glance where this site differs from stock.
+* New: **"Reset to default" on any control you have changed**, alongside the existing reset-everything button.
+* New: **a sticky save bar on every settings screen** — Appearance, Channels, Forms, Services, Panel Wording, Triggers, Notifications and Email Templates. It follows you down long screens, says whether anything is unsaved, and warns before you leave with unsaved changes. Previously only the Lead Scoring screen had one.
+* Fix: two calls to jQuery's `$.trim`, removed in jQuery 4, would have broken the admin scripts on a future WordPress. Replaced with the native equivalent.
 
 = 1.2.3 =
 This release fixes colors you chose in Appearance being ignored on the front end.

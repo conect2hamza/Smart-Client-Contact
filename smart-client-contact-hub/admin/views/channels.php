@@ -148,7 +148,7 @@ $scch_render_row = static function ( array $row, string $index ) use ( $scch_typ
 		<?php esc_html_e( 'These are the buttons visitors see when they open the popup. Add as many as you like, rename any of them, switch one off without deleting it, and drag the order with the arrows. Colors set here apply to that button only.', 'smart-client-contact-hub' ); ?>
 	</p>
 
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_channels' ); ?>
 		<input type="hidden" name="action" value="scch_save_channels" />
 
@@ -168,7 +168,10 @@ $scch_render_row = static function ( array $row, string $index ) use ( $scch_typ
 			<button type="button" class="button" id="scch-add-channel"><?php esc_html_e( '+ Add channel', 'smart-client-contact-hub' ); ?></button>
 		</p>
 
-		<?php submit_button( __( 'Save Channels', 'smart-client-contact-hub' ) ); ?>
+		<div class="scch-savebar is-clean">
+			<span class="scch-savebar__note"><?php esc_html_e( 'All changes saved', 'smart-client-contact-hub' ); ?></span>
+			<?php submit_button( __( 'Save Channels', 'smart-client-contact-hub' ), 'primary', 'submit', false ); ?>
+		</div>
 	</form>
 
 	<?php

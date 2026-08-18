@@ -18,7 +18,7 @@ $scch_services = Settings::services();
 	<?php Admin::maybe_notice(); ?>
 	<p class="description"><?php esc_html_e( 'These options populate the "Select Service" dropdown on the lead form. Reorder with the arrows; the saved order is the display order.', 'smart-client-contact-hub' ); ?></p>
 
-	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="scch-dirty-watch">
 		<?php wp_nonce_field( 'scch_save_services' ); ?>
 		<input type="hidden" name="action" value="scch_save_services" />
 
@@ -51,6 +51,9 @@ $scch_services = Settings::services();
 			<button type="button" class="button" id="scch-add-service"><?php esc_html_e( '+ Add Service', 'smart-client-contact-hub' ); ?></button>
 		</p>
 
-		<?php submit_button( __( 'Save Services', 'smart-client-contact-hub' ) ); ?>
+		<div class="scch-savebar is-clean">
+			<span class="scch-savebar__note"><?php esc_html_e( 'All changes saved', 'smart-client-contact-hub' ); ?></span>
+			<?php submit_button( __( 'Save Services', 'smart-client-contact-hub' ), 'primary', 'submit', false ); ?>
+		</div>
 	</form>
 </div>

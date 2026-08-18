@@ -233,6 +233,8 @@ class Admin {
 					'confirmDeleteLog' => __( 'Delete this log entry? This cannot be undone.', 'smart-client-contact-hub' ),
 					'confirmDeleteField' => __( 'Delete this field? Answers already collected stay on their leads, but the field stops appearing on the form.', 'smart-client-contact-hub' ),
 					'untitledField' => __( 'Untitled field', 'smart-client-contact-hub' ),
+					/* translators: %d: number of matching settings. */
+					'matchCount'   => __( '%d matching settings', 'smart-client-contact-hub' ),
 					'deleting'     => __( 'Deleting…', 'smart-client-contact-hub' ),
 					'deleteFailed' => __( 'Delete failed:', 'smart-client-contact-hub' ),
 					'chooseImage'  => __( 'Choose image', 'smart-client-contact-hub' ),
